@@ -7,7 +7,14 @@ import {
   Layers, 
   Layout, 
   Scale, 
-  Users 
+  Users,
+  Sparkles,
+  ShoppingCart,
+  Bot,
+  Newspaper,
+  Github,
+  Twitter,
+  Linkedin,
 } from "lucide-react";
 import { Link, useLocation } from "react-router-dom";
 
@@ -26,6 +33,26 @@ const sidebarItems: SidebarItem[] = [
     icon: Home,
     label: "Overview",
     path: "/",
+  },
+  {
+    icon: Sparkles,
+    label: "Playaround",
+    path: "/playaround",
+  },
+  {
+    icon: ShoppingCart,
+    label: "Model's Store",
+    path: "/store",
+  },
+  {
+    icon: Bot,
+    label: "Agentic",
+    path: "/agentic",
+  },
+  {
+    icon: Newspaper,
+    label: "Blog",
+    path: "/blog",
   },
   {
     icon: Users,
@@ -51,6 +78,24 @@ const sidebarItems: SidebarItem[] = [
     icon: Layers,
     label: "Model Scale",
     path: "/models",
+  },
+];
+
+const socialLinks = [
+  {
+    icon: Github,
+    label: "GitHub",
+    url: "https://github.com",
+  },
+  {
+    icon: Twitter,
+    label: "Twitter / X",
+    url: "https://twitter.com",
+  },
+  {
+    icon: Linkedin,
+    label: "LinkedIn",
+    url: "https://linkedin.com",
   },
 ];
 
@@ -94,6 +139,29 @@ export function Sidebar({ isCollapsed = false }: SidebarProps) {
             );
           })}
         </nav>
+      </div>
+
+      <div className="p-4 border-t border-border">
+        <div className={cn(
+          "flex",
+          isCollapsed ? "justify-center space-y-4 flex-col" : "space-x-4"
+        )}>
+          {socialLinks.map((link) => {
+            const Icon = link.icon;
+            return (
+              <a
+                key={link.label}
+                href={link.url}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-sidebar-foreground hover:text-primary transition-colors"
+                title={link.label}
+              >
+                <Icon className="h-5 w-5" />
+              </a>
+            );
+          })}
+        </div>
       </div>
     </div>
   );

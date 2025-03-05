@@ -2,17 +2,22 @@
 import { cn } from "@/lib/utils";
 import { Moon, RefreshCw, Settings, Sun, Menu, X } from "lucide-react";
 import { useEffect, useState } from "react";
+import { Sheet, SheetContent, SheetDescription, SheetHeader, SheetTitle, SheetTrigger } from "@/components/ui/sheet";
+import { Switch } from "@/components/ui/switch";
+import { Button } from "@/components/ui/button";
 
 interface HeaderProps {
   title?: string;
   isSidebarCollapsed?: boolean;
   toggleSidebar?: () => void;
+  widgetSettings?: React.ReactNode;
 }
 
 export function Header({ 
   title = "AI Model Market Dashboard", 
   isSidebarCollapsed = false,
-  toggleSidebar
+  toggleSidebar,
+  widgetSettings
 }: HeaderProps) {
   const [isRefreshing, setIsRefreshing] = useState(false);
   const [isDarkMode, setIsDarkMode] = useState(false);
@@ -75,12 +80,27 @@ export function Header({
         >
           <RefreshCw size={18} className={cn(isRefreshing && "animate-spin")} />
         </button>
-        <button 
-          className="p-2 rounded-full hover:bg-secondary transition-colors"
-          aria-label="Settings"
-        >
-          <Settings size={18} />
-        </button>
+        <Sheet>
+          <SheetTrigger asChild>
+            <button 
+              className="p-2 rounded-full hover:bg-secondary transition-colors"
+              aria-label="Settings"
+            >
+              <Settings size={18} />
+            </button>
+          </SheetTrigger>
+          <SheetContent>
+            <SheetHeader>
+              <SheetTitle>Dashboard Settings</SheetTitle>
+              <SheetDescription>
+                Configure your dashboard preferences.
+              </SheetDescription>
+            </SheetHeader>
+            <div className="mt-6 space-y-4">
+              {widgetSettings}
+            </div>
+          </SheetContent>
+        </Sheet>
       </div>
     </header>
   );
