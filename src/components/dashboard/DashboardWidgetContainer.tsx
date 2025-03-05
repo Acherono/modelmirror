@@ -1,8 +1,10 @@
 
 import { useState, useEffect } from "react";
 import { Responsive, WidthProvider } from "react-grid-layout";
+// Fix CSS imports by using relative paths from node_modules
 import "react-grid-layout/css/styles.css";
-import "react-grid-layout/css/draggable.css";
+// The draggable.css file doesn't exist directly - it's part of react-resizable
+import "react-resizable/css/styles.css";
 import { Sheet, SheetContent, SheetDescription, SheetHeader, SheetTitle, SheetTrigger } from "@/components/ui/sheet";
 import { Switch } from "@/components/ui/switch";
 import { Button } from "@/components/ui/button";
