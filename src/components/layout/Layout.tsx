@@ -1,10 +1,10 @@
 
-import { ReactNode, useState } from "react";
+import { ReactNode, useState, useEffect } from "react";
 import { Header } from "./Header";
 import { Sidebar } from "./Sidebar";
-import { GlobalSearch } from "../header/GlobalSearch";
 import { DashboardContainer } from "@/components/dashboard/DashboardContainer";
 import { useLocation } from "react-router-dom";
+import { cn } from "@/lib/utils";
 
 interface LayoutProps {
   children: ReactNode;
@@ -13,13 +13,41 @@ interface LayoutProps {
 export function Layout({ children }: LayoutProps) {
   const [isSidebarCollapsed, setIsSidebarCollapsed] = useState(false);
   const location = useLocation();
+  
+  // Get widget data from DashboardContainer
+  const isDashboard = location.pathname === "/";
+  const dashboardInstance = isDashboard ? new DashboardContainer() : null;
+  const widgets = dashboardInstance?.getWidgets() || [];
+  
+  // Widget visibility state
+  const [visibleWidgets, setVisibleWidgets] = useState<Record<string, boolean>>(() => {
+    const savedVisibility = localStorage.getItem("dashboard-visibility");
+    if (savedVisibility) {
+      return JSON.parse(savedVisibility);
+    }
+    // Default: all widgets are visible
+    return widgets.reduce((acc, widget) => {
+      acc[widget.i] = widget.visible;
+      return acc;
+    }, {} as Record<string, boolean>);
+  });
+
+  // Update localStorage when visibility changes
+  useEffect(() => {
+    localStorage.setItem("dashboard-visibility", JSON.stringify(visibleWidgets));
+  }, [visibleWidgets]);
+
+  // Toggle widget visibility
+  const toggleWidgetVisibility = (widgetId: string) => {
+    setVisibleWidgets(prev => ({
+      ...prev,
+      [widgetId]: !prev[widgetId]
+    }));
+  };
 
   const toggleSidebar = () => {
     setIsSidebarCollapsed(!isSidebarCollapsed);
   };
-
-  // Only pass dashboard widget settings when on the dashboard page
-  const isDashboard = location.pathname === "/";
 
   return (
     <div className="flex min-h-screen bg-background">
@@ -33,15 +61,19 @@ export function Layout({ children }: LayoutProps) {
         <Header 
           isSidebarCollapsed={isSidebarCollapsed} 
           toggleSidebar={toggleSidebar}
+          widgets={widgets}
+          toggleWidgetVisibility={toggleWidgetVisibility}
+          visibleWidgets={visibleWidgets}
         />
-        <div className="flex-none px-6 py-2 border-b">
-          <GlobalSearch />
-        </div>
-        <main className="flex-1 p-6">{children}</main>
+        
+        <main className="flex-1 p-6">
+          {isDashboard ? (
+            <DashboardContainer visibleWidgets={visibleWidgets} />
+          ) : (
+            children
+          )}
+        </main>
       </div>
     </div>
   );
 }
-
-// Fix the missing import
-import { cn } from "@/lib/utils";

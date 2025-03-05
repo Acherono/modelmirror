@@ -1,7 +1,7 @@
 
 import { cn } from "@/lib/utils";
 import { ReactNode } from "react";
-import * as CardPrimitive from "@/components/ui/card";
+import { Card } from "@/components/ui/card";
 
 interface MetricCardProps {
   title: string;
@@ -24,7 +24,7 @@ export function MetricCard({
   isLoading = false,
 }: MetricCardProps) {
   return (
-    <CardPrimitive.Card 
+    <Card 
       className={cn(
         "transition-all duration-300 hover:translate-y-[-5px]",
         isLoading ? "animate-pulse" : "", 
@@ -93,6 +93,6 @@ export function MetricCard({
           </div>
         )}
       </div>
-    </CardPrimitive.Card>
+    </Card>
   );
 }

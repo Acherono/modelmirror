@@ -8,9 +8,13 @@ import { IndustryCitations } from "./IndustryCitations";
 import { ModelScaleVisualization } from "./ModelScaleVisualization";
 import { DashboardWidgetContainer } from "./DashboardWidgetContainer";
 
-export function DashboardContainer() {
+interface DashboardContainerProps {
+  visibleWidgets?: Record<string, boolean>;
+}
+
+export class DashboardContainer {
   // Define widgets for the dashboard
-  const widgets = [
+  private widgets = [
     {
       i: "metrics",
       x: 0,
@@ -112,5 +116,17 @@ export function DashboardContainer() {
     },
   ];
 
-  return <DashboardWidgetContainer widgets={widgets} />;
+  getWidgets() {
+    return this.widgets;
+  }
+
+  render({ visibleWidgets = {} }: DashboardContainerProps = {}) {
+    return <DashboardWidgetContainer widgets={this.widgets} visibleWidgets={visibleWidgets} />;
+  }
+}
+
+// Function component wrapper for rendering
+export function DashboardContainer({ visibleWidgets = {} }: DashboardContainerProps) {
+  const dashboardContainer = new DashboardContainer();
+  return dashboardContainer.render({ visibleWidgets });
 }

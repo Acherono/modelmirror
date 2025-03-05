@@ -135,4 +135,15 @@
   .chart-tooltip {
     @apply glass rounded-lg p-2 text-sm shadow-md;
   }
+
+  /* Hide scrollbar but maintain functionality */
+  .no-scrollbar {
+    -ms-overflow-style: none;  /* IE and Edge */
+    scrollbar-width: none;  /* Firefox */
+    overflow: auto;
+  }
+  
+  .no-scrollbar::-webkit-scrollbar {
+    display: none; /* Chrome, Safari, Opera */
+  }
 }
