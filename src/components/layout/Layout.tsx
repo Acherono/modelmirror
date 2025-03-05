@@ -1,8 +1,7 @@
-
 import { ReactNode, useState, useEffect } from "react";
 import { Header } from "./Header";
 import { Sidebar } from "./Sidebar";
-import { DashboardContainer } from "@/components/dashboard/DashboardContainer";
+import { DashboardContainer, DashboardContainerModel } from "@/components/dashboard/DashboardContainer";
 import { useLocation } from "react-router-dom";
 import { cn } from "@/lib/utils";
 
@@ -16,7 +15,7 @@ export function Layout({ children }: LayoutProps) {
   
   // Get widget data from DashboardContainer
   const isDashboard = location.pathname === "/";
-  const dashboardInstance = isDashboard ? new DashboardContainer() : null;
+  const dashboardInstance = isDashboard ? new DashboardContainerModel() : null;
   const widgets = dashboardInstance?.getWidgets() || [];
   
   // Widget visibility state

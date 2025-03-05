@@ -89,8 +89,8 @@ const socialLinks = [
   },
   {
     icon: Twitter,
-    label: "Twitter / X",
-    url: "https://twitter.com",
+    label: "X",
+    url: "https://x.com",
   },
   {
     icon: Linkedin,

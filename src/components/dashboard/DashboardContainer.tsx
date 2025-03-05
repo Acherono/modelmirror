@@ -1,4 +1,3 @@
-
 import { MetricCard } from "../ui/MetricCard";
 import { Users, BarChart2, Brain, Award } from "lucide-react";
 import { UsersOverviewChart } from "./UsersOverviewChart";
@@ -12,7 +11,7 @@ interface DashboardContainerProps {
   visibleWidgets?: Record<string, boolean>;
 }
 
-export class DashboardContainer {
+export class DashboardContainerModel {
   // Define widgets for the dashboard
   private widgets = [
     {
@@ -113,7 +112,7 @@ export class DashboardContainer {
       visible: true,
       title: "Model Scale",
       component: <ModelScaleVisualization />
-    },
+    }
   ];
 
   getWidgets() {
@@ -127,6 +126,6 @@ export class DashboardContainer {
 
 // Function component wrapper for rendering
 export function DashboardContainer({ visibleWidgets = {} }: DashboardContainerProps) {
-  const dashboardContainer = new DashboardContainer();
+  const dashboardContainer = new DashboardContainerModel();
   return dashboardContainer.render({ visibleWidgets });
 }
