@@ -1,7 +1,7 @@
 
 import { cn } from "@/lib/utils";
-import { Card } from "./card";
 import { ReactNode } from "react";
+import { Card } from "@/components/ui/card";
 
 interface MetricCardProps {
   title: string;

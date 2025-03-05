@@ -2,8 +2,6 @@
 import { cn } from "@/lib/utils";
 import { 
   BarChart2, 
-  ChevronLeft, 
-  ChevronRight, 
   FileText, 
   Home, 
   Layers, 
@@ -11,13 +9,16 @@ import {
   Scale, 
   Users 
 } from "lucide-react";
-import { useState } from "react";
 import { Link, useLocation } from "react-router-dom";
 
 interface SidebarItem {
   icon: React.ElementType;
   label: string;
   path: string;
+}
+
+interface SidebarProps {
+  isCollapsed?: boolean;
 }
 
 const sidebarItems: SidebarItem[] = [
@@ -53,8 +54,7 @@ const sidebarItems: SidebarItem[] = [
   },
 ];
 
-export function Sidebar() {
-  const [isCollapsed, setIsCollapsed] = useState(false);
+export function Sidebar({ isCollapsed = false }: SidebarProps) {
   const location = useLocation();
 
   return (
@@ -94,18 +94,6 @@ export function Sidebar() {
             );
           })}
         </nav>
-      </div>
-
-      <div 
-        className="p-2 border-t border-border flex justify-end"
-      >
-        <button
-          onClick={() => setIsCollapsed(!isCollapsed)}
-          className="p-2 rounded-full hover:bg-sidebar-accent transition-colors"
-          aria-label={isCollapsed ? "Expand sidebar" : "Collapse sidebar"}
-        >
-          {isCollapsed ? <ChevronRight size={18} /> : <ChevronLeft size={18} />}
-        </button>
       </div>
     </div>
   );
