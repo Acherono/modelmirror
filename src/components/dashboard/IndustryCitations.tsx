@@ -1,5 +1,4 @@
-
-import { Card, CardContent, CardHeader, CardTitle } from "../ui/Card";
+import { Card, CardContent, CardHeader, CardTitle } from "../ui/card";
 import { FileText, Award, ExternalLink } from "lucide-react";
 import { useState, useEffect } from "react";
 
@@ -80,16 +79,18 @@ export function IndustryCitations() {
         <CardHeader>
           <CardTitle className="bg-gray-200 h-6 w-52 rounded"></CardTitle>
         </CardHeader>
-        <CardContent className="space-y-4">
-          {[1, 2, 3, 4].map((i) => (
-            <div key={i} className="flex items-center space-x-4">
-              <div className="bg-gray-200 h-12 w-12 rounded"></div>
-              <div className="space-y-2 flex-1">
-                <div className="bg-gray-200 h-4 rounded"></div>
-                <div className="bg-gray-200 h-3 w-1/2 rounded"></div>
+        <CardContent>
+          <div className="space-y-4">
+            {[1, 2, 3, 4].map((i) => (
+              <div key={i} className="flex items-center space-x-4">
+                <div className="bg-gray-200 h-12 w-12 rounded"></div>
+                <div className="space-y-2 flex-1">
+                  <div className="bg-gray-200 h-4 rounded"></div>
+                  <div className="bg-gray-200 h-3 w-1/2 rounded"></div>
+                </div>
               </div>
-            </div>
-          ))}
+            ))}
+          </div>
         </CardContent>
       </Card>
     );
@@ -100,42 +101,44 @@ export function IndustryCitations() {
       <CardHeader>
         <CardTitle>Industry Citations</CardTitle>
       </CardHeader>
-      <CardContent className="h-[325px] overflow-y-auto pr-2">
-        <div className="space-y-4">
-          {citations.map((citation) => (
-            <div
-              key={citation.id}
-              className="flex p-3 rounded-lg border border-border hover:bg-accent transition-colors duration-200 cursor-pointer animate-slide-in-bottom"
-              style={{ animationDelay: `${citation.id * 100}ms` }}
-            >
-              <div className="flex-shrink-0 mr-4">
-                <div className="h-10 w-10 rounded-full bg-primary/10 flex items-center justify-center text-primary">
-                  <FileText size={20} />
+      <CardContent>
+        <div className="h-[325px] overflow-y-auto pr-2">
+          <div className="space-y-4">
+            {citations.map((citation) => (
+              <div
+                key={citation.id}
+                className="flex p-3 rounded-lg border border-border hover:bg-accent transition-colors duration-200 cursor-pointer animate-slide-in-bottom"
+                style={{ animationDelay: `${citation.id * 100}ms` }}
+              >
+                <div className="flex-shrink-0 mr-4">
+                  <div className="h-10 w-10 rounded-full bg-primary/10 flex items-center justify-center text-primary">
+                    <FileText size={20} />
+                  </div>
                 </div>
-              </div>
-              <div className="flex-1">
-                <div className="flex items-center justify-between">
-                  <h4 className="font-medium text-sm">{citation.title}</h4>
-                  {citation.isHighImpact && (
-                    <span className="text-amber-500">
-                      <Award size={16} />
+                <div className="flex-1">
+                  <div className="flex items-center justify-between">
+                    <h4 className="font-medium text-sm">{citation.title}</h4>
+                    {citation.isHighImpact && (
+                      <span className="text-amber-500">
+                        <Award size={16} />
+                      </span>
+                    )}
+                  </div>
+                  <div className="text-sm text-muted-foreground mt-1">
+                    {citation.authors} • {citation.journal} {citation.year}
+                  </div>
+                  <div className="flex items-center justify-between mt-2">
+                    <span className="text-sm font-semibold">
+                      {citation.citations.toLocaleString()} citations
                     </span>
-                  )}
-                </div>
-                <div className="text-sm text-muted-foreground mt-1">
-                  {citation.authors} • {citation.journal} {citation.year}
-                </div>
-                <div className="flex items-center justify-between mt-2">
-                  <span className="text-sm font-semibold">
-                    {citation.citations.toLocaleString()} citations
-                  </span>
-                  <button className="text-primary hover:text-primary/80 transition-colors">
-                    <ExternalLink size={14} />
-                  </button>
+                    <button className="text-primary hover:text-primary/80 transition-colors">
+                      <ExternalLink size={14} />
+                    </button>
+                  </div>
                 </div>
               </div>
-            </div>
-          ))}
+            ))}
+          </div>
         </div>
       </CardContent>
     </Card>

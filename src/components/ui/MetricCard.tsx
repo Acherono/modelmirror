@@ -1,6 +1,6 @@
 
 import { cn } from "@/lib/utils";
-import { Card } from "./Card";
+import { Card } from "./card";
 import { ReactNode } from "react";
 
 interface MetricCardProps {

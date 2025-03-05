@@ -1,5 +1,4 @@
-
-import { Card, CardContent, CardHeader, CardTitle } from "../ui/Card";
+import { Card, CardContent, CardHeader, CardTitle } from "../ui/card";
 import { useState, useEffect } from "react";
 import { ResponsiveContainer, RadarChart, PolarGrid, PolarAngleAxis, PolarRadiusAxis, Radar, Legend, Tooltip } from "recharts";
 
@@ -50,8 +49,10 @@ export function MathExcellenceChart() {
         <CardHeader>
           <CardTitle className="bg-gray-200 h-6 w-48 rounded"></CardTitle>
         </CardHeader>
-        <CardContent className="flex items-center justify-center h-80">
-          <div className="w-12 h-12 border-4 border-primary border-t-transparent rounded-full animate-spin"></div>
+        <CardContent>
+          <div className="flex items-center justify-center h-80">
+            <div className="w-12 h-12 border-4 border-primary border-t-transparent rounded-full animate-spin"></div>
+          </div>
         </CardContent>
       </Card>
     );
@@ -62,52 +63,54 @@ export function MathExcellenceChart() {
       <CardHeader>
         <CardTitle>Math Excellence</CardTitle>
       </CardHeader>
-      <CardContent className="h-80">
-        <ResponsiveContainer width="100%" height="100%">
-          <RadarChart outerRadius="75%" data={data}>
-            <PolarGrid stroke="hsl(var(--border))" />
-            <PolarAngleAxis 
-              dataKey="subject"
-              tick={{ fontSize: 12 }}
-              stroke="hsl(var(--muted-foreground))"
-            />
-            <PolarRadiusAxis
-              angle={30}
-              domain={[0, 100]}
-              tick={{ fontSize: 10 }}
-              stroke="hsl(var(--muted-foreground))"
-            />
-            <Radar
-              name="GPT-4"
-              dataKey="GPT-4"
-              stroke="#0ea5e9"
-              fill="#0ea5e9"
-              fillOpacity={0.3}
-              animationDuration={1500}
-              animationEasing="ease-out"
-            />
-            <Radar
-              name="Claude 3"
-              dataKey="Claude 3"
-              stroke="#8b5cf6"
-              fill="#8b5cf6"
-              fillOpacity={0.3}
-              animationDuration={1700}
-              animationEasing="ease-out"
-            />
-            <Radar
-              name="Gemini"
-              dataKey="Gemini"
-              stroke="#f97316"
-              fill="#f97316"
-              fillOpacity={0.3}
-              animationDuration={1900}
-              animationEasing="ease-out"
-            />
-            <Legend wrapperStyle={{ paddingTop: 20 }} />
-            <Tooltip content={<CustomTooltip />} />
-          </RadarChart>
-        </ResponsiveContainer>
+      <CardContent>
+        <div className="h-80">
+          <ResponsiveContainer width="100%" height="100%">
+            <RadarChart outerRadius="75%" data={data}>
+              <PolarGrid stroke="hsl(var(--border))" />
+              <PolarAngleAxis 
+                dataKey="subject"
+                tick={{ fontSize: 12 }}
+                stroke="hsl(var(--muted-foreground))"
+              />
+              <PolarRadiusAxis
+                angle={30}
+                domain={[0, 100]}
+                tick={{ fontSize: 10 }}
+                stroke="hsl(var(--muted-foreground))"
+              />
+              <Radar
+                name="GPT-4"
+                dataKey="GPT-4"
+                stroke="#0ea5e9"
+                fill="#0ea5e9"
+                fillOpacity={0.3}
+                animationDuration={1500}
+                animationEasing="ease-out"
+              />
+              <Radar
+                name="Claude 3"
+                dataKey="Claude 3"
+                stroke="#8b5cf6"
+                fill="#8b5cf6"
+                fillOpacity={0.3}
+                animationDuration={1700}
+                animationEasing="ease-out"
+              />
+              <Radar
+                name="Gemini"
+                dataKey="Gemini"
+                stroke="#f97316"
+                fill="#f97316"
+                fillOpacity={0.3}
+                animationDuration={1900}
+                animationEasing="ease-out"
+              />
+              <Legend wrapperStyle={{ paddingTop: 20 }} />
+              <Tooltip content={<CustomTooltip />} />
+            </RadarChart>
+          </ResponsiveContainer>
+        </div>
       </CardContent>
     </Card>
   );

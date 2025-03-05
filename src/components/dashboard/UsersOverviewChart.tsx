@@ -1,5 +1,4 @@
-
-import { Card, CardContent, CardHeader, CardTitle } from "../ui/Card";
+import { Card, CardContent, CardHeader, CardTitle } from "../ui/card";
 import { useState, useEffect } from "react";
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, TooltipProps } from "recharts";
 import { ValueType, NameType } from "recharts/types/component/DefaultTooltipContent";
@@ -52,8 +51,10 @@ export function UsersOverviewChart() {
         <CardHeader>
           <CardTitle className="bg-gray-200 h-6 w-48 rounded"></CardTitle>
         </CardHeader>
-        <CardContent className="flex items-center justify-center h-64">
-          <div className="w-12 h-12 border-4 border-primary border-t-transparent rounded-full animate-spin"></div>
+        <CardContent>
+          <div className="flex items-center justify-center h-64">
+            <div className="w-12 h-12 border-4 border-primary border-t-transparent rounded-full animate-spin"></div>
+          </div>
         </CardContent>
       </Card>
     );
@@ -64,42 +65,44 @@ export function UsersOverviewChart() {
       <CardHeader>
         <CardTitle>Users Overview</CardTitle>
       </CardHeader>
-      <CardContent className="h-64">
-        <ResponsiveContainer width="100%" height="100%">
-          <BarChart
-            data={data}
-            margin={{ top: 10, right: 30, left: 0, bottom: 20 }}
-            barSize={36}
-          >
-            <defs>
-              <linearGradient id="colorGradient" x1="0" y1="0" x2="0" y2="1">
-                <stop offset="0%" stopColor="hsl(var(--primary))" stopOpacity={0.8} />
-                <stop offset="100%" stopColor="hsl(var(--primary))" stopOpacity={0.3} />
-              </linearGradient>
-            </defs>
-            <CartesianGrid strokeDasharray="3 3" vertical={false} opacity={0.2} />
-            <XAxis 
-              dataKey="name" 
-              tick={{ fontSize: 12 }} 
-              tickLine={false}
-              axisLine={{ stroke: "hsl(var(--border))" }}
-            />
-            <YAxis 
-              tickFormatter={(value) => value.toLocaleString()}
-              tick={{ fontSize: 12 }}
-              tickLine={false}
-              axisLine={{ stroke: "hsl(var(--border))" }}
-            />
-            <Tooltip content={<CustomTooltip />} />
-            <Bar 
-              dataKey="users" 
-              fill={barFill} 
-              radius={[4, 4, 0, 0]}
-              animationDuration={1500}
-              animationEasing="ease-out"
-            />
-          </BarChart>
-        </ResponsiveContainer>
+      <CardContent>
+        <div className="h-64">
+          <ResponsiveContainer width="100%" height="100%">
+            <BarChart
+              data={data}
+              margin={{ top: 10, right: 30, left: 0, bottom: 20 }}
+              barSize={36}
+            >
+              <defs>
+                <linearGradient id="colorGradient" x1="0" y1="0" x2="0" y2="1">
+                  <stop offset="0%" stopColor="hsl(var(--primary))" stopOpacity={0.8} />
+                  <stop offset="100%" stopColor="hsl(var(--primary))" stopOpacity={0.3} />
+                </linearGradient>
+              </defs>
+              <CartesianGrid strokeDasharray="3 3" vertical={false} opacity={0.2} />
+              <XAxis 
+                dataKey="name" 
+                tick={{ fontSize: 12 }} 
+                tickLine={false}
+                axisLine={{ stroke: "hsl(var(--border))" }}
+              />
+              <YAxis 
+                tickFormatter={(value) => value.toLocaleString()}
+                tick={{ fontSize: 12 }}
+                tickLine={false}
+                axisLine={{ stroke: "hsl(var(--border))" }}
+              />
+              <Tooltip content={<CustomTooltip />} />
+              <Bar 
+                dataKey="users" 
+                fill={barFill} 
+                radius={[4, 4, 0, 0]}
+                animationDuration={1500}
+                animationEasing="ease-out"
+              />
+            </BarChart>
+          </ResponsiveContainer>
+        </div>
       </CardContent>
     </Card>
   );

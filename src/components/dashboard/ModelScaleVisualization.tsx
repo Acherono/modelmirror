@@ -1,5 +1,4 @@
-
-import { Card, CardContent, CardHeader, CardTitle } from "../ui/Card";
+import { Card, CardContent, CardHeader, CardTitle } from "../ui/card";
 import { useState, useEffect } from "react";
 import { ScatterChart, Scatter, XAxis, YAxis, CartesianGrid, ZAxis, Tooltip, ResponsiveContainer, Legend } from "recharts";
 
@@ -51,8 +50,10 @@ export function ModelScaleVisualization() {
         <CardHeader>
           <CardTitle className="bg-gray-200 h-6 w-48 rounded"></CardTitle>
         </CardHeader>
-        <CardContent className="flex items-center justify-center h-80">
-          <div className="w-12 h-12 border-4 border-primary border-t-transparent rounded-full animate-spin"></div>
+        <CardContent>
+          <div className="flex items-center justify-center h-80">
+            <div className="w-12 h-12 border-4 border-primary border-t-transparent rounded-full animate-spin"></div>
+          </div>
         </CardContent>
       </Card>
     );
@@ -70,67 +71,69 @@ export function ModelScaleVisualization() {
       <CardHeader>
         <CardTitle>Model Scale Visualization</CardTitle>
       </CardHeader>
-      <CardContent className="h-80">
-        <ResponsiveContainer width="100%" height="100%">
-          <ScatterChart
-            margin={{
-              top: 20,
-              right: 20,
-              bottom: 20,
-              left: 20,
-            }}
-          >
-            <CartesianGrid strokeDasharray="3 3" opacity={0.2} />
-            <XAxis
-              type="number"
-              dataKey="parameters"
-              name="Parameters"
-              unit="B"
-              domain={[0, 'dataMax']}
-              label={{ 
-                value: "Parameters (billions)", 
-                position: "bottom", 
-                offset: 5,
-                style: { textAnchor: 'middle', fontSize: 12 } 
+      <CardContent>
+        <div className="h-80">
+          <ResponsiveContainer width="100%" height="100%">
+            <ScatterChart
+              margin={{
+                top: 20,
+                right: 20,
+                bottom: 20,
+                left: 20,
               }}
-              tick={{ fontSize: 12 }}
-              tickLine={false}
-              axisLine={{ stroke: "hsl(var(--border))" }}
-            />
-            <YAxis
-              type="number"
-              dataKey="trainingData"
-              name="Training Data"
-              unit="T"
-              domain={[0, 'dataMax']}
-              label={{ 
-                value: "Training Data (trillion tokens)", 
-                angle: -90, 
-                position: "left", 
-                offset: -5,
-                style: { textAnchor: 'middle', fontSize: 12 } 
-              }}
-              tick={{ fontSize: 12 }}
-              tickLine={false}
-              axisLine={{ stroke: "hsl(var(--border))" }}
-            />
-            <ZAxis
-              type="number"
-              dataKey="z"
-              range={[60, 400]}
-              domain={parseDomain()}
-              scale="linear"
-            />
-            <Tooltip content={<CustomTooltip />} />
-            <Scatter
-              name="Models"
-              data={data}
-              fill="hsl(var(--primary))"
-              animationDuration={2000}
-              animationEasing="ease-out"
-            />
-          </ScatterChart>
-        </ResponsiveContainer>
+            >
+              <CartesianGrid strokeDasharray="3 3" opacity={0.2} />
+              <XAxis
+                type="number"
+                dataKey="parameters"
+                name="Parameters"
+                unit="B"
+                domain={[0, 'dataMax']}
+                label={{ 
+                  value: "Parameters (billions)", 
+                  position: "bottom", 
+                  offset: 5,
+                  style: { textAnchor: 'middle', fontSize: 12 } 
+                }}
+                tick={{ fontSize: 12 }}
+                tickLine={false}
+                axisLine={{ stroke: "hsl(var(--border))" }}
+              />
+              <YAxis
+                type="number"
+                dataKey="trainingData"
+                name="Training Data"
+                unit="T"
+                domain={[0, 'dataMax']}
+                label={{ 
+                  value: "Training Data (trillion tokens)", 
+                  angle: -90, 
+                  position: "left", 
+                  offset: -5,
+                  style: { textAnchor: 'middle', fontSize: 12 } 
+                }}
+                tick={{ fontSize: 12 }}
+                tickLine={false}
+                axisLine={{ stroke: "hsl(var(--border))" }}
+              />
+              <ZAxis
+                type="number"
+                dataKey="z"
+                range={[60, 400]}
+                domain={parseDomain()}
+                scale="linear"
+              />
+              <Tooltip content={<CustomTooltip />} />
+              <Scatter
+                name="Models"
+                data={data}
+                fill="hsl(var(--primary))"
+                animationDuration={2000}
+                animationEasing="ease-out"
+              />
+            </ScatterChart>
+          </ResponsiveContainer>
+        </div>
       </CardContent>
     </Card>
   );
