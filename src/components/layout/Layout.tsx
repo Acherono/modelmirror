@@ -2,6 +2,7 @@
 import { ReactNode, useState } from "react";
 import { Header } from "./Header";
 import { Sidebar } from "./Sidebar";
+import { GlobalSearch } from "../header/GlobalSearch";
 
 interface LayoutProps {
   children: ReactNode;
@@ -23,6 +24,9 @@ export function Layout({ children }: LayoutProps) {
         }`}
       >
         <Header isSidebarCollapsed={isSidebarCollapsed} toggleSidebar={toggleSidebar} />
+        <div className="flex-none px-6 py-2 border-b">
+          <GlobalSearch />
+        </div>
         <main className="flex-1 p-6">{children}</main>
       </div>
     </div>
