@@ -112,6 +112,10 @@
     @apply bg-black/10 backdrop-blur-md border border-white/10 shadow-glass;
   }
   
+  .glass-morphism {
+    @apply backdrop-blur-md bg-card/20 border border-border/50 shadow-sm;
+  }
+  
   /* Animation utilities */
   .animate-on-scroll {
     @apply opacity-0 transition-all duration-700 ease-out;

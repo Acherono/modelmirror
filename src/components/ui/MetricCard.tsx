@@ -1,98 +1,57 @@
 
-import { cn } from "@/lib/utils";
-import { ReactNode } from "react";
-import { Card } from "@/components/ui/card";
+import React from 'react';
+import { cn } from '@/lib/utils';
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardFooter,
+  CardHeader,
+  CardTitle,
+} from '@/components/ui/card';
 
 interface MetricCardProps {
   title: string;
   value: string | number;
-  icon?: ReactNode;
+  description?: string;
+  icon?: React.ReactNode;
   trend?: {
     value: number;
     isPositive: boolean;
   };
   className?: string;
-  isLoading?: boolean;
+  cardClassName?: string;
+  footer?: React.ReactNode;
 }
 
 export function MetricCard({
   title,
   value,
+  description,
   icon,
   trend,
   className,
-  isLoading = false,
+  cardClassName,
+  footer,
 }: MetricCardProps) {
   return (
-    <Card 
-      className={cn(
-        "transition-all duration-300 hover:translate-y-[-5px]",
-        isLoading ? "animate-pulse" : "", 
-        className
-      )}
-    >
-      <div className="p-6">
-        {isLoading ? (
-          <div className="space-y-2">
-            <div className="bg-gray-200 h-4 w-24 rounded"></div>
-            <div className="bg-gray-200 h-6 w-16 rounded"></div>
-          </div>
-        ) : (
-          <div className="flex items-start justify-between">
-            <div>
-              <p className="text-sm font-medium text-muted-foreground">{title}</p>
-              <h3 className="text-2xl font-bold mt-1 tracking-tight">{value}</h3>
-              
-              {trend && (
-                <div className="flex items-center mt-2">
-                  <span
-                    className={cn(
-                      "text-xs font-medium flex items-center",
-                      trend.isPositive ? "text-green-500" : "text-red-500"
-                    )}
-                  >
-                    {trend.isPositive ? (
-                      <svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        viewBox="0 0 20 20"
-                        fill="currentColor"
-                        className="w-4 h-4 mr-1"
-                      >
-                        <path
-                          fillRule="evenodd"
-                          d="M10 17a.75.75 0 01-.75-.75V5.612L5.29 9.77a.75.75 0 01-1.08-1.04l5.25-5.5a.75.75 0 011.08 0l5.25 5.5a.75.75 0 11-1.08 1.04l-3.96-4.158V16.25A.75.75 0 0110 17z"
-                          clipRule="evenodd"
-                        />
-                      </svg>
-                    ) : (
-                      <svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        viewBox="0 0 20 20"
-                        fill="currentColor"
-                        className="w-4 h-4 mr-1"
-                      >
-                        <path
-                          fillRule="evenodd"
-                          d="M10 3a.75.75 0 01.75.75v10.638l3.96-4.158a.75.75 0 111.08 1.04l-5.25 5.5a.75.75 0 01-1.08 0l-5.25-5.5a.75.75 0 111.08-1.04l3.96 4.158V3.75A.75.75 0 0110 3z"
-                          clipRule="evenodd"
-                        />
-                      </svg>
-                    )}
-                    {Math.abs(trend.value)}%
-                  </span>
-                  <span className="text-xs text-muted-foreground ml-1">vs. last period</span>
-                </div>
-              )}
-            </div>
-            
-            {icon && (
-              <div className="p-2 bg-primary/10 rounded-full text-primary">
-                {icon}
-              </div>
-            )}
+    <Card className={cn("overflow-hidden", cardClassName)}>
+      <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+        <CardTitle className="text-sm font-medium">{title}</CardTitle>
+        {icon && <div className="h-4 w-4 text-muted-foreground">{icon}</div>}
+      </CardHeader>
+      <CardContent className={className}>
+        <div className="text-2xl font-bold">{value}</div>
+        {description && (
+          <p className="text-xs text-muted-foreground">{description}</p>
+        )}
+        {trend && (
+          <div className={`flex items-center text-xs ${trend.isPositive ? 'text-green-500' : 'text-red-500'}`}>
+            {trend.isPositive ? '↑' : '↓'} {trend.value}%
           </div>
         )}
-      </div>
+      </CardContent>
+      {footer && <CardFooter>{footer}</CardFooter>}
     </Card>
   );
 }

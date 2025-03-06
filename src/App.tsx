@@ -1,9 +1,11 @@
+
 import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { useEffect, StrictMode, useState } from "react";
+import { Layout } from "./components/layout/Layout";
 import Index from "./pages/Index";
 import NotFound from "./pages/NotFound";
 import AIPlayground from "./pages/AIPlayground";
@@ -22,17 +24,17 @@ const App = () => {
             <Sonner />
             <BrowserRouter>
               <Routes>
-                <Route path="/" element={<Index />} />
-                <Route path="/playaround" element={<AIPlayground />} />
-                <Route path="/store" element={<ModelsStore />} />
-                <Route path="/agentic" element={<NotFound />} />
-                <Route path="/blog" element={<NotFound />} />
-                <Route path="/users" element={<NotFound />} />
-                <Route path="/accuracy" element={<NotFound />} />
-                <Route path="/math" element={<NotFound />} />
-                <Route path="/citations" element={<NotFound />} />
-                <Route path="/models" element={<NotFound />} />
-                <Route path="*" element={<NotFound />} />
+                <Route path="/" element={<Layout><Index /></Layout>} />
+                <Route path="/playaround" element={<Layout><AIPlayground /></Layout>} />
+                <Route path="/store" element={<Layout><ModelsStore /></Layout>} />
+                <Route path="/agentic" element={<Layout><NotFound /></Layout>} />
+                <Route path="/blog" element={<Layout><NotFound /></Layout>} />
+                <Route path="/users" element={<Layout><NotFound /></Layout>} />
+                <Route path="/accuracy" element={<Layout><NotFound /></Layout>} />
+                <Route path="/math" element={<Layout><NotFound /></Layout>} />
+                <Route path="/citations" element={<Layout><NotFound /></Layout>} />
+                <Route path="/models" element={<Layout><NotFound /></Layout>} />
+                <Route path="*" element={<Layout><NotFound /></Layout>} />
               </Routes>
             </BrowserRouter>
           </TooltipProvider>

@@ -1,131 +1,54 @@
-import { MetricCard } from "../ui/MetricCard";
-import { Users, BarChart2, Brain, Award } from "lucide-react";
-import { UsersOverviewChart } from "./UsersOverviewChart";
-import { AccuracyRankings } from "./AccuracyRankings";
-import { MathExcellenceChart } from "./MathExcellenceChart";
-import { IndustryCitations } from "./IndustryCitations";
-import { ModelScaleVisualization } from "./ModelScaleVisualization";
-import { DashboardWidgetContainer } from "./DashboardWidgetContainer";
+
+import { useState, useEffect } from "react";
+import { Widget } from "./DashboardContainerModel";
 
 interface DashboardContainerProps {
   visibleWidgets?: Record<string, boolean>;
 }
 
-export class DashboardContainerModel {
-  // Define widgets for the dashboard
-  private widgets = [
-    {
-      i: "metrics",
-      x: 0,
-      y: 0,
-      w: 12,
-      h: 1,
-      minW: 6,
-      minH: 1,
-      visible: true,
-      title: "Key Metrics",
-      component: (
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
-          <MetricCard
-            title="Total Models"
-            value="128"
-            icon={<Brain size={24} />}
-            trend={{ value: 12, isPositive: true }}
-          />
-          <MetricCard
-            title="Active Users"
-            value="4.2M"
-            icon={<Users size={24} />}
-            trend={{ value: 8, isPositive: true }}
-          />
-          <MetricCard
-            title="Accuracy Avg."
-            value="89.4%"
-            icon={<BarChart2 size={24} />}
-            trend={{ value: 2.5, isPositive: true }}
-          />
-          <MetricCard
-            title="Top Citations"
-            value="47.3K"
-            icon={<Award size={24} />}
-            trend={{ value: 15, isPositive: true }}
-          />
-        </div>
-      )
-    },
-    {
-      i: "users-overview",
-      x: 0,
-      y: 1,
-      w: 6,
-      h: 2,
-      minW: 3,
-      minH: 2,
-      visible: true,
-      title: "Users Overview",
-      component: <UsersOverviewChart />
-    },
-    {
-      i: "accuracy-rankings",
-      x: 6,
-      y: 1,
-      w: 6,
-      h: 2,
-      minW: 3,
-      minH: 2,
-      visible: true,
-      title: "Accuracy Rankings",
-      component: <AccuracyRankings />
-    },
-    {
-      i: "math-excellence",
-      x: 0,
-      y: 3,
-      w: 6,
-      h: 2,
-      minW: 3,
-      minH: 2,
-      visible: true,
-      title: "Math Excellence",
-      component: <MathExcellenceChart />
-    },
-    {
-      i: "industry-citations",
-      x: 6,
-      y: 3,
-      w: 6,
-      h: 2,
-      minW: 3,
-      minH: 2,
-      visible: true,
-      title: "Industry Citations",
-      component: <IndustryCitations />
-    },
-    {
-      i: "model-scale",
-      x: 0,
-      y: 5,
-      w: 12,
-      h: 2,
-      minW: 6,
-      minH: 2,
-      visible: true,
-      title: "Model Scale",
-      component: <ModelScaleVisualization />
-    }
-  ];
-
-  getWidgets() {
-    return this.widgets;
-  }
-
-  render({ visibleWidgets = {} }: DashboardContainerProps = {}) {
-    return <DashboardWidgetContainer widgets={this.widgets} visibleWidgets={visibleWidgets} />;
-  }
-}
-
-// Function component wrapper for rendering
 export function DashboardContainer({ visibleWidgets = {} }: DashboardContainerProps) {
-  const dashboardContainer = new DashboardContainerModel();
-  return dashboardContainer.render({ visibleWidgets });
+  // Import all widgets components
+  const [widgets, setWidgets] = useState<Widget[]>([]);
+
+  useEffect(() => {
+    // Dynamically import the model to avoid circular dependencies
+    const loadWidgets = async () => {
+      const { DashboardContainerModel } = await import("./DashboardContainerModel");
+      const model = new DashboardContainerModel();
+      setWidgets(model.getWidgets());
+    };
+    
+    loadWidgets();
+  }, []);
+
+  if (widgets.length === 0) return null;
+  
+  return (
+    <div className="space-y-4 animate-fade-in">
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+        {widgets.map((widget) => {
+          // Check if widget should be visible
+          const isVisible = visibleWidgets[widget.i] !== undefined 
+            ? visibleWidgets[widget.i] 
+            : widget.visible;
+
+          if (!isVisible) return null;
+
+          return (
+            <div 
+              key={widget.i}
+              className="bg-card rounded-lg shadow border border-border overflow-hidden"
+            >
+              <div className="p-1 flex justify-between items-center bg-muted/30 rounded-t-lg">
+                <h3 className="text-sm font-medium px-2">{widget.title}</h3>
+              </div>
+              <div className="p-2 overflow-hidden no-scrollbar" style={{ height: 'calc(100% - 28px)' }}>
+                {widget.component}
+              </div>
+            </div>
+          );
+        })}
+      </div>
+    </div>
+  );
 }

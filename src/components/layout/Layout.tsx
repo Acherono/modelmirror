@@ -1,7 +1,8 @@
+
 import { ReactNode, useState, useEffect } from "react";
 import { Header } from "./Header";
 import { Sidebar } from "./Sidebar";
-import { DashboardContainer, DashboardContainerModel } from "@/components/dashboard/DashboardContainer";
+import { DashboardContainerModel } from "@/components/dashboard/DashboardContainerModel";
 import { useLocation } from "react-router-dom";
 import { cn } from "@/lib/utils";
 
@@ -13,18 +14,16 @@ export function Layout({ children }: LayoutProps) {
   const [isSidebarCollapsed, setIsSidebarCollapsed] = useState(false);
   const location = useLocation();
   
-  // Get widget data from DashboardContainer
-  const isDashboard = location.pathname === "/";
-  const dashboardInstance = isDashboard ? new DashboardContainerModel() : null;
-  const widgets = dashboardInstance?.getWidgets() || [];
-  
   // Widget visibility state
   const [visibleWidgets, setVisibleWidgets] = useState<Record<string, boolean>>(() => {
     const savedVisibility = localStorage.getItem("dashboard-visibility");
     if (savedVisibility) {
       return JSON.parse(savedVisibility);
     }
+    
     // Default: all widgets are visible
+    const dashboardModel = new DashboardContainerModel();
+    const widgets = dashboardModel.getWidgets();
     return widgets.reduce((acc, widget) => {
       acc[widget.i] = widget.visible;
       return acc;
@@ -60,17 +59,12 @@ export function Layout({ children }: LayoutProps) {
         <Header 
           isSidebarCollapsed={isSidebarCollapsed} 
           toggleSidebar={toggleSidebar}
-          widgets={widgets}
           toggleWidgetVisibility={toggleWidgetVisibility}
           visibleWidgets={visibleWidgets}
         />
         
         <main className="flex-1 p-6">
-          {isDashboard ? (
-            <DashboardContainer visibleWidgets={visibleWidgets} />
-          ) : (
-            children
-          )}
+          {children}
         </main>
       </div>
     </div>
