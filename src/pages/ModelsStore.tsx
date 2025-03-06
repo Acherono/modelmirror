@@ -1,10 +1,8 @@
 
-import { Layout } from "@/components/layout/Layout";
 import { useState } from "react";
-import { cn } from "@/lib/utils";
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
-import { generateGradient } from "@/utils/gradients";
-import { ChevronRight, Code, PenTool, Video, BookOpen, FlaskConical, Music } from "lucide-react";
+import { ChevronRight, Code, PenTool, Video, BookOpen, FlaskConical, Music, Star, ArrowRight, ArrowLeft } from "lucide-react";
+import { Button } from "@/components/ui/button";
 
 interface ModelItem {
   id: string;
@@ -14,7 +12,6 @@ interface ModelItem {
   releaseDate: string;
   rating: number;
   category: string;
-  imageUrl?: string;
 }
 
 interface CategorySection {
@@ -25,69 +22,103 @@ interface CategorySection {
 }
 
 const ModelCard = ({ model, index }: { model: ModelItem; index: number }) => {
-  const cardStyle = {
-    background: generateGradient(index),
-  };
-
   return (
-    <Card className="overflow-hidden h-[280px] transition-all duration-300 hover:shadow-lg hover:scale-[1.02] cursor-pointer">
-      <div 
-        className="absolute inset-0 opacity-80 z-0" 
-        style={cardStyle}
-        aria-hidden="true"
-      />
-      {model.imageUrl && (
-        <div className="absolute inset-0 z-0 opacity-10">
-          <img 
-            src={model.imageUrl} 
-            alt=""
-            className="w-full h-full object-cover" 
-            loading="lazy"
-          />
-        </div>
-      )}
+    <Card className="h-[280px] transition-all duration-300 hover:shadow-lg hover:scale-[1.02] cursor-pointer border-border/50 relative overflow-hidden">
+      <div className="absolute inset-0 bg-gradient-to-br from-primary/5 via-transparent to-transparent opacity-80 z-0" />
+      
       <CardHeader className="relative z-10 pb-2">
         <div className="flex justify-between items-center">
-          <CardTitle className="text-lg font-bold text-white">{model.title}</CardTitle>
-          <span className="inline-flex items-center px-2 py-1 text-xs font-medium text-white bg-white/20 rounded-full">
+          <CardTitle className="text-lg font-bold">{model.title}</CardTitle>
+          <span className="inline-flex items-center px-2 py-1 text-xs font-medium bg-primary/10 rounded-full">
             {model.creator}
           </span>
         </div>
-        <CardDescription className="text-white/80">{model.description}</CardDescription>
+        <CardDescription>{model.description}</CardDescription>
       </CardHeader>
-      <CardContent className="relative z-10 text-white">
+      
+      <CardContent className="relative z-10">
         <div className="flex justify-between items-center text-sm">
-          <span>Released: {model.releaseDate}</span>
+          <span className="text-muted-foreground">Released: {model.releaseDate}</span>
           <div className="flex items-center">
             {Array.from({ length: 5 }).map((_, i) => (
-              <span key={i} className={cn("text-lg", i < model.rating ? "text-yellow-400" : "text-white/30")}>
-                ★
-              </span>
+              <Star key={i} size={16} className={i < model.rating ? "text-amber-400 fill-amber-400" : "text-muted-foreground"} />
             ))}
           </div>
         </div>
       </CardContent>
+      
       <CardFooter className="relative z-10 pt-0">
-        <button className="mt-2 w-full py-1.5 bg-white/10 hover:bg-white/20 text-white rounded-md transition-colors flex items-center justify-center gap-2">
-          View Details <ChevronRight className="h-4 w-4" />
-        </button>
+        <Button variant="outline" className="mt-2 w-full">
+          View Details <ChevronRight className="h-4 w-4 ml-1" />
+        </Button>
       </CardFooter>
     </Card>
   );
 };
 
-const CategoryRow = ({ section }: { section: CategorySection }) => {
+const CategoryCarousel = ({ section }: { section: CategorySection }) => {
+  const [scrollPosition, setScrollPosition] = useState(0);
+  const [maxScroll, setMaxScroll] = useState(0);
+  const scrollAmount = 300;
+  
+  const handleScroll = (direction: 'left' | 'right') => {
+    const container = document.getElementById(`carousel-${section.id}`);
+    if (container) {
+      const currentPosition = container.scrollLeft;
+      const newPosition = direction === 'left' 
+        ? Math.max(currentPosition - scrollAmount, 0)
+        : Math.min(currentPosition + scrollAmount, container.scrollWidth - container.clientWidth);
+      
+      container.scrollTo({
+        left: newPosition,
+        behavior: 'smooth'
+      });
+      
+      setScrollPosition(newPosition);
+      setMaxScroll(container.scrollWidth - container.clientWidth);
+    }
+  };
+
   return (
     <div className="mb-12">
-      <div className="flex items-center gap-2 mb-4">
-        <div className="bg-primary/10 p-2 rounded-full text-primary">
-          {section.icon}
+      <div className="flex items-center justify-between mb-4">
+        <div className="flex items-center gap-2">
+          <div className="bg-primary/10 p-2 rounded-full text-primary">
+            {section.icon}
+          </div>
+          <h2 className="text-2xl font-bold">{section.title}</h2>
         </div>
-        <h2 className="text-2xl font-bold">{section.title}</h2>
+        <div className="flex gap-2">
+          <Button 
+            variant="outline" 
+            size="icon" 
+            onClick={() => handleScroll('left')}
+            disabled={scrollPosition <= 0}
+            className="h-8 w-8"
+          >
+            <ArrowLeft className="h-4 w-4" />
+          </Button>
+          <Button 
+            variant="outline" 
+            size="icon" 
+            onClick={() => handleScroll('right')}
+            disabled={scrollPosition >= maxScroll && maxScroll > 0}
+            className="h-8 w-8"
+          >
+            <ArrowRight className="h-4 w-4" />
+          </Button>
+        </div>
       </div>
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+      
+      <div 
+        id={`carousel-${section.id}`}
+        className="flex overflow-x-auto gap-6 pb-4 hide-scrollbar scroll-smooth"
+        style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}
+      >
         {section.models.map((model, index) => (
-          <ModelCard key={model.id} model={model} index={index} />
+          <div key={model.id} className="flex-none w-[300px]">
+            <ModelCard model={model} index={index} />
+          </div>
         ))}
       </div>
     </div>
@@ -108,7 +139,6 @@ const modelsData: CategorySection[] = [
         releaseDate: "2023-05",
         rating: 5,
         category: "coding",
-        imageUrl: "https://images.unsplash.com/photo-1542831371-29b0f74f9713?w=500&auto=format&fit=crop"
       },
       {
         id: "code-llama",
@@ -127,6 +157,24 @@ const modelsData: CategorySection[] = [
         releaseDate: "2023-03",
         rating: 5,
         category: "coding",
+      },
+      {
+        id: "codewhisperer",
+        title: "CodeWhisperer",
+        description: "Amazon's code assistant with specialized cloud infrastructure expertise",
+        creator: "Amazon",
+        releaseDate: "2023-06",
+        rating: 4,
+        category: "coding",
+      },
+      {
+        id: "replit-ghostwriter",
+        title: "Replit Ghostwriter",
+        description: "Code completion and generation optimized for educational contexts",
+        creator: "Replit",
+        releaseDate: "2023-04",
+        rating: 3,
+        category: "coding",
       }
     ]
   },
@@ -143,7 +191,6 @@ const modelsData: CategorySection[] = [
         releaseDate: "2023-10",
         rating: 4,
         category: "design",
-        imageUrl: "https://images.unsplash.com/photo-1558655146-364adaf1fcc9?w=500&auto=format&fit=crop"
       },
       {
         id: "midjourney-v6",
@@ -161,6 +208,24 @@ const modelsData: CategorySection[] = [
         creator: "Stability AI",
         releaseDate: "2023-07",
         rating: 4,
+        category: "design",
+      },
+      {
+        id: "firefly",
+        title: "Adobe Firefly",
+        description: "Image generation and editing with Adobe Creative Cloud integration",
+        creator: "Adobe",
+        releaseDate: "2023-09",
+        rating: 4,
+        category: "design",
+      },
+      {
+        id: "ideogram",
+        title: "Ideogram",
+        description: "Specialized in generating text-heavy graphics and designs",
+        creator: "Ideogram AI",
+        releaseDate: "2023-11",
+        rating: 3,
         category: "design",
       }
     ]
@@ -321,7 +386,7 @@ const ModelsStore = () => {
       
       <div className="max-w-7xl mx-auto">
         {modelsData.map(section => (
-          <CategoryRow key={section.id} section={section} />
+          <CategoryCarousel key={section.id} section={section} />
         ))}
       </div>
     </div>

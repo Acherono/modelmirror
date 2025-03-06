@@ -1,3 +1,4 @@
+
 import { Card, CardContent, CardHeader, CardTitle } from "../ui/card";
 import { FileText, Award, ExternalLink } from "lucide-react";
 import { useState, useEffect } from "react";
@@ -73,9 +74,9 @@ export function IndustryCitations() {
 
   if (isLoading) {
     return (
-      <Card>
+      <Card className="w-full h-[400px]">
         <CardHeader>
-          <CardTitle className="bg-gray-200 h-6 w-52 rounded" />
+          <CardTitle className="bg-gray-200 h-6 w-52 rounded animate-pulse" />
         </CardHeader>
         <CardContent>
           <div className="flex items-center justify-center h-72">

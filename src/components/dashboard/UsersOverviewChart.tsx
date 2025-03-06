@@ -1,3 +1,4 @@
+
 import { Card, CardContent, CardHeader, CardTitle } from "../ui/card";
 import { useState, useEffect, useRef } from "react";
 import { 
@@ -136,9 +137,9 @@ export function UsersOverviewChart() {
 
   if (isLoading) {
     return (
-      <Card>
+      <Card className="w-full h-[380px]">
         <CardHeader>
-          <CardTitle className="bg-gray-200 h-6 w-48 rounded" />
+          <CardTitle className="bg-gray-200 h-6 w-48 rounded animate-pulse" />
         </CardHeader>
         <CardContent>
           <div className="flex items-center justify-center h-64">

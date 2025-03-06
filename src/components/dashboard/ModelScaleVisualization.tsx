@@ -1,3 +1,4 @@
+
 import { Card, CardContent, CardHeader, CardTitle } from "../ui/card";
 import { useState, useEffect } from "react";
 import { ScatterChart, Scatter, XAxis, YAxis, CartesianGrid, ZAxis, Tooltip, ResponsiveContainer, Legend } from "recharts";
@@ -46,9 +47,9 @@ export function ModelScaleVisualization() {
 
   if (isLoading) {
     return (
-      <Card>
+      <Card className="w-full h-[400px]">
         <CardHeader>
-          <CardTitle className="bg-gray-200 h-6 w-48 rounded" />
+          <CardTitle className="bg-gray-200 h-6 w-48 rounded animate-pulse" />
         </CardHeader>
         <CardContent>
           <div className="flex items-center justify-center h-80">
