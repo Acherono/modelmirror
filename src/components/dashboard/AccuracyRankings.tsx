@@ -1,4 +1,3 @@
-
 import { Card, CardContent, CardHeader, CardTitle } from "../ui/card";
 import { useState, useEffect } from "react";
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from "recharts";
@@ -70,7 +69,7 @@ export function AccuracyRankings() {
 
   if (isLoading) {
     return (
-      <Card className="w-full h-[380px]">
+      <Card>
         <CardHeader>
           <CardTitle className="bg-gray-200 h-6 w-52 rounded" />
         </CardHeader>

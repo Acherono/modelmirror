@@ -1,11 +1,11 @@
-import { Layout } from "@/components/layout/Layout";
+
 import { DashboardContainer } from "@/components/dashboard/DashboardContainer";
 
 const Index = () => {
   return (
-    <Layout>
+    <div>
       <DashboardContainer />
-    </Layout>
+    </div>
   );
 };
 
