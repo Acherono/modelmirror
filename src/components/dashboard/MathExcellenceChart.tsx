@@ -45,7 +45,7 @@ export function MathExcellenceChart() {
 
   if (isLoading) {
     return (
-      <Card className="w-full h-[400px] animate-pulse">
+      <Card>
         <CardHeader>
           <CardTitle className="bg-gray-200 h-6 w-48 rounded"></CardTitle>
         </CardHeader>

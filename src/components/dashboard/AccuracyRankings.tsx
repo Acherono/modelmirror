@@ -69,7 +69,7 @@ export function AccuracyRankings() {
 
   if (isLoading) {
     return (
-      <Card className="w-full h-[380px] animate-pulse">
+      <Card>
         <CardHeader>
           <CardTitle className="bg-gray-200 h-6 w-52 rounded"></CardTitle>
         </CardHeader>

@@ -2,7 +2,6 @@ import { Card, CardContent, CardHeader, CardTitle } from "../ui/card";
 import { FileText, Award, ExternalLink } from "lucide-react";
 import { useState, useEffect } from "react";
 
-// Sample citation data
 const initialCitations = [
   {
     id: 1,
@@ -65,7 +64,6 @@ export function IndustryCitations() {
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
-    // Simulate data loading
     const timer = setTimeout(() => {
       setIsLoading(false);
     }, 1600);
@@ -75,21 +73,13 @@ export function IndustryCitations() {
 
   if (isLoading) {
     return (
-      <Card className="w-full h-[400px] animate-pulse">
+      <Card>
         <CardHeader>
           <CardTitle className="bg-gray-200 h-6 w-52 rounded"></CardTitle>
         </CardHeader>
         <CardContent>
-          <div className="space-y-4">
-            {[1, 2, 3, 4].map((i) => (
-              <div key={i} className="flex items-center space-x-4">
-                <div className="bg-gray-200 h-12 w-12 rounded"></div>
-                <div className="space-y-2 flex-1">
-                  <div className="bg-gray-200 h-4 rounded"></div>
-                  <div className="bg-gray-200 h-3 w-1/2 rounded"></div>
-                </div>
-              </div>
-            ))}
+          <div className="flex items-center justify-center h-72">
+            <div className="w-12 h-12 border-4 border-primary border-t-transparent rounded-full animate-spin"></div>
           </div>
         </CardContent>
       </Card>

@@ -1,4 +1,3 @@
-
 import { Card, CardContent, CardHeader, CardTitle } from "../ui/card";
 import { useState, useEffect, useRef } from "react";
 import { 
@@ -137,7 +136,7 @@ export function UsersOverviewChart() {
 
   if (isLoading) {
     return (
-      <Card className="w-full h-[380px] animate-pulse">
+      <Card>
         <CardHeader>
           <CardTitle className="bg-gray-200 h-6 w-48 rounded"></CardTitle>
         </CardHeader>
