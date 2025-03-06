@@ -1,8 +1,9 @@
 
-import { useState } from "react";
+import { useState, useRef, useEffect } from "react";
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import { ChevronRight, Code, PenTool, Video, BookOpen, FlaskConical, Music, Star, ArrowRight, ArrowLeft } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { cn } from "@/lib/utils";
 
 interface ModelItem {
   id: string;
@@ -22,7 +23,7 @@ interface CategorySection {
   models: ModelItem[];
 }
 
-const ModelCard = ({ model, index }: { model: ModelItem; index: number }) => {
+const ModelCard = ({ model }: { model: ModelItem }) => {
   return (
     <Card className="h-[280px] transition-all duration-300 hover:shadow-lg hover:scale-[1.02] cursor-pointer border-border/50 relative overflow-hidden">
       <div className="absolute inset-0 bg-gradient-to-br from-primary/5 via-transparent to-transparent opacity-80 z-0" />
@@ -60,11 +61,43 @@ const ModelCard = ({ model, index }: { model: ModelItem; index: number }) => {
 const CategoryCarousel = ({ section }: { section: CategorySection }) => {
   const [scrollPosition, setScrollPosition] = useState(0);
   const [maxScroll, setMaxScroll] = useState(0);
-  const scrollAmount = 300;
+  const carouselRef = useRef<HTMLDivElement>(null);
+  
+  const updateScrollInfo = () => {
+    if (carouselRef.current) {
+      setScrollPosition(carouselRef.current.scrollLeft);
+      setMaxScroll(carouselRef.current.scrollWidth - carouselRef.current.clientWidth);
+    }
+  };
+
+  useEffect(() => {
+    const container = carouselRef.current;
+    if (container) {
+      updateScrollInfo();
+      
+      // Add resize observer
+      const resizeObserver = new ResizeObserver(() => {
+        updateScrollInfo();
+      });
+      
+      resizeObserver.observe(container);
+      
+      // Add scroll listener
+      container.addEventListener('scroll', updateScrollInfo);
+      
+      return () => {
+        resizeObserver.disconnect();
+        container.removeEventListener('scroll', updateScrollInfo);
+      };
+    }
+  }, []);
   
   const handleScroll = (direction: 'left' | 'right') => {
-    const container = document.getElementById(`carousel-${section.id}`);
+    const container = carouselRef.current;
     if (container) {
+      const cardWidth = 320; // Card width + gap
+      const scrollAmount = Math.floor(container.offsetWidth / cardWidth) * cardWidth;
+      
       const currentPosition = container.scrollLeft;
       const newPosition = direction === 'left' 
         ? Math.max(currentPosition - scrollAmount, 0)
@@ -74,14 +107,11 @@ const CategoryCarousel = ({ section }: { section: CategorySection }) => {
         left: newPosition,
         behavior: 'smooth'
       });
-      
-      setScrollPosition(newPosition);
-      setMaxScroll(container.scrollWidth - container.clientWidth);
     }
   };
 
   return (
-    <div className="mb-12">
+    <div className="mb-12 relative">
       <div className="flex items-center justify-between mb-4">
         <div className="flex items-center gap-2">
           <div className="bg-primary/10 p-2 rounded-full text-primary">
@@ -89,36 +119,50 @@ const CategoryCarousel = ({ section }: { section: CategorySection }) => {
           </div>
           <h2 className="text-2xl font-bold">{section.title}</h2>
         </div>
-        <div className="flex gap-2">
+      </div>
+      
+      {/* Navigation buttons positioned on top of the carousel */}
+      {maxScroll > 0 && (
+        <div className="absolute top-1/2 left-0 right-0 flex justify-between pointer-events-none z-10 px-2 transform -translate-y-8">
           <Button 
             variant="outline" 
             size="icon" 
             onClick={() => handleScroll('left')}
             disabled={scrollPosition <= 0}
-            className="h-8 w-8"
+            className={cn(
+              "h-10 w-10 rounded-full bg-background/80 backdrop-blur-sm border border-border/50 shadow-md pointer-events-auto",
+              scrollPosition <= 0 ? "opacity-0" : "opacity-100"
+            )}
           >
-            <ArrowLeft className="h-4 w-4" />
+            <ArrowLeft className="h-5 w-5" />
           </Button>
           <Button 
             variant="outline" 
             size="icon" 
             onClick={() => handleScroll('right')}
-            disabled={scrollPosition >= maxScroll && maxScroll > 0}
-            className="h-8 w-8"
+            disabled={scrollPosition >= maxScroll}
+            className={cn(
+              "h-10 w-10 rounded-full bg-background/80 backdrop-blur-sm border border-border/50 shadow-md pointer-events-auto",
+              scrollPosition >= maxScroll ? "opacity-0" : "opacity-100"
+            )}
           >
-            <ArrowRight className="h-4 w-4" />
+            <ArrowRight className="h-5 w-5" />
           </Button>
         </div>
-      </div>
+      )}
       
       <div 
-        id={`carousel-${section.id}`}
-        className="flex overflow-x-auto gap-6 pb-4 hide-scrollbar scroll-smooth"
-        style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}
+        ref={carouselRef}
+        className="flex overflow-x-auto gap-5 pb-4 hide-scrollbar scroll-smooth"
+        style={{ 
+          scrollbarWidth: 'none', 
+          msOverflowStyle: 'none',
+          WebkitOverflowScrolling: 'touch'
+        }}
       >
-        {section.models.map((model, index) => (
+        {section.models.map((model) => (
           <div key={model.id} className="flex-none w-[300px]">
-            <ModelCard model={model} index={index} />
+            <ModelCard model={model} />
           </div>
         ))}
       </div>
@@ -375,7 +419,7 @@ const modelsData: CategorySection[] = [
 
 const ModelsStore = () => {
   return (
-    <div className="w-full p-4 md:p-8">
+    <div className="w-full p-4 md:p-8 overflow-x-hidden">
       <div className="mb-10">
         <h1 className="text-4xl font-bold text-center bg-gradient-to-r from-purple-400 via-pink-500 to-blue-500 text-transparent bg-clip-text">
           AI Models Marketplace
@@ -385,7 +429,7 @@ const ModelsStore = () => {
         </p>
       </div>
       
-      <div className="max-w-7xl mx-auto">
+      <div className="max-w-[1400px] mx-auto">
         {modelsData.map(section => (
           <CategoryCarousel key={section.id} section={section} />
         ))}

@@ -49,7 +49,10 @@ export function Layout({ children }: LayoutProps) {
 
   return (
     <div className="flex min-h-screen bg-background">
-      <Sidebar isCollapsed={isSidebarCollapsed} />
+      <Sidebar 
+        isCollapsed={isSidebarCollapsed} 
+        toggleSidebar={toggleSidebar} 
+      />
       <div 
         className={cn(
           "flex flex-col flex-1 transition-all duration-300",
@@ -58,7 +61,6 @@ export function Layout({ children }: LayoutProps) {
       >
         <Header 
           isSidebarCollapsed={isSidebarCollapsed} 
-          toggleSidebar={toggleSidebar}
           toggleWidgetVisibility={toggleWidgetVisibility}
           visibleWidgets={visibleWidgets}
         />

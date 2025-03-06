@@ -15,6 +15,7 @@ import {
   Github,
   Twitter,
   Linkedin,
+  Menu,
 } from "lucide-react";
 import { Link, useLocation } from "react-router-dom";
 
@@ -26,6 +27,7 @@ interface SidebarItem {
 
 interface SidebarProps {
   isCollapsed?: boolean;
+  toggleSidebar?: () => void;
 }
 
 const sidebarItems: SidebarItem[] = [
@@ -99,7 +101,7 @@ const socialLinks = [
   },
 ];
 
-export function Sidebar({ isCollapsed = false }: SidebarProps) {
+export function Sidebar({ isCollapsed = false, toggleSidebar }: SidebarProps) {
   const location = useLocation();
 
   return (
@@ -109,14 +111,29 @@ export function Sidebar({ isCollapsed = false }: SidebarProps) {
         isCollapsed ? "w-[70px]" : "w-[240px]"
       )}
     >
-      <div className="flex items-center h-14 px-4 border-b border-border">
-        <Layout className="h-6 w-6 text-primary" />
+      <div className="flex items-center h-14 px-4 border-b border-border justify-between">
         {!isCollapsed && (
-          <span className="ml-2 font-semibold text-lg">AI Market</span>
+          <span className="font-semibold text-lg">AI Market</span>
         )}
+        <Layout className={cn("h-6 w-6 text-primary", isCollapsed ? "mx-auto" : "")} />
       </div>
 
       <div className="flex-1 overflow-y-auto py-4">
+        {/* Toggle button above the navigation */}
+        <div className="px-2 mb-4">
+          <button
+            onClick={toggleSidebar}
+            className={cn(
+              "flex items-center justify-center w-full p-2 rounded-md transition-all duration-200",
+              "bg-sidebar-accent/10 hover:bg-sidebar-accent/20"
+            )}
+            aria-label={isCollapsed ? "Expand sidebar" : "Collapse sidebar"}
+          >
+            <Menu className={cn("h-5 w-5", isCollapsed ? "mx-auto" : "")} />
+            {!isCollapsed && <span className="ml-2">Toggle Sidebar</span>}
+          </button>
+        </div>
+
         <nav className="space-y-1 px-2">
           {sidebarItems.map((item) => {
             const isActive = location.pathname === item.path;

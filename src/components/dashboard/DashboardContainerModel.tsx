@@ -5,6 +5,9 @@ import { AccuracyRankings } from "./AccuracyRankings";
 import { MathExcellenceChart } from "./MathExcellenceChart";
 import { IndustryCitations } from "./IndustryCitations";
 import { ModelScaleVisualization } from "./ModelScaleVisualization";
+import { MarketShareChart } from "./MarketShareChart";
+import { CompanyValuationChart } from "./CompanyValuationChart";
+import { GpuClustersChart } from "./GpuClustersChart";
 
 export interface Widget {
   i: string;
@@ -46,10 +49,46 @@ export class DashboardContainerModel {
       component: <AccuracyRankings />,
     },
     {
-      i: "math-excellence",
+      i: "market-share",
       x: 0,
       y: 2,
-      w: 4,
+      w: 6,
+      h: 2,
+      minW: 3,
+      minH: 2,
+      visible: true,
+      title: "AI Market Share",
+      component: <MarketShareChart />,
+    },
+    {
+      i: "company-valuation",
+      x: 6,
+      y: 2,
+      w: 6,
+      h: 2,
+      minW: 3,
+      minH: 2,
+      visible: true,
+      title: "Company Valuations",
+      component: <CompanyValuationChart />,
+    },
+    {
+      i: "gpu-clusters",
+      x: 0,
+      y: 4,
+      w: 6,
+      h: 2,
+      minW: 3,
+      minH: 2,
+      visible: true,
+      title: "GPU Clusters",
+      component: <GpuClustersChart />,
+    },
+    {
+      i: "math-excellence",
+      x: 6,
+      y: 4,
+      w: 6,
       h: 2,
       minW: 3,
       minH: 2,
@@ -59,9 +98,9 @@ export class DashboardContainerModel {
     },
     {
       i: "industry-citations",
-      x: 4,
-      y: 2,
-      w: 4,
+      x: 0,
+      y: 6,
+      w: 6,
       h: 2,
       minW: 3,
       minH: 2,
@@ -71,9 +110,9 @@ export class DashboardContainerModel {
     },
     {
       i: "model-scale",
-      x: 8,
-      y: 2,
-      w: 4,
+      x: 6,
+      y: 6,
+      w: 6,
       h: 2,
       minW: 3,
       minH: 2,
