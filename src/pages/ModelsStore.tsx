@@ -12,6 +12,7 @@ interface ModelItem {
   releaseDate: string;
   rating: number;
   category: string;
+  imageUrl?: string; // Add optional imageUrl property
 }
 
 interface CategorySection {
