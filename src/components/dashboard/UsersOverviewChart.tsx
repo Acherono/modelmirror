@@ -136,13 +136,13 @@ export function UsersOverviewChart() {
 
   if (isLoading) {
     return (
-      <Card>
+      <Card className="w-full h-[380px]">
         <CardHeader>
-          <CardTitle className="bg-gray-200 h-6 w-48 rounded"></CardTitle>
+          <CardTitle className="bg-gray-200 h-6 w-48 rounded" />
         </CardHeader>
         <CardContent>
           <div className="flex items-center justify-center h-64">
-            <div className="w-12 h-12 border-4 border-primary border-t-transparent rounded-full animate-spin"></div>
+            <div className="w-12 h-12 border-4 border-primary border-t-transparent rounded-full animate-spin" />
           </div>
         </CardContent>
       </Card>
