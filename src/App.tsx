@@ -6,7 +6,8 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { useEffect, StrictMode, useState } from "react";
 import Index from "./pages/Index";
 import NotFound from "./pages/NotFound";
-import AIPlayground from "./components/AIPlayground";
+import AIPlayground from "./pages/AIPlayground";
+import ModelsStore from "./pages/ModelsStore";
 import { ThemeProvider } from "@/components/theme/ThemeProvider";
 
 const queryClient = new QueryClient();
@@ -23,7 +24,7 @@ const App = () => {
               <Routes>
                 <Route path="/" element={<Index />} />
                 <Route path="/playaround" element={<AIPlayground />} />
-                <Route path="/store" element={<NotFound />} />
+                <Route path="/store" element={<ModelsStore />} />
                 <Route path="/agentic" element={<NotFound />} />
                 <Route path="/blog" element={<NotFound />} />
                 <Route path="/users" element={<NotFound />} />
