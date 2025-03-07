@@ -1,3 +1,4 @@
+
 import { Card, CardContent, CardHeader, CardTitle } from "../ui/card";
 import { useState, useEffect } from "react";
 import { ResponsiveContainer, RadarChart, PolarGrid, PolarAngleAxis, PolarRadiusAxis, Radar, Legend, Tooltip } from "recharts";
@@ -47,7 +48,9 @@ export function MathExcellenceChart() {
     return (
       <Card className="w-full h-[400px]">
         <CardHeader>
-          <CardTitle className="bg-gray-200 h-6 w-48 rounded animate-pulse" />
+          <CardTitle className="bg-gray-200 h-6 w-48 rounded animate-pulse">
+            Loading...
+          </CardTitle>
         </CardHeader>
         <CardContent>
           <div className="flex items-center justify-center h-80">

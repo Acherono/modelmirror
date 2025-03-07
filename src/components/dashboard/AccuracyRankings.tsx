@@ -1,46 +1,22 @@
-import { Card, CardContent, CardHeader, CardTitle } from "../ui/card";
 import { useState, useEffect } from "react";
+import { Card, CardContent, CardHeader, CardTitle } from "../ui/card";
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from "recharts";
 
-// Sample data for the stacked bar chart
+// Sample data for the bar chart
 const initialData = [
-  {
-    name: "GPT-4",
-    MMLU: 86.4,
-    GSM8K: 92.0,
-    HumanEval: 88.5,
-  },
-  {
-    name: "Claude 3",
-    MMLU: 84.5,
-    GSM8K: 88.2,
-    HumanEval: 85.0,
-  },
-  {
-    name: "Gemini",
-    MMLU: 83.1,
-    GSM8K: 87.5,
-    HumanEval: 82.3,
-  },
-  {
-    name: "Llama 3",
-    MMLU: 78.2,
-    GSM8K: 82.4,
-    HumanEval: 79.7,
-  },
-  {
-    name: "Mistral",
-    MMLU: 75.8,
-    GSM8K: 79.5,
-    HumanEval: 76.2,
-  },
+  { name: "GPT-4o", accuracy: 95.2, benchmark: 92.1 },
+  { name: "Claude 3", accuracy: 93.8, benchmark: 90.5 },
+  { name: "Gemini", accuracy: 91.5, benchmark: 88.2 },
+  { name: "Llama 3", accuracy: 89.7, benchmark: 86.3 },
+  { name: "Mistral", accuracy: 87.4, benchmark: 84.1 },
+  { name: "Falcon", accuracy: 85.2, benchmark: 82.0 },
 ];
 
 // Custom tooltip
 const CustomTooltip = ({ active, payload, label }: any) => {
   if (active && payload && payload.length) {
     return (
-      <div className="chart-tooltip">
+      <div className="bg-background border border-border p-2 rounded-md shadow-sm">
         <p className="font-medium">{label}</p>
         {payload.map((entry: any, index: number) => (
           <p key={`item-${index}`} style={{ color: entry.color }}>
@@ -69,12 +45,12 @@ export function AccuracyRankings() {
 
   if (isLoading) {
     return (
-      <Card className="w-full h-[380px]">
+      <Card className="w-full h-[400px]">
         <CardHeader>
-          <CardTitle className="bg-gray-200 h-6 w-52 rounded animate-pulse" />
+          <CardTitle className="bg-gray-200 h-6 w-48 rounded animate-pulse" />
         </CardHeader>
         <CardContent>
-          <div className="flex items-center justify-center h-72">
+          <div className="flex items-center justify-center h-80">
             <div className="w-12 h-12 border-4 border-primary border-t-transparent rounded-full animate-spin" />
           </div>
         </CardContent>
@@ -83,60 +59,56 @@ export function AccuracyRankings() {
   }
 
   return (
-    <Card className="w-full h-[380px]">
+    <Card className="w-full h-[400px]">
       <CardHeader>
-        <CardTitle>Accuracy Rankings</CardTitle>
+        <CardTitle>Model Accuracy Rankings</CardTitle>
       </CardHeader>
       <CardContent>
-        <div className="h-72">
+        <div className="h-80">
           <ResponsiveContainer width="100%" height="100%">
             <BarChart
-              layout="vertical"
               data={data}
-              margin={{ top: 10, right: 30, left: 60, bottom: 20 }}
-              barGap={3}
+              margin={{
+                top: 20,
+                right: 30,
+                left: 20,
+                bottom: 20,
+              }}
             >
-              <CartesianGrid strokeDasharray="3 3" horizontal={true} vertical={false} opacity={0.2} />
+              <CartesianGrid strokeDasharray="3 3" opacity={0.2} />
               <XAxis 
-                type="number" 
-                domain={[0, 100]} 
-                tickFormatter={(value) => `${value}%`}
-                tick={{ fontSize: 12 }}
-                tickLine={false}
-                axisLine={{ stroke: "hsl(var(--border))" }}
-              />
-              <YAxis 
-                type="category" 
                 dataKey="name" 
                 tick={{ fontSize: 12 }}
                 tickLine={false}
                 axisLine={{ stroke: "hsl(var(--border))" }}
               />
+              <YAxis 
+                domain={[80, 100]} 
+                tick={{ fontSize: 12 }}
+                tickLine={false}
+                axisLine={{ stroke: "hsl(var(--border))" }}
+                label={{ 
+                  value: "Accuracy (%)", 
+                  angle: -90, 
+                  position: "insideLeft",
+                  style: { textAnchor: 'middle', fontSize: 12 } 
+                }}
+              />
               <Tooltip content={<CustomTooltip />} />
               <Legend wrapperStyle={{ paddingTop: 10 }} />
               <Bar 
-                dataKey="MMLU" 
-                stackId="benchmarks" 
-                fill="#4338ca" 
-                radius={[0, 0, 0, 0]}
-                animationDuration={1400}
-                animationEasing="ease-out"
+                name="Model Accuracy" 
+                dataKey="accuracy" 
+                fill="#3b82f6" 
+                radius={[4, 4, 0, 0]}
+                animationDuration={1500}
               />
               <Bar 
-                dataKey="GSM8K" 
-                stackId="benchmarks" 
-                fill="#7c3aed" 
-                radius={[0, 0, 0, 0]}
-                animationDuration={1600}
-                animationEasing="ease-out"
-              />
-              <Bar 
-                dataKey="HumanEval" 
-                stackId="benchmarks" 
-                fill="#a855f7" 
-                radius={[0, 0, 0, 0]}
-                animationDuration={1800}
-                animationEasing="ease-out"
+                name="Benchmark" 
+                dataKey="benchmark" 
+                fill="#6b7280" 
+                radius={[4, 4, 0, 0]}
+                animationDuration={1700}
               />
             </BarChart>
           </ResponsiveContainer>

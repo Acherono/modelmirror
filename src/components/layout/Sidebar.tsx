@@ -129,8 +129,7 @@ export function Sidebar({ isCollapsed = false, toggleSidebar }: SidebarProps) {
             )}
             aria-label={isCollapsed ? "Expand sidebar" : "Collapse sidebar"}
           >
-            <Menu className={cn("h-5 w-5", isCollapsed ? "mx-auto" : "")} />
-            {!isCollapsed && <span className="ml-2">Toggle Sidebar</span>}
+            <Menu className="h-5 w-5" />
           </button>
         </div>
 

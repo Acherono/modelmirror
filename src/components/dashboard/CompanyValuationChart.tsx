@@ -1,27 +1,35 @@
-
 import { useState, useEffect } from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "../ui/card";
-import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, Cell } from "recharts";
+import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, Legend } from "recharts";
 
+// Sample data for company valuations
 const data = [
-  { name: "Nvidia", value: 3.2, color: "#16a34a" },
-  { name: "Microsoft", value: 2.8, color: "#2563eb" },
-  { name: "Google", value: 1.9, color: "#9333ea" },
-  { name: "Amazon", value: 1.7, color: "#f97316" },
-  { name: "Meta", value: 1.2, color: "#0284c7" },
-  { name: "Apple", value: 1.0, color: "#ef4444" },
-  { name: "Tesla", value: 0.8, color: "#6b7280" },
+  { name: "OpenAI", valuation: 86, previousValuation: 65 },
+  { name: "Anthropic", valuation: 35, previousValuation: 18 },
+  { name: "Cohere", valuation: 12, previousValuation: 6 },
+  { name: "Mistral", valuation: 7, previousValuation: 2 },
+  { name: "Inflection", valuation: 4, previousValuation: 1.5 },
 ];
 
-const CustomTooltip = ({ active, payload }: any) => {
+// Custom tooltip
+const CustomTooltip = ({ active, payload, label }: any) => {
   if (active && payload && payload.length) {
     return (
-      <div className="bg-background p-2 border border-border rounded shadow-sm">
-        <p className="font-medium">{payload[0].payload.name}</p>
-        <p className="text-sm">{`Market Cap: $${payload[0].value} Trillion`}</p>
+      <div className="bg-background border border-border p-2 rounded-md shadow-sm">
+        <p className="font-medium">{label}</p>
+        <p className="text-sm text-primary">
+          Current: ${payload[0].value}B
+        </p>
+        <p className="text-sm text-muted-foreground">
+          Previous: ${payload[1].value}B
+        </p>
+        <p className="text-xs text-green-500 font-medium">
+          +{((payload[0].value / payload[1].value - 1) * 100).toFixed(1)}%
+        </p>
       </div>
     );
   }
+
   return null;
 };
 
@@ -32,7 +40,7 @@ export function CompanyValuationChart() {
     // Simulate data loading
     const timer = setTimeout(() => {
       setIsLoading(false);
-    }, 1700);
+    }, 1600);
 
     return () => clearTimeout(timer);
   }, []);
@@ -55,41 +63,48 @@ export function CompanyValuationChart() {
   return (
     <Card className="w-full h-[400px]">
       <CardHeader>
-        <CardTitle>Most Valued AI Companies</CardTitle>
+        <CardTitle>AI Company Valuations (Billions USD)</CardTitle>
       </CardHeader>
       <CardContent>
         <div className="h-80">
           <ResponsiveContainer width="100%" height="100%">
             <BarChart
               data={data}
-              layout="vertical"
-              margin={{ top: 20, right: 30, left: 70, bottom: 5 }}
+              margin={{
+                top: 20,
+                right: 30,
+                left: 20,
+                bottom: 20,
+              }}
             >
-              <CartesianGrid strokeDasharray="3 3" opacity={0.2} horizontal={false} />
+              <CartesianGrid strokeDasharray="3 3" opacity={0.2} />
               <XAxis 
-                type="number" 
-                unit="T" 
-                domain={[0, 'dataMax']}
-                tickFormatter={(value) => `$${value}`}
+                dataKey="name" 
+                tick={{ fontSize: 12 }}
                 axisLine={{ stroke: "hsl(var(--border))" }}
               />
               <YAxis 
-                type="category" 
-                dataKey="name" 
+                tick={{ fontSize: 12 }}
                 axisLine={{ stroke: "hsl(var(--border))" }}
-                width={60}
+                tickFormatter={(value) => `$${value}B`}
               />
               <Tooltip content={<CustomTooltip />} />
+              <Legend />
               <Bar 
-                dataKey="value" 
-                barSize={30} 
-                radius={[0, 4, 4, 0]}
+                dataKey="valuation" 
+                name="Current Valuation" 
+                fill="hsl(var(--primary))" 
+                radius={[4, 4, 0, 0]}
                 animationDuration={1500}
-              >
-                {data.map((entry, index) => (
-                  <Cell key={`cell-${index}`} fill={entry.color} />
-                ))}
-              </Bar>
+              />
+              <Bar 
+                dataKey="previousValuation" 
+                name="Previous Valuation" 
+                fill="hsl(var(--muted))" 
+                radius={[4, 4, 0, 0]}
+                animationDuration={1500}
+                animationDelay={300}
+              />
             </BarChart>
           </ResponsiveContainer>
         </div>

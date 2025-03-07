@@ -8,6 +8,9 @@ import { ModelScaleVisualization } from "./ModelScaleVisualization";
 import { MarketShareChart } from "./MarketShareChart";
 import { CompanyValuationChart } from "./CompanyValuationChart";
 import { GpuClustersChart } from "./GpuClustersChart";
+import { ModelRankings } from "./ModelRankings";
+import { AIModelSentiment } from "./AIModelSentiment";
+import { AIModelDominance } from "./AIModelDominance";
 
 export interface Widget {
   i: string;
@@ -100,7 +103,7 @@ export class DashboardContainerModel {
       i: "industry-citations",
       x: 0,
       y: 6,
-      w: 6,
+      w: 3,
       h: 2,
       minW: 3,
       minH: 2,
@@ -110,15 +113,51 @@ export class DashboardContainerModel {
     },
     {
       i: "model-scale",
-      x: 6,
+      x: 3,
       y: 6,
-      w: 6,
+      w: 3,
       h: 2,
       minW: 3,
       minH: 2,
       visible: true,
       title: "Model Scale Visualization",
       component: <ModelScaleVisualization />,
+    },
+    {
+      i: "trending-models",
+      x: 6,
+      y: 6,
+      w: 3,
+      h: 2,
+      minW: 3,
+      minH: 2,
+      visible: true,
+      title: "Trending Models",
+      component: <ModelRankings />,
+    },
+    {
+      i: "ai-sentiment",
+      x: 9,
+      y: 6,
+      w: 1.5,
+      h: 2,
+      minW: 1.5,
+      minH: 2,
+      visible: true,
+      title: "AI Confidence",
+      component: <AIModelSentiment />,
+    },
+    {
+      i: "ai-dominance",
+      x: 10.5,
+      y: 6,
+      w: 1.5,
+      h: 2,
+      minW: 1.5,
+      minH: 2,
+      visible: true,
+      title: "Market Dominance",
+      component: <AIModelDominance />,
     },
   ];
 

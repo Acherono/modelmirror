@@ -1,6 +1,6 @@
 
 import { cn } from "@/lib/utils";
-import { Moon, RefreshCw, Settings, Sun, Menu, X, Eye, EyeOff } from "lucide-react";
+import { Moon, RefreshCw, Settings, Sun, Eye, EyeOff } from "lucide-react";
 import { useEffect, useState } from "react";
 import { Sheet, SheetContent, SheetDescription, SheetHeader, SheetTitle, SheetTrigger } from "@/components/ui/sheet";
 import { Switch } from "@/components/ui/switch";
@@ -61,13 +61,6 @@ export function Header({
   return (
     <header className="h-14 border-b border-border bg-background/80 backdrop-blur-sm sticky top-0 z-30 flex items-center justify-between px-4 transition-all">
       <div className="flex items-center space-x-3">
-        <button
-          onClick={toggleSidebar}
-          className="p-2 rounded-full hover:bg-secondary transition-colors"
-          aria-label={isSidebarCollapsed ? "Expand sidebar" : "Collapse sidebar"}
-        >
-          {isSidebarCollapsed ? <Menu size={18} /> : <X size={18} />}
-        </button>
         <h1 className="text-lg font-semibold">{title}</h1>
       </div>
       
