@@ -11,6 +11,7 @@ import { GpuClustersChart } from "./GpuClustersChart";
 import { ModelRankings } from "./ModelRankings";
 import { AIModelSentiment } from "./AIModelSentiment";
 import { AIModelDominance } from "./AIModelDominance";
+import { AIModelsTable } from "./AIModelsTable";
 
 export interface Widget {
   i: string;
@@ -28,9 +29,21 @@ export interface Widget {
 export class DashboardContainerModel {
   private widgets: Widget[] = [
     {
-      i: "users-overview",
+      i: "ai-models-table",
       x: 0,
       y: 0,
+      w: 12,
+      h: 3,
+      minW: 6,
+      minH: 3,
+      visible: true,
+      title: "AI Models Table",
+      component: <AIModelsTable />,
+    },
+    {
+      i: "users-overview",
+      x: 0,
+      y: 3,
       w: 6,
       h: 2,
       minW: 3,
@@ -42,7 +55,7 @@ export class DashboardContainerModel {
     {
       i: "accuracy-rankings",
       x: 6,
-      y: 0,
+      y: 3,
       w: 6,
       h: 2,
       minW: 3,
@@ -54,7 +67,7 @@ export class DashboardContainerModel {
     {
       i: "market-share",
       x: 0,
-      y: 2,
+      y: 5,
       w: 6,
       h: 2,
       minW: 3,
@@ -66,7 +79,7 @@ export class DashboardContainerModel {
     {
       i: "company-valuation",
       x: 6,
-      y: 2,
+      y: 5,
       w: 6,
       h: 2,
       minW: 3,
@@ -78,7 +91,7 @@ export class DashboardContainerModel {
     {
       i: "gpu-clusters",
       x: 0,
-      y: 4,
+      y: 7,
       w: 6,
       h: 2,
       minW: 3,
@@ -90,7 +103,7 @@ export class DashboardContainerModel {
     {
       i: "math-excellence",
       x: 6,
-      y: 4,
+      y: 7,
       w: 6,
       h: 2,
       minW: 3,
@@ -102,7 +115,7 @@ export class DashboardContainerModel {
     {
       i: "industry-citations",
       x: 0,
-      y: 6,
+      y: 9,
       w: 3,
       h: 2,
       minW: 3,
@@ -114,7 +127,7 @@ export class DashboardContainerModel {
     {
       i: "model-scale",
       x: 3,
-      y: 6,
+      y: 9,
       w: 3,
       h: 2,
       minW: 3,
@@ -126,7 +139,7 @@ export class DashboardContainerModel {
     {
       i: "trending-models",
       x: 6,
-      y: 6,
+      y: 9,
       w: 3,
       h: 2,
       minW: 3,
@@ -138,7 +151,7 @@ export class DashboardContainerModel {
     {
       i: "ai-sentiment",
       x: 9,
-      y: 6,
+      y: 9,
       w: 1.5,
       h: 2,
       minW: 1.5,
@@ -150,7 +163,7 @@ export class DashboardContainerModel {
     {
       i: "ai-dominance",
       x: 10.5,
-      y: 6,
+      y: 9,
       w: 1.5,
       h: 2,
       minW: 1.5,

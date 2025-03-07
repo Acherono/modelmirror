@@ -45,14 +45,14 @@ export function AccuracyRankings() {
 
   if (isLoading) {
     return (
-      <Card className="w-full h-[400px]">
+      <Card className="w-full h-full">
         <CardHeader>
-          <CardTitle className="bg-gray-200 h-6 w-48 rounded animate-pulse" />
+          <CardTitle className="bg-gray-200 h-6 w-48 rounded animate-pulse">
+            Loading...
+          </CardTitle>
         </CardHeader>
-        <CardContent>
-          <div className="flex items-center justify-center h-80">
-            <div className="w-12 h-12 border-4 border-primary border-t-transparent rounded-full animate-spin" />
-          </div>
+        <CardContent className="flex items-center justify-center h-80">
+          <div className="w-12 h-12 border-4 border-primary border-t-transparent rounded-full animate-spin" />
         </CardContent>
       </Card>
     );
