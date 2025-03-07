@@ -9,11 +9,8 @@ interface ModelData {
   creator: string;
   shortName: string;
   icon: React.ReactNode;
-  price: string;
-  change1h: number;
   change24h: number;
   change7d: number;
-  marketCap: string;
   volume24h: string;
   volumeDetail: string;
   parameters: string;
@@ -35,11 +32,8 @@ export function AIModelsTable() {
           creator: "OpenAI",
           shortName: "GPT",
           icon: <Brain className="h-5 w-5 text-green-500" />,
-          price: "$19.99",
-          change1h: 0.38,
           change24h: -3.70,
           change7d: 11.64,
-          marketCap: "$1,752,500,090,425",
           volume24h: "$58,985,564,610",
           volumeDetail: "666.86K API calls",
           parameters: "19.83B",
@@ -51,11 +45,8 @@ export function AIModelsTable() {
           creator: "Anthropic",
           shortName: "CLD",
           icon: <Brain className="h-5 w-5 text-purple-500" />,
-          price: "$21.87",
-          change1h: 0.53,
           change24h: -4.78,
           change7d: 3.76,
-          marketCap: "$263,766,424,676",
           volume24h: "$21,780,482,144",
           volumeDetail: "9.96M API calls",
           parameters: "120.59B",
@@ -67,11 +58,8 @@ export function AIModelsTable() {
           creator: "Google",
           shortName: "GEM",
           icon: <Brain className="h-5 w-5 text-blue-500" />,
-          price: "$2.49",
-          change1h: 0.21,
           change24h: -0.61,
           change7d: 23.77,
-          marketCap: "$144,408,738,354",
           volume24h: "$8,828,671,041",
           volumeDetail: "3.53B API calls",
           parameters: "57.94B",
@@ -83,11 +71,8 @@ export function AIModelsTable() {
           creator: "Meta",
           shortName: "LLM",
           icon: <Brain className="h-5 w-5 text-orange-500" />,
-          price: "$0.9999",
-          change1h: 0.01,
           change24h: 0.00,
           change7d: 0.12,
-          marketCap: "$142,799,155,360",
           volume24h: "$99,785,644,971",
           volumeDetail: "99.78B API calls",
           parameters: "142.71B",
@@ -99,11 +84,8 @@ export function AIModelsTable() {
           creator: "Mistral AI",
           shortName: "MST",
           icon: <Brain className="h-5 w-5 text-amber-500" />,
-          price: "$599.87",
-          change1h: -0.29,
           change24h: -0.99,
           change7d: 5.29,
-          marketCap: "$85,467,848,278",
           volume24h: "$1,666,444,535",
           volumeDetail: "2.77M API calls",
           parameters: "142.47B",
@@ -138,13 +120,8 @@ export function AIModelsTable() {
               <tr className="border-b border-border bg-muted/30">
                 <th className="px-6 py-3 text-left text-xs font-medium text-muted-foreground w-[40px]">#</th>
                 <th className="px-6 py-3 text-left text-xs font-medium text-muted-foreground">Name</th>
-                <th className="px-6 py-3 text-right text-xs font-medium text-muted-foreground">Price</th>
-                <th className="px-6 py-3 text-right text-xs font-medium text-muted-foreground">1h %</th>
                 <th className="px-6 py-3 text-right text-xs font-medium text-muted-foreground">24h %</th>
                 <th className="px-6 py-3 text-right text-xs font-medium text-muted-foreground">7d %</th>
-                <th className="px-6 py-3 text-right text-xs font-medium text-muted-foreground">
-                  Market Cap <HelpCircle className="inline h-3 w-3 ml-1" />
-                </th>
                 <th className="px-6 py-3 text-right text-xs font-medium text-muted-foreground">
                   Volume(24h) <HelpCircle className="inline h-3 w-3 ml-1" />
                 </th>
@@ -172,18 +149,6 @@ export function AIModelsTable() {
                       </div>
                     </div>
                   </td>
-                  <td className="px-6 py-4 whitespace-nowrap text-sm text-right font-medium">
-                    {model.price}
-                  </td>
-                  <td className="px-6 py-4 whitespace-nowrap text-sm text-right">
-                    <span className={cn(
-                      "flex items-center justify-end gap-1 font-medium",
-                      model.change1h >= 0 ? "text-green-500" : "text-red-500"
-                    )}>
-                      {model.change1h >= 0 ? <ArrowUpRight className="h-3 w-3" /> : <ArrowDownRight className="h-3 w-3" />}
-                      {Math.abs(model.change1h).toFixed(2)}%
-                    </span>
-                  </td>
                   <td className="px-6 py-4 whitespace-nowrap text-sm text-right">
                     <span className={cn(
                       "flex items-center justify-end gap-1 font-medium",
@@ -201,9 +166,6 @@ export function AIModelsTable() {
                       {model.change7d >= 0 ? <ArrowUpRight className="h-3 w-3" /> : <ArrowDownRight className="h-3 w-3" />}
                       {Math.abs(model.change7d).toFixed(2)}%
                     </span>
-                  </td>
-                  <td className="px-6 py-4 whitespace-nowrap text-sm text-right">
-                    {model.marketCap}
                   </td>
                   <td className="px-6 py-4 whitespace-nowrap text-right">
                     <div className="text-sm">{model.volume24h}</div>

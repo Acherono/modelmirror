@@ -1,8 +1,9 @@
 
-import { useState, useRef, useEffect } from 'react';
+import { useState, useRef } from 'react';
 import { useToast } from '@/hooks/use-toast';
-import { SendHorizontal, Paperclip, Loader2, Brain, Search, Star, Sparkles, Code, PenTool, Video, Music, BookOpen, FlaskConical } from "lucide-react";
+import { SendHorizontal, Paperclip, Loader2, Brain, BrainCog, Search, Sparkles } from "lucide-react";
 import { Button } from '@/components/ui/button';
+import { ModelSelector } from '@/components/ai-playground/ModelSelector';
 
 // Define types
 type Message = {
@@ -14,40 +15,6 @@ type ModelCategory = 'LLMs' | 'Photo Generator' | 'Video Generator' | 'Music Gen
 type ModelCreator = 'OpenAI' | 'Anthropic' | 'Google' | 'Meta';
 type ModelVersion = 'ChatGPT-4' | 'Claude Sonnet 3.7' | 'Gemini Flash 2' | 'Llama3';
 
-// Model category data with icons
-const modelCategories = [
-  { id: 'LLMs' as ModelCategory, name: 'Language Models', icon: <Brain className="h-5 w-5" /> },
-  { id: 'Photo Generator' as ModelCategory, name: 'Photo Generation', icon: <PenTool className="h-5 w-5" /> },
-  { id: 'Video Generator' as ModelCategory, name: 'Video Creation', icon: <Video className="h-5 w-5" /> },
-  { id: 'Music Generator' as ModelCategory, name: 'Music Production', icon: <Music className="h-5 w-5" /> },
-  { id: 'Code Generator' as ModelCategory, name: 'Code Generation', icon: <Code className="h-5 w-5" /> },
-  { id: 'Chart & Mindmaps' as ModelCategory, name: 'Visual Mapping', icon: <BookOpen className="h-5 w-5" /> },
-];
-
-// Model creator data
-const modelCreators = [
-  { id: 'OpenAI' as ModelCreator, name: 'OpenAI', color: "text-neon-purple", bgColor: "bg-purple-500/10" },
-  { id: 'Anthropic' as ModelCreator, name: 'Anthropic', color: "text-neon-pink", bgColor: "bg-pink-500/10" },
-  { id: 'Google' as ModelCreator, name: 'Google', color: "text-neon-blue", bgColor: "bg-blue-500/10" },
-  { id: 'Meta' as ModelCreator, name: 'Meta', color: "text-neon-orange", bgColor: "bg-orange-500/10" },
-];
-
-// Model versions by creator
-const modelVersionsByCreator = {
-  'OpenAI': [
-    { id: 'ChatGPT-4' as ModelVersion, name: 'ChatGPT-4', rating: 5 }
-  ],
-  'Anthropic': [
-    { id: 'Claude Sonnet 3.7' as ModelVersion, name: 'Claude Sonnet 3.7', rating: 5 }
-  ],
-  'Google': [
-    { id: 'Gemini Flash 2' as ModelVersion, name: 'Gemini Flash 2', rating: 4 }
-  ],
-  'Meta': [
-    { id: 'Llama3' as ModelVersion, name: 'Llama3', rating: 4 }
-  ]
-};
-
 // Combined AIPlayground component
 const AIPlayground = () => {
   // State variables
@@ -55,7 +22,7 @@ const AIPlayground = () => {
   const [modelCategory, setModelCategory] = useState<ModelCategory>('LLMs');
   const [modelCreator, setModelCreator] = useState<ModelCreator>('OpenAI');
   const [modelVersion, setModelVersion] = useState<ModelVersion>('ChatGPT-4');
-  const [deepResearch, setDeepResearch] = useState(false);
+  const [deepSearch, setDeepSearch] = useState(false);
   const [deepThink, setDeepThink] = useState(false);
   const [messages, setMessages] = useState<Message[]>([]);
   const [isLoading, setIsLoading] = useState(false);
@@ -119,6 +86,16 @@ const AIPlayground = () => {
     }
   };
 
+  // Toggle deep search
+  const toggleDeepSearch = () => {
+    setDeepSearch(!deepSearch);
+  };
+
+  // Toggle deep think
+  const toggleDeepThink = () => {
+    setDeepThink(!deepThink);
+  };
+
   // Trigger file input click
   const handleFileClick = () => {
     fileInputRef.current?.click();
@@ -132,94 +109,15 @@ const AIPlayground = () => {
       </h1>
       
       <div className="flex flex-col w-full max-w-4xl mx-auto space-y-4">
-        {/* Model selection before input */}
-        <div className="w-full backdrop-blur-md bg-card/30 rounded-lg border border-border/50 shadow-md p-4 space-y-4">
-          <h3 className="text-lg font-semibold text-foreground">Choose your AI model</h3>
-          
-          {/* Category selection */}
-          <div className="grid grid-cols-3 md:grid-cols-6 gap-2">
-            {modelCategories.map((category) => (
-              <Button
-                key={category.id}
-                variant={modelCategory === category.id ? "default" : "outline"}
-                className="flex flex-col items-center justify-center h-20 p-2 gap-1 w-full"
-                onClick={() => setModelCategory(category.id)}
-              >
-                <div className="text-current">{category.icon}</div>
-                <span className="text-xs text-center">{category.name}</span>
-              </Button>
-            ))}
-          </div>
-          
-          {/* Creator selection */}
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-2">
-            {modelCreators.map((creator) => (
-              <Button
-                key={creator.id}
-                variant={modelCreator === creator.id ? "default" : "outline"}
-                className={`flex items-center justify-center gap-2 ${modelCreator === creator.id ? "" : creator.bgColor}`}
-                onClick={() => {
-                  setModelCreator(creator.id);
-                  // Set first model version for this creator as default
-                  const versions = modelVersionsByCreator[creator.id];
-                  if (versions && versions.length > 0) {
-                    setModelVersion(versions[0].id);
-                  }
-                }}
-              >
-                <span className={`font-bold text-lg ${creator.color}`}>
-                  {creator.name.charAt(0)}
-                </span>
-                <span>{creator.name}</span>
-              </Button>
-            ))}
-          </div>
-          
-          {/* Model version selection */}
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-2">
-            {modelVersionsByCreator[modelCreator]?.map((version) => (
-              <Button
-                key={version.id}
-                variant={modelVersion === version.id ? "default" : "outline"}
-                className="flex items-center justify-between"
-                onClick={() => setModelVersion(version.id)}
-              >
-                <span>{version.name}</span>
-                <div className="flex">
-                  {Array.from({ length: 5 }).map((_, i) => (
-                    <Star 
-                      key={i} 
-                      size={12} 
-                      className={i < version.rating ? "text-amber-400 fill-amber-400" : "text-muted-foreground"} 
-                    />
-                  ))}
-                </div>
-              </Button>
-            ))}
-          </div>
-          
-          {/* Additional options */}
-          <div className="flex flex-wrap gap-2">
-            <Button 
-              variant={deepResearch ? "default" : "outline"}
-              size="sm"
-              onClick={() => setDeepResearch(!deepResearch)}
-              className="flex items-center gap-2"
-            >
-              <Search className="h-4 w-4" />
-              Deep Research
-            </Button>
-            <Button 
-              variant={deepThink ? "default" : "outline"}
-              size="sm"
-              onClick={() => setDeepThink(!deepThink)}
-              className="flex items-center gap-2"
-            >
-              <Brain className="h-4 w-4" />
-              Deep Thinking
-            </Button>
-          </div>
-        </div>
+        {/* Model selection with collapsible component */}
+        <ModelSelector 
+          modelCategory={modelCategory}
+          setModelCategory={setModelCategory}
+          modelCreator={modelCreator}
+          setModelCreator={setModelCreator}
+          modelVersion={modelVersion}
+          setModelVersion={setModelVersion}
+        />
         
         {/* Input Area - Modern & Artistic */}
         <div className="w-full backdrop-blur-md bg-card/30 rounded-lg border border-border/50 shadow-md relative overflow-hidden">
@@ -231,11 +129,37 @@ const AIPlayground = () => {
               onChange={(e) => setMessage(e.target.value)}
               onKeyDown={handleKeyDown}
               placeholder="Type your prompt here..."
-              className="flex-1 resize-none rounded-lg bg-background/50 backdrop-blur-sm px-3 py-2 focus:outline-none focus:ring-1 focus:ring-primary/30 text-foreground border-none"
+              className="flex-1 resize-none rounded-lg bg-background/50 backdrop-blur-sm px-3 py-2 focus:outline-none text-foreground border-none no-focus-border"
               disabled={isLoading}
               style={{ minHeight: '40px', maxHeight: '40px' }}
             />
             <div className="flex items-center gap-1 pl-2">
+              <button
+                onClick={toggleDeepSearch}
+                className={`p-1.5 rounded-full transition-colors ${
+                  deepSearch 
+                    ? 'bg-primary/20 text-primary' 
+                    : 'text-muted-foreground hover:text-foreground hover:bg-muted/50'
+                }`}
+                aria-label="Deep Search"
+                title="Deep Search"
+              >
+                <Search className="h-4 w-4" />
+              </button>
+              
+              <button
+                onClick={toggleDeepThink}
+                className={`p-1.5 rounded-full transition-colors ${
+                  deepThink 
+                    ? 'bg-primary/20 text-primary' 
+                    : 'text-muted-foreground hover:text-foreground hover:bg-muted/50'
+                }`}
+                aria-label="Deep Thinking"
+                title="Deep Thinking"
+              >
+                <BrainCog className="h-4 w-4" />
+              </button>
+              
               <button
                 onClick={handleFileClick}
                 className="p-1.5 text-muted-foreground hover:text-foreground transition-colors rounded-full hover:bg-muted/50"
