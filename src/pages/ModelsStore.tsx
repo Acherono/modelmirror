@@ -1,9 +1,10 @@
-
 import { useState, useRef, useEffect } from "react";
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
-import { ChevronRight, Code, PenTool, Video, BookOpen, FlaskConical, Music, Star, ArrowRight, ArrowLeft } from "lucide-react";
+import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from "@/components/ui/dialog";
+import { ChevronRight, Code, PenTool, Video, BookOpen, FlaskConical, Music, Star, ArrowRight, ArrowLeft, ExternalLink, Users, Clock } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
+import { ModelDetailsCard } from "@/components/store/ModelDetailsCard";
 
 interface ModelItem {
   id: string;
@@ -13,7 +14,21 @@ interface ModelItem {
   releaseDate: string;
   rating: number;
   category: string;
-  imageUrl?: string; // Add optional imageUrl property
+  imageUrl?: string;
+  fullDescription?: string;
+  userActivity24h?: number;
+  userActivity7d?: number;
+  website?: string;
+  metrics?: {
+    codingScore?: number;
+    mathScore?: number;
+    researchScore?: number;
+    apiCalls24h?: number;
+    accuracy?: number;
+    hallucinationRate?: number;
+    parameters?: string;
+    trainingTokens?: string;
+  };
 }
 
 interface CategorySection {
@@ -23,7 +38,7 @@ interface CategorySection {
   models: ModelItem[];
 }
 
-const ModelCard = ({ model }: { model: ModelItem }) => {
+const ModelCard = ({ model, onViewDetails }: { model: ModelItem; onViewDetails: (model: ModelItem) => void }) => {
   return (
     <Card className="h-[280px] transition-all duration-300 hover:shadow-lg hover:scale-[1.02] cursor-pointer border-border/50 relative overflow-hidden">
       <div className="absolute inset-0 bg-gradient-to-br from-primary/5 via-transparent to-transparent opacity-80 z-0" />
@@ -50,7 +65,7 @@ const ModelCard = ({ model }: { model: ModelItem }) => {
       </CardContent>
       
       <CardFooter className="relative z-10 pt-0">
-        <Button variant="outline" className="mt-2 w-full">
+        <Button variant="outline" className="mt-2 w-full" onClick={() => onViewDetails(model)}>
           View Details <ChevronRight className="h-4 w-4 ml-1" />
         </Button>
       </CardFooter>
@@ -58,7 +73,7 @@ const ModelCard = ({ model }: { model: ModelItem }) => {
   );
 };
 
-const CategoryCarousel = ({ section }: { section: CategorySection }) => {
+const CategoryCarousel = ({ section, onViewDetails }: { section: CategorySection; onViewDetails: (model: ModelItem) => void }) => {
   const [scrollPosition, setScrollPosition] = useState(0);
   const [maxScroll, setMaxScroll] = useState(0);
   const carouselRef = useRef<HTMLDivElement>(null);
@@ -161,8 +176,8 @@ const CategoryCarousel = ({ section }: { section: CategorySection }) => {
         }}
       >
         {section.models.map((model) => (
-          <div key={model.id} className="flex-none w-[300px]">
-            <ModelCard model={model} />
+          <div key={model.id} className="flex-none w-[300px] md:w-[320px] lg:w-[340px]">
+            <ModelCard model={model} onViewDetails={onViewDetails} />
           </div>
         ))}
       </div>
@@ -184,6 +199,20 @@ const modelsData: CategorySection[] = [
         releaseDate: "2023-05",
         rating: 5,
         category: "coding",
+        fullDescription: "CodeGPT 4.0 represents the pinnacle of code generation AI, capable of understanding complex programming contexts, maintaining code consistency across files, and implementing best practices automatically. It excels in over 40 programming languages with specialized knowledge of modern frameworks and libraries.",
+        userActivity24h: 876543,
+        userActivity7d: 5432198,
+        website: "https://openai.com/models/code-gpt4",
+        metrics: {
+          codingScore: 98,
+          mathScore: 85,
+          researchScore: 78,
+          apiCalls24h: 3500000,
+          accuracy: 0.97,
+          hallucinationRate: 0.02,
+          parameters: "19.5T",
+          trainingTokens: "1.2T"
+        }
       },
       {
         id: "code-llama",
@@ -193,6 +222,20 @@ const modelsData: CategorySection[] = [
         releaseDate: "2023-08",
         rating: 4,
         category: "coding",
+        fullDescription: "Code Llama is Meta's open-source coding specialist model, fine-tuned from Llama 2 on code-specific datasets. It supports longer context windows (up to 100k tokens), making it ideal for understanding and modifying large, complex codebases.",
+        userActivity24h: 567890,
+        userActivity7d: 3214567,
+        website: "https://meta.com/llama/code",
+        metrics: {
+          codingScore: 92,
+          mathScore: 79,
+          researchScore: 65,
+          apiCalls24h: 2100000,
+          accuracy: 0.94,
+          hallucinationRate: 0.05,
+          parameters: "7B",
+          trainingTokens: "500B"
+        }
       },
       {
         id: "copilot-pro",
@@ -236,6 +279,20 @@ const modelsData: CategorySection[] = [
         releaseDate: "2023-10",
         rating: 4,
         category: "design",
+        fullDescription: "DALL-E 3 sets a new standard for text-to-image generation, with unprecedented accuracy in rendering complex scenes, specific objects, and text within images. Its enhanced understanding of spatial relationships allows for more coherent compositions that precisely match user prompts.",
+        userActivity24h: 1245678,
+        userActivity7d: 8765432,
+        website: "https://openai.com/dall-e-3",
+        metrics: {
+          codingScore: 55,
+          mathScore: 87,
+          researchScore: 82,
+          apiCalls24h: 7800000,
+          accuracy: 0.96,
+          hallucinationRate: 0.03,
+          parameters: "18.7B",
+          trainingTokens: "980B"
+        }
       },
       {
         id: "midjourney-v6",
@@ -418,8 +475,18 @@ const modelsData: CategorySection[] = [
 ];
 
 const ModelsStore = () => {
+  const [selectedModel, setSelectedModel] = useState<ModelItem | null>(null);
+  
+  const handleViewDetails = (model: ModelItem) => {
+    setSelectedModel(model);
+  };
+  
+  const closeModal = () => {
+    setSelectedModel(null);
+  };
+  
   return (
-    <div className="w-full p-4 md:p-8 overflow-x-hidden">
+    <div className="w-full p-4 md:p-8 max-w-full overflow-x-hidden">
       <div className="mb-10">
         <h1 className="text-4xl font-bold text-center bg-gradient-to-r from-purple-400 via-pink-500 to-blue-500 text-transparent bg-clip-text">
           AI Models Marketplace
@@ -429,11 +496,19 @@ const ModelsStore = () => {
         </p>
       </div>
       
-      <div className="max-w-[1400px] mx-auto">
+      <div className="mx-auto w-full px-2 sm:px-4">
         {modelsData.map(section => (
-          <CategoryCarousel key={section.id} section={section} />
+          <CategoryCarousel key={section.id} section={section} onViewDetails={handleViewDetails} />
         ))}
       </div>
+      
+      <Dialog open={!!selectedModel} onOpenChange={(open) => !open && closeModal()}>
+        <DialogContent className="w-[95%] sm:w-[85%] md:w-[70%] lg:w-[60%] xl:w-[40%] max-w-full max-h-[90vh] overflow-y-auto">
+          {selectedModel && (
+            <ModelDetailsCard model={selectedModel} />
+          )}
+        </DialogContent>
+      </Dialog>
     </div>
   );
 };
