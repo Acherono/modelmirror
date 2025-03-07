@@ -1,6 +1,6 @@
 
 import { cn } from "@/lib/utils";
-import { Moon, RefreshCw, Settings, Sun, Eye, EyeOff } from "lucide-react";
+import { Moon, Settings, Sun, Eye, EyeOff, UserPlus, LogIn } from "lucide-react";
 import { useEffect, useState } from "react";
 import { Sheet, SheetContent, SheetDescription, SheetHeader, SheetTitle, SheetTrigger } from "@/components/ui/sheet";
 import { Switch } from "@/components/ui/switch";
@@ -24,7 +24,6 @@ export function Header({
   toggleWidgetVisibility,
   visibleWidgets = {}
 }: HeaderProps) {
-  const [isRefreshing, setIsRefreshing] = useState(false);
   const [isDarkMode, setIsDarkMode] = useState(false);
 
   // Handle theme toggle
@@ -50,14 +49,6 @@ export function Header({
     }
   }, []);
 
-  const handleRefresh = () => {
-    setIsRefreshing(true);
-    // Simulate data refresh
-    setTimeout(() => {
-      setIsRefreshing(false);
-    }, 1000);
-  };
-
   return (
     <header className="h-14 border-b border-border bg-background/80 backdrop-blur-sm sticky top-0 z-30 flex items-center justify-between px-4 transition-all">
       <div className="flex items-center space-x-3">
@@ -68,7 +59,7 @@ export function Header({
         <GlobalSearch />
       </div>
       
-      <div className="flex items-center space-x-2">
+      <div className="flex items-center space-x-3">
         <button
           onClick={toggleTheme}
           className="p-2 rounded-full hover:bg-secondary transition-colors"
@@ -76,13 +67,7 @@ export function Header({
         >
           {isDarkMode ? <Sun size={18} /> : <Moon size={18} />}
         </button>
-        <button 
-          onClick={handleRefresh}
-          className="p-2 rounded-full hover:bg-secondary transition-colors"
-          aria-label="Refresh data"
-        >
-          <RefreshCw size={18} className={cn(isRefreshing && "animate-spin")} />
-        </button>
+        
         <Sheet>
           <SheetTrigger asChild>
             <button 
@@ -92,7 +77,7 @@ export function Header({
               <Settings size={18} />
             </button>
           </SheetTrigger>
-          <SheetContent>
+          <SheetContent side="left">
             <SheetHeader>
               <SheetTitle>Dashboard Settings</SheetTitle>
               <SheetDescription>
@@ -131,6 +116,16 @@ export function Header({
             </div>
           </SheetContent>
         </Sheet>
+        
+        <Button variant="outline" size="sm" className="gap-1">
+          <LogIn className="h-4 w-4" />
+          Sign In
+        </Button>
+        
+        <Button size="sm" className="gap-1">
+          <UserPlus className="h-4 w-4" />
+          Sign Up
+        </Button>
       </div>
     </header>
   );

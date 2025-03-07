@@ -1,5 +1,5 @@
+
 import { useState, useEffect } from "react";
-import { Card, CardContent, CardHeader, CardTitle } from "../ui/card";
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from "recharts";
 
 const data = [
@@ -24,26 +24,17 @@ export function GpuClustersChart() {
 
   if (isLoading) {
     return (
-      <Card className="w-full h-[400px]">
-        <CardHeader>
-          <CardTitle className="bg-gray-200 h-6 w-48 rounded animate-pulse">
-            Loading...
-          </CardTitle>
-        </CardHeader>
-        <CardContent className="flex items-center justify-center h-80">
-          <div className="w-12 h-12 border-4 border-primary border-t-transparent rounded-full animate-spin" />
-        </CardContent>
-      </Card>
+      <div className="w-full h-[400px] flex items-center justify-center">
+        <div className="w-12 h-12 border-4 border-primary border-t-transparent rounded-full animate-spin" />
+      </div>
     );
   }
 
   return (
-    <Card className="w-full h-[400px]">
-      <CardHeader>
-        <CardTitle>GPU Clusters Utilization</CardTitle>
-      </CardHeader>
-      <CardContent>
-        <ResponsiveContainer width="100%" height="90%">
+    <div className="w-full h-[400px] p-4">
+      <div className="text-lg font-semibold mb-4 border-b pb-2">GPU Clusters Utilization</div>
+      <div className="h-[330px]">
+        <ResponsiveContainer width="100%" height="100%">
           <BarChart data={data} margin={{ top: 20, right: 30, left: 20, bottom: 5 }}>
             <CartesianGrid strokeDasharray="3 3" />
             <XAxis dataKey="name" />
@@ -55,7 +46,7 @@ export function GpuClustersChart() {
             <Bar yAxisId="right" dataKey="utilization" name="Utilization (%)" fill="#82ca9d" />
           </BarChart>
         </ResponsiveContainer>
-      </CardContent>
-    </Card>
+      </div>
+    </div>
   );
 }

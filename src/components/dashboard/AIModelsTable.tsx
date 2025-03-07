@@ -1,6 +1,5 @@
 
 import { useState, useEffect } from "react";
-import { Card, CardContent, CardHeader, CardTitle } from "../ui/card";
 import { Brain, Star, TrendingUp, TrendingDown, HelpCircle, ArrowUpRight, ArrowDownRight } from "lucide-react";
 import { cn } from "@/lib/utils";
 
@@ -118,30 +117,21 @@ export function AIModelsTable() {
 
   if (isLoading) {
     return (
-      <Card className="w-full">
-        <CardHeader>
-          <CardTitle className="bg-gray-200 h-6 w-48 rounded animate-pulse">
-            Loading...
-          </CardTitle>
-        </CardHeader>
-        <CardContent>
-          <div className="flex items-center justify-center h-80">
-            <div className="w-12 h-12 border-4 border-primary border-t-transparent rounded-full animate-spin" />
-          </div>
-        </CardContent>
-      </Card>
+      <div className="w-full flex items-center justify-center h-80">
+        <div className="w-12 h-12 border-4 border-primary border-t-transparent rounded-full animate-spin" />
+      </div>
     );
   }
 
   return (
-    <Card className="w-full shadow-sm overflow-hidden">
-      <CardHeader className="px-6 py-4 border-b border-border flex flex-row items-center justify-between">
-        <CardTitle className="text-lg font-semibold">Top AI Models</CardTitle>
+    <div className="w-full shadow-sm overflow-hidden">
+      <div className="px-6 py-4 border-b border-border flex flex-row items-center justify-between">
+        <div className="text-lg font-semibold">Top AI Models</div>
         <div className="flex items-center gap-2 text-sm text-muted-foreground">
           <span>Last updated: 5min ago</span>
         </div>
-      </CardHeader>
-      <CardContent className="p-0">
+      </div>
+      <div className="p-0">
         <div className="overflow-x-auto">
           <table className="w-full border-collapse">
             <thead>
@@ -242,7 +232,7 @@ export function AIModelsTable() {
             </tbody>
           </table>
         </div>
-      </CardContent>
-    </Card>
+      </div>
+    </div>
   );
 }

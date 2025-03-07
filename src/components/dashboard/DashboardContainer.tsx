@@ -34,17 +34,17 @@ export function DashboardContainer({ visibleWidgets = {} }: DashboardContainerPr
 
           if (!isVisible) return null;
 
+          // Special case for AI Models Table - make it span full width
+          const isAIModelsTable = widget.i === "ai-models-table";
+          
           return (
             <div 
               key={widget.i}
-              className="bg-card rounded-lg shadow border border-border overflow-hidden"
+              className={`border border-border rounded-lg shadow overflow-hidden ${
+                isAIModelsTable ? 'col-span-1 md:col-span-2 lg:col-span-3' : ''
+              }`}
             >
-              <div className="p-1 flex justify-between items-center bg-muted/30 rounded-t-lg">
-                <h3 className="text-sm font-medium px-2">{widget.title}</h3>
-              </div>
-              <div className="p-2 overflow-hidden no-scrollbar" style={{ height: 'calc(100% - 28px)' }}>
-                {widget.component}
-              </div>
+              {widget.component}
             </div>
           );
         })}
