@@ -11,6 +11,8 @@ import NotFound from "./pages/NotFound";
 import AIPlayground from "./pages/AIPlayground";
 import ModelsStore from "./pages/ModelsStore";
 import ResearchPapers from "./pages/ResearchPapers";
+import News from "./pages/News";
+import Statistics from "./pages/Statistics";
 import { ThemeProvider } from "@/components/theme/ThemeProvider";
 
 const queryClient = new QueryClient();
@@ -29,9 +31,8 @@ const App = () => {
                 <Route path="/playaround" element={<Layout><AIPlayground /></Layout>} />
                 <Route path="/store" element={<Layout><ModelsStore /></Layout>} />
                 <Route path="/research" element={<Layout><ResearchPapers /></Layout>} />
-                <Route path="/news" element={<Layout><NotFound /></Layout>} />
-                <Route path="/users" element={<Layout><NotFound /></Layout>} />
-                <Route path="/statistics" element={<Layout><NotFound /></Layout>} />
+                <Route path="/news" element={<Layout><News /></Layout>} />
+                <Route path="/statistics" element={<Layout><Statistics /></Layout>} />
                 <Route path="/battleground" element={<Layout><NotFound /></Layout>} />
                 <Route path="*" element={<Layout><NotFound /></Layout>} />
               </Routes>

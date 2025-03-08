@@ -2,6 +2,7 @@
 import { cn } from "@/lib/utils";
 import { useLocation } from "react-router-dom";
 import { Link } from "react-router-dom";
+import { Github, Linkedin, Twitter } from "lucide-react";
 
 interface SidebarProps {
   onInteraction?: () => void;
@@ -82,24 +83,12 @@ export function Sidebar({ onInteraction }: SidebarProps) {
             to="/news"
             className={cn(
               "flex items-center px-3 py-2 text-sm font-medium rounded-md transition-all duration-200",
-              location.pathname === "/blog"
+              location.pathname === "/news"
                 ? "bg-primary text-primary-foreground"
                 : "text-sidebar-foreground hover:bg-sidebar-accent hover:text-sidebar-accent-foreground"
             )}
           >
             <span>News</span>
-          </Link>
-
-          <Link
-            to="/users"
-            className={cn(
-              "flex items-center px-3 py-2 text-sm font-medium rounded-md transition-all duration-200",
-              location.pathname === "/users"
-                ? "bg-primary text-primary-foreground"
-                : "text-sidebar-foreground hover:bg-sidebar-accent hover:text-sidebar-accent-foreground"
-            )}
-          >
-            <span>Users Statistics</span>
           </Link>
 
           <Link
@@ -126,6 +115,36 @@ export function Sidebar({ onInteraction }: SidebarProps) {
             <span>Battleground</span>
           </Link>
         </nav>
+      </div>
+      
+      {/* Social media icons at the bottom */}
+      <div className="border-t border-border px-4 py-3">
+        <div className="flex items-center justify-center space-x-4">
+          <a 
+            href="https://twitter.com" 
+            target="_blank" 
+            rel="noopener noreferrer"
+            className="text-muted-foreground hover:text-foreground transition-colors"
+          >
+            <Twitter size={18} />
+          </a>
+          <a 
+            href="https://linkedin.com" 
+            target="_blank" 
+            rel="noopener noreferrer"
+            className="text-muted-foreground hover:text-foreground transition-colors"
+          >
+            <Linkedin size={18} />
+          </a>
+          <a 
+            href="https://github.com" 
+            target="_blank" 
+            rel="noopener noreferrer"
+            className="text-muted-foreground hover:text-foreground transition-colors"
+          >
+            <Github size={18} />
+          </a>
+        </div>
       </div>
     </div>
   );
