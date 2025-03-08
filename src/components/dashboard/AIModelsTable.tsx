@@ -1,13 +1,13 @@
 
 import { useState, useEffect } from "react";
-import { Brain, Star, TrendingUp, TrendingDown, HelpCircle, ArrowUpRight, ArrowDownRight } from "lucide-react";
+import { Brain, Star, TrendingUp, TrendingDown, HelpCircle, ArrowUpRight, ArrowDownRight, ArrowUp, ArrowDown } from "lucide-react";
 import { cn } from "@/lib/utils";
+import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
 
 interface ModelData {
   id: number;
   name: string;
   creator: string;
-  shortName: string;
   icon: React.ReactNode;
   change24h: number;
   change7d: number;
@@ -20,6 +20,10 @@ interface ModelData {
 export function AIModelsTable() {
   const [data, setData] = useState<ModelData[]>([]);
   const [isLoading, setIsLoading] = useState(true);
+  const [sortConfig, setSortConfig] = useState<{ key: keyof ModelData | null; direction: 'ascending' | 'descending' | null }>({
+    key: null,
+    direction: null
+  });
 
   useEffect(() => {
     // Simulate data loading
@@ -30,7 +34,6 @@ export function AIModelsTable() {
           id: 1,
           name: "ChatGPT-4o",
           creator: "OpenAI",
-          shortName: "GPT",
           icon: <Brain className="h-5 w-5 text-green-500" />,
           change24h: -3.70,
           change7d: 11.64,
@@ -43,7 +46,6 @@ export function AIModelsTable() {
           id: 2,
           name: "Claude 3 Opus",
           creator: "Anthropic",
-          shortName: "CLD",
           icon: <Brain className="h-5 w-5 text-purple-500" />,
           change24h: -4.78,
           change7d: 3.76,
@@ -56,7 +58,6 @@ export function AIModelsTable() {
           id: 3,
           name: "Gemini 1.5 Pro",
           creator: "Google",
-          shortName: "GEM",
           icon: <Brain className="h-5 w-5 text-blue-500" />,
           change24h: -0.61,
           change7d: 23.77,
@@ -69,7 +70,6 @@ export function AIModelsTable() {
           id: 4,
           name: "Llama 3",
           creator: "Meta",
-          shortName: "LLM",
           icon: <Brain className="h-5 w-5 text-orange-500" />,
           change24h: 0.00,
           change7d: 0.12,
@@ -82,7 +82,6 @@ export function AIModelsTable() {
           id: 5,
           name: "Mistral Large",
           creator: "Mistral AI",
-          shortName: "MST",
           icon: <Brain className="h-5 w-5 text-amber-500" />,
           change24h: -0.99,
           change7d: 5.29,
@@ -97,6 +96,38 @@ export function AIModelsTable() {
     return () => clearTimeout(timer);
   }, []);
 
+  // Sorting function
+  const requestSort = (key: keyof ModelData) => {
+    let direction: 'ascending' | 'descending' = 'ascending';
+    if (sortConfig.key === key && sortConfig.direction === 'ascending') {
+      direction = 'descending';
+    }
+    setSortConfig({ key, direction });
+  };
+
+  // Get sorted data
+  const getSortedData = () => {
+    if (!sortConfig.key) return data;
+    
+    return [...data].sort((a, b) => {
+      if (a[sortConfig.key!] < b[sortConfig.key!]) {
+        return sortConfig.direction === 'ascending' ? -1 : 1;
+      }
+      if (a[sortConfig.key!] > b[sortConfig.key!]) {
+        return sortConfig.direction === 'ascending' ? 1 : -1;
+      }
+      return 0;
+    });
+  };
+
+  // Render sorting indicator
+  const renderSortIcon = (key: keyof ModelData) => {
+    if (sortConfig.key !== key) {
+      return null;
+    }
+    return sortConfig.direction === 'ascending' ? <ArrowUp className="h-3 w-3 inline ml-1" /> : <ArrowDown className="h-3 w-3 inline ml-1" />;
+  };
+
   if (isLoading) {
     return (
       <div className="w-full flex items-center justify-center h-80">
@@ -106,95 +137,135 @@ export function AIModelsTable() {
   }
 
   return (
-    <div className="w-full shadow-sm overflow-hidden">
-      <div className="px-6 py-4 border-b border-border flex flex-row items-center justify-between">
-        <div className="text-lg font-semibold">Top AI Models</div>
-        <div className="flex items-center gap-2 text-sm text-muted-foreground">
-          <span>Last updated: 5min ago</span>
+    <TooltipProvider>
+      <div className="w-full shadow-sm overflow-hidden">
+        <div className="px-6 py-4 border-b border-border">
+          <div className="text-lg font-semibold">Top AI Models</div>
         </div>
-      </div>
-      <div className="p-0">
-        <div className="overflow-x-auto">
-          <table className="w-full border-collapse">
-            <thead>
-              <tr className="border-b border-border bg-muted/30">
-                <th className="px-6 py-3 text-left text-xs font-medium text-muted-foreground w-[40px]">#</th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-muted-foreground">Name</th>
-                <th className="px-6 py-3 text-right text-xs font-medium text-muted-foreground">24h %</th>
-                <th className="px-6 py-3 text-right text-xs font-medium text-muted-foreground">7d %</th>
-                <th className="px-6 py-3 text-right text-xs font-medium text-muted-foreground">
-                  Volume(24h) <HelpCircle className="inline h-3 w-3 ml-1" />
-                </th>
-                <th className="px-6 py-3 text-right text-xs font-medium text-muted-foreground">
-                  Parameters <HelpCircle className="inline h-3 w-3 ml-1" />
-                </th>
-                <th className="px-6 py-3 text-right text-xs font-medium text-muted-foreground">Last 7 Days</th>
-              </tr>
-            </thead>
-            <tbody className="divide-y divide-border">
-              {data.map((model) => (
-                <tr key={model.id} className="hover:bg-muted/50 transition-colors">
-                  <td className="px-6 py-4 whitespace-nowrap text-sm font-medium">{model.id}</td>
-                  <td className="px-6 py-4 whitespace-nowrap">
-                    <div className="flex items-center gap-3">
-                      <div className="h-8 w-8 rounded-full bg-primary/10 flex items-center justify-center overflow-hidden">
-                        {model.icon}
-                      </div>
-                      <div>
-                        <div className="font-medium flex items-center gap-1">
-                          {model.name}
-                          <span className="text-xs text-muted-foreground">{model.shortName}</span>
-                        </div>
-                        <div className="text-xs text-muted-foreground">{model.creator}</div>
-                      </div>
-                    </div>
-                  </td>
-                  <td className="px-6 py-4 whitespace-nowrap text-sm text-right">
-                    <span className={cn(
-                      "flex items-center justify-end gap-1 font-medium",
-                      model.change24h >= 0 ? "text-green-500" : "text-red-500"
-                    )}>
-                      {model.change24h >= 0 ? <ArrowUpRight className="h-3 w-3" /> : <ArrowDownRight className="h-3 w-3" />}
-                      {Math.abs(model.change24h).toFixed(2)}%
-                    </span>
-                  </td>
-                  <td className="px-6 py-4 whitespace-nowrap text-sm text-right">
-                    <span className={cn(
-                      "flex items-center justify-end gap-1 font-medium",
-                      model.change7d >= 0 ? "text-green-500" : "text-red-500"
-                    )}>
-                      {model.change7d >= 0 ? <ArrowUpRight className="h-3 w-3" /> : <ArrowDownRight className="h-3 w-3" />}
-                      {Math.abs(model.change7d).toFixed(2)}%
-                    </span>
-                  </td>
-                  <td className="px-6 py-4 whitespace-nowrap text-right">
-                    <div className="text-sm">{model.volume24h}</div>
-                    <div className="text-xs text-muted-foreground">{model.volumeDetail}</div>
-                  </td>
-                  <td className="px-6 py-4 whitespace-nowrap text-sm text-right font-medium">
-                    {model.parameters}
-                  </td>
-                  <td className="px-6 py-4 whitespace-nowrap">
-                    <svg
-                      width="120"
-                      height="40"
-                      viewBox="0 0 24 16"
-                      fill="none"
-                      stroke={model.change7d >= 0 ? "rgb(34, 197, 94)" : "rgb(239, 68, 68)"}
-                      strokeWidth="1.5"
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      className="h-10"
-                    >
-                      <path d={model.sparkline} />
-                    </svg>
-                  </td>
+        <div className="p-0">
+          <div className="overflow-x-auto">
+            <table className="w-full border-collapse">
+              <thead>
+                <tr className="border-b border-border bg-muted/30">
+                  <th 
+                    className="px-6 py-3 text-left text-xs font-medium text-muted-foreground w-[40px] cursor-pointer"
+                    onClick={() => requestSort('id')}
+                  >
+                    # {renderSortIcon('id')}
+                  </th>
+                  <th 
+                    className="px-6 py-3 text-left text-xs font-medium text-muted-foreground cursor-pointer"
+                    onClick={() => requestSort('name')}
+                  >
+                    Name {renderSortIcon('name')}
+                  </th>
+                  <th 
+                    className="px-6 py-3 text-right text-xs font-medium text-muted-foreground cursor-pointer"
+                    onClick={() => requestSort('change24h')}
+                  >
+                    24h % {renderSortIcon('change24h')}
+                  </th>
+                  <th 
+                    className="px-6 py-3 text-right text-xs font-medium text-muted-foreground cursor-pointer"
+                    onClick={() => requestSort('change7d')}
+                  >
+                    7d % {renderSortIcon('change7d')}
+                  </th>
+                  <th className="px-6 py-3 text-right text-xs font-medium text-muted-foreground">
+                    Volume(24h) 
+                    <Tooltip>
+                      <TooltipTrigger>
+                        <HelpCircle className="inline h-3 w-3 ml-1" />
+                      </TooltipTrigger>
+                      <TooltipContent>
+                        <p className="w-64 text-xs">
+                          The total value of all API calls made with this model in the last 24 hours.
+                          This indicates the model's usage and popularity.
+                        </p>
+                      </TooltipContent>
+                    </Tooltip>
+                  </th>
+                  <th className="px-6 py-3 text-right text-xs font-medium text-muted-foreground">
+                    Parameters 
+                    <Tooltip>
+                      <TooltipTrigger>
+                        <HelpCircle className="inline h-3 w-3 ml-1" />
+                      </TooltipTrigger>
+                      <TooltipContent>
+                        <p className="w-64 text-xs">
+                          The total number of parameters in the AI model. More parameters generally 
+                          indicate a more complex model with potentially higher capabilities.
+                        </p>
+                      </TooltipContent>
+                    </Tooltip>
+                  </th>
+                  <th className="px-6 py-3 text-right text-xs font-medium text-muted-foreground">Last 7 Days</th>
                 </tr>
-              ))}
-            </tbody>
-          </table>
+              </thead>
+              <tbody className="divide-y divide-border">
+                {getSortedData().map((model) => (
+                  <tr key={model.id} className="hover:bg-muted/50 transition-colors">
+                    <td className="px-6 py-4 whitespace-nowrap text-sm font-medium">{model.id}</td>
+                    <td className="px-6 py-4 whitespace-nowrap">
+                      <div className="flex items-center gap-3">
+                        <div className="h-8 w-8 rounded-full bg-primary/10 flex items-center justify-center overflow-hidden">
+                          {model.icon}
+                        </div>
+                        <div>
+                          <div className="font-medium flex items-center gap-1">
+                            {model.name}
+                          </div>
+                          <div className="text-xs text-muted-foreground">{model.creator}</div>
+                        </div>
+                      </div>
+                    </td>
+                    <td className="px-6 py-4 whitespace-nowrap text-sm text-right">
+                      <span className={cn(
+                        "flex items-center justify-end gap-1 font-medium",
+                        model.change24h >= 0 ? "text-green-500" : "text-red-500"
+                      )}>
+                        {model.change24h >= 0 ? <ArrowUpRight className="h-3 w-3" /> : <ArrowDownRight className="h-3 w-3" />}
+                        {Math.abs(model.change24h).toFixed(2)}%
+                      </span>
+                    </td>
+                    <td className="px-6 py-4 whitespace-nowrap text-sm text-right">
+                      <span className={cn(
+                        "flex items-center justify-end gap-1 font-medium",
+                        model.change7d >= 0 ? "text-green-500" : "text-red-500"
+                      )}>
+                        {model.change7d >= 0 ? <ArrowUpRight className="h-3 w-3" /> : <ArrowDownRight className="h-3 w-3" />}
+                        {Math.abs(model.change7d).toFixed(2)}%
+                      </span>
+                    </td>
+                    <td className="px-6 py-4 whitespace-nowrap text-right">
+                      <div className="text-sm">{model.volume24h}</div>
+                      <div className="text-xs text-muted-foreground">{model.volumeDetail}</div>
+                    </td>
+                    <td className="px-6 py-4 whitespace-nowrap text-sm text-right font-medium">
+                      {model.parameters}
+                    </td>
+                    <td className="px-6 py-4 whitespace-nowrap">
+                      <svg
+                        width="120"
+                        height="40"
+                        viewBox="0 0 24 16"
+                        fill="none"
+                        stroke={model.change7d >= 0 ? "rgb(34, 197, 94)" : "rgb(239, 68, 68)"}
+                        strokeWidth="1.5"
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        className="h-10"
+                      >
+                        <path d={model.sparkline} />
+                      </svg>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
         </div>
       </div>
-    </div>
+    </TooltipProvider>
   );
 }

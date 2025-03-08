@@ -94,6 +94,30 @@
   body {
     @apply bg-background text-foreground font-space-grotesk;
   }
+  
+  /* Custom scrollbar styles */
+  ::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+  }
+  
+  ::-webkit-scrollbar-track {
+    background: transparent;
+  }
+  
+  ::-webkit-scrollbar-thumb {
+    @apply bg-primary/20 rounded-full;
+  }
+  
+  ::-webkit-scrollbar-thumb:hover {
+    @apply bg-primary/30;
+  }
+  
+  /* Firefox scrollbar */
+  * {
+    scrollbar-width: thin;
+    scrollbar-color: hsl(var(--primary) / 0.2) transparent;
+  }
 }
 
 @layer utilities {

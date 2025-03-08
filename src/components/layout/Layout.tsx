@@ -11,8 +11,9 @@ interface LayoutProps {
 }
 
 export function Layout({ children }: LayoutProps) {
-  const [isSidebarCollapsed, setIsSidebarCollapsed] = useState(false);
+  const [isSidebarCollapsed, setIsSidebarCollapsed] = useState(true);
   const location = useLocation();
+  const [autoHideTimer, setAutoHideTimer] = useState<NodeJS.Timeout | null>(null);
   
   // Widget visibility state
   const [visibleWidgets, setVisibleWidgets] = useState<Record<string, boolean>>(() => {
@@ -44,14 +45,53 @@ export function Layout({ children }: LayoutProps) {
   };
 
   const toggleSidebar = () => {
+    // Clear any existing timer first
+    if (autoHideTimer) {
+      clearTimeout(autoHideTimer);
+      setAutoHideTimer(null);
+    }
+    
+    // Toggle sidebar state
     setIsSidebarCollapsed(!isSidebarCollapsed);
+    
+    // If we're expanding the sidebar, set a timer to collapse it after 5 seconds
+    if (isSidebarCollapsed) {
+      const timer = setTimeout(() => {
+        setIsSidebarCollapsed(true);
+      }, 5000);
+      setAutoHideTimer(timer);
+    }
+  };
+
+  // Clear timer when component unmounts
+  useEffect(() => {
+    return () => {
+      if (autoHideTimer) {
+        clearTimeout(autoHideTimer);
+      }
+    };
+  }, [autoHideTimer]);
+
+  // Reset timer on user interaction with sidebar
+  const handleSidebarInteraction = () => {
+    if (autoHideTimer) {
+      clearTimeout(autoHideTimer);
+    }
+    
+    if (!isSidebarCollapsed) {
+      const timer = setTimeout(() => {
+        setIsSidebarCollapsed(true);
+      }, 5000);
+      setAutoHideTimer(timer);
+    }
   };
 
   return (
     <div className="flex min-h-screen bg-background">
       <Sidebar 
         isCollapsed={isSidebarCollapsed} 
-        toggleSidebar={toggleSidebar} 
+        toggleSidebar={toggleSidebar}
+        onInteraction={handleSidebarInteraction}
       />
       <div 
         className={cn(

@@ -58,10 +58,9 @@ const Index = () => {
         <h1 className="text-2xl font-bold">Overview</h1>
         <Sheet>
           <SheetTrigger asChild>
-            <Button variant="outline" size="sm" className="gap-1">
-              <Settings className="h-4 w-4" />
-              Customize Dashboard
-            </Button>
+            <button className="p-2 rounded-full hover:bg-secondary transition-colors">
+              <Settings className="h-5 w-5" />
+            </button>
           </SheetTrigger>
           <SheetContent side="left">
             <SheetHeader>

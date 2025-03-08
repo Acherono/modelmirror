@@ -1,9 +1,7 @@
 
 import { cn } from "@/lib/utils";
-import { Moon, Settings, Sun, Eye, EyeOff, UserPlus, LogIn } from "lucide-react";
+import { Moon, Sun, UserPlus, LogIn } from "lucide-react";
 import { useEffect, useState } from "react";
-import { Sheet, SheetContent, SheetDescription, SheetHeader, SheetTitle, SheetTrigger } from "@/components/ui/sheet";
-import { Switch } from "@/components/ui/switch";
 import { Button } from "@/components/ui/button";
 import { GlobalSearch } from "../header/GlobalSearch";
 
@@ -67,55 +65,6 @@ export function Header({
         >
           {isDarkMode ? <Sun size={18} /> : <Moon size={18} />}
         </button>
-        
-        <Sheet>
-          <SheetTrigger asChild>
-            <button 
-              className="p-2 rounded-full hover:bg-secondary transition-colors"
-              aria-label="Settings"
-            >
-              <Settings size={18} />
-            </button>
-          </SheetTrigger>
-          <SheetContent side="left">
-            <SheetHeader>
-              <SheetTitle>Dashboard Settings</SheetTitle>
-              <SheetDescription>
-                Configure your dashboard preferences.
-              </SheetDescription>
-            </SheetHeader>
-            <div className="mt-6 space-y-4">
-              <div className="border-b pb-4 mb-4">
-                <h3 className="text-sm font-medium mb-3">Widget Visibility</h3>
-                <div className="space-y-3">
-                  {widgets.map((widget) => (
-                    <div key={widget.i} className="flex items-center justify-between py-2">
-                      <span className="font-medium text-sm">{widget.title}</span>
-                      <div className="flex items-center gap-2">
-                        {visibleWidgets[widget.i] ? (
-                          <Eye className="h-4 w-4 text-muted-foreground" />
-                        ) : (
-                          <EyeOff className="h-4 w-4 text-muted-foreground" />
-                        )}
-                        <Switch
-                          checked={visibleWidgets[widget.i] || false}
-                          onCheckedChange={() => toggleWidgetVisibility && toggleWidgetVisibility(widget.i)}
-                        />
-                      </div>
-                    </div>
-                  ))}
-                </div>
-              </div>
-              <div className="border-b pb-4 mb-4">
-                <h3 className="text-sm font-medium mb-3">App Settings</h3>
-                <div className="flex items-center justify-between py-2">
-                  <span className="font-medium text-sm">Dark Mode</span>
-                  <Switch checked={isDarkMode} onCheckedChange={toggleTheme} />
-                </div>
-              </div>
-            </div>
-          </SheetContent>
-        </Sheet>
         
         <Button variant="outline" size="sm" className="gap-1">
           <LogIn className="h-4 w-4" />

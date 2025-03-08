@@ -33,7 +33,7 @@ interface ModelItemProps {
 
 export function ModelDetailsCard({ model }: { model: ModelItemProps }) {
   return (
-    <div className="space-y-6">
+    <div className="max-h-[80vh] overflow-y-auto hide-scrollbar p-1 space-y-6">
       <div className="flex flex-col gap-2">
         <div className="flex items-center justify-between">
           <div className="inline-flex items-center px-3 py-1 text-sm font-medium bg-primary/10 rounded-full">
@@ -154,7 +154,7 @@ export function ModelDetailsCard({ model }: { model: ModelItemProps }) {
           )}
         </div>
         
-        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4 mt-4">
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 mt-4">
           {model.metrics?.apiCalls24h !== undefined && (
             <div className="bg-muted/10 p-3 rounded-lg border border-border/40">
               <div className="text-xs text-muted-foreground mb-1">API Calls (24h)</div>

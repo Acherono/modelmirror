@@ -28,6 +28,7 @@ interface SidebarItem {
 interface SidebarProps {
   isCollapsed?: boolean;
   toggleSidebar?: () => void;
+  onInteraction?: () => void;
 }
 
 const sidebarItems: SidebarItem[] = [
@@ -101,8 +102,14 @@ const socialLinks = [
   },
 ];
 
-export function Sidebar({ isCollapsed = false, toggleSidebar }: SidebarProps) {
+export function Sidebar({ isCollapsed = false, toggleSidebar, onInteraction }: SidebarProps) {
   const location = useLocation();
+
+  const handleInteraction = () => {
+    if (onInteraction) {
+      onInteraction();
+    }
+  };
 
   return (
     <div
@@ -110,6 +117,9 @@ export function Sidebar({ isCollapsed = false, toggleSidebar }: SidebarProps) {
         "h-screen fixed left-0 top-0 z-40 flex flex-col bg-sidebar border-r border-border transition-all duration-300 ease-in-out",
         isCollapsed ? "w-[70px]" : "w-[240px]"
       )}
+      onMouseMove={handleInteraction}
+      onMouseOver={handleInteraction}
+      onClick={handleInteraction}
     >
       <div className="flex items-center h-14 px-4 border-b border-border justify-between">
         {!isCollapsed && (
@@ -118,7 +128,7 @@ export function Sidebar({ isCollapsed = false, toggleSidebar }: SidebarProps) {
         <Layout className={cn("h-6 w-6 text-primary", isCollapsed ? "mx-auto" : "")} />
       </div>
 
-      <div className="flex-1 overflow-y-auto py-4">
+      <div className="flex-1 overflow-y-auto py-4 hide-scrollbar">
         {/* Toggle button above the navigation */}
         <div className="px-2 mb-4">
           <button
