@@ -95,28 +95,28 @@
     @apply bg-background text-foreground font-space-grotesk;
   }
   
-  /* Custom scrollbar styles */
+  /* Custom scrollbar styles - updated for a modern look */
   ::-webkit-scrollbar {
-    width: 8px;
-    height: 8px;
+    width: 6px;
+    height: 6px;
   }
   
   ::-webkit-scrollbar-track {
-    background: transparent;
+    @apply bg-transparent;
   }
   
   ::-webkit-scrollbar-thumb {
-    @apply bg-primary/20 rounded-full;
+    @apply bg-primary/10 rounded-full transition-colors;
   }
   
   ::-webkit-scrollbar-thumb:hover {
-    @apply bg-primary/30;
+    @apply bg-primary/20;
   }
   
   /* Firefox scrollbar */
   * {
     scrollbar-width: thin;
-    scrollbar-color: hsl(var(--primary) / 0.2) transparent;
+    scrollbar-color: hsl(var(--primary) / 0.1) transparent;
   }
 }
 

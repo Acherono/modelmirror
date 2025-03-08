@@ -4,7 +4,7 @@ import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-import { useEffect, StrictMode, useState } from "react";
+import { StrictMode } from "react";
 import { Layout } from "./components/layout/Layout";
 import Index from "./pages/Index";
 import NotFound from "./pages/NotFound";
@@ -29,13 +29,10 @@ const App = () => {
                 <Route path="/playaround" element={<Layout><AIPlayground /></Layout>} />
                 <Route path="/store" element={<Layout><ModelsStore /></Layout>} />
                 <Route path="/research" element={<Layout><ResearchPapers /></Layout>} />
-                <Route path="/agentic" element={<Layout><NotFound /></Layout>} />
-                <Route path="/blog" element={<Layout><NotFound /></Layout>} />
+                <Route path="/news" element={<Layout><NotFound /></Layout>} />
                 <Route path="/users" element={<Layout><NotFound /></Layout>} />
-                <Route path="/accuracy" element={<Layout><NotFound /></Layout>} />
-                <Route path="/math" element={<Layout><NotFound /></Layout>} />
-                <Route path="/citations" element={<Layout><NotFound /></Layout>} />
-                <Route path="/models" element={<Layout><NotFound /></Layout>} />
+                <Route path="/statistics" element={<Layout><NotFound /></Layout>} />
+                <Route path="/battleground" element={<Layout><NotFound /></Layout>} />
                 <Route path="*" element={<Layout><NotFound /></Layout>} />
               </Routes>
             </BrowserRouter>

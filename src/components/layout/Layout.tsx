@@ -11,9 +11,7 @@ interface LayoutProps {
 }
 
 export function Layout({ children }: LayoutProps) {
-  const [isSidebarCollapsed, setIsSidebarCollapsed] = useState(true);
   const location = useLocation();
-  const [autoHideTimer, setAutoHideTimer] = useState<NodeJS.Timeout | null>(null);
   
   // Widget visibility state
   const [visibleWidgets, setVisibleWidgets] = useState<Record<string, boolean>>(() => {
@@ -44,65 +42,13 @@ export function Layout({ children }: LayoutProps) {
     }));
   };
 
-  const toggleSidebar = () => {
-    // Clear any existing timer first
-    if (autoHideTimer) {
-      clearTimeout(autoHideTimer);
-      setAutoHideTimer(null);
-    }
-    
-    // Toggle sidebar state
-    setIsSidebarCollapsed(!isSidebarCollapsed);
-    
-    // If we're expanding the sidebar, set a timer to collapse it after 5 seconds
-    if (isSidebarCollapsed) {
-      const timer = setTimeout(() => {
-        setIsSidebarCollapsed(true);
-      }, 5000);
-      setAutoHideTimer(timer);
-    }
-  };
-
-  // Clear timer when component unmounts
-  useEffect(() => {
-    return () => {
-      if (autoHideTimer) {
-        clearTimeout(autoHideTimer);
-      }
-    };
-  }, [autoHideTimer]);
-
-  // Reset timer on user interaction with sidebar
-  const handleSidebarInteraction = () => {
-    if (autoHideTimer) {
-      clearTimeout(autoHideTimer);
-    }
-    
-    if (!isSidebarCollapsed) {
-      const timer = setTimeout(() => {
-        setIsSidebarCollapsed(true);
-      }, 5000);
-      setAutoHideTimer(timer);
-    }
-  };
-
   return (
     <div className="flex min-h-screen bg-background">
-      <Sidebar 
-        isCollapsed={isSidebarCollapsed} 
-        toggleSidebar={toggleSidebar}
-        onInteraction={handleSidebarInteraction}
-      />
-      <div 
-        className={cn(
-          "flex flex-col flex-1 transition-all duration-300",
-          isSidebarCollapsed ? "ml-[70px]" : "ml-[240px]"
-        )}
-      >
+      <Sidebar />
+      <div className="flex flex-col flex-1 ml-[180px] transition-all duration-300">
         <Header 
-          isSidebarCollapsed={isSidebarCollapsed} 
-          toggleWidgetVisibility={toggleWidgetVisibility}
           visibleWidgets={visibleWidgets}
+          toggleWidgetVisibility={toggleWidgetVisibility}
         />
         
         <main className="flex-1 p-6">
