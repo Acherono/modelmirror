@@ -16,6 +16,7 @@ import {
   Twitter,
   Linkedin,
   Menu,
+  BookOpen,
 } from "lucide-react";
 import { Link, useLocation } from "react-router-dom";
 
@@ -46,6 +47,11 @@ const sidebarItems: SidebarItem[] = [
     icon: ShoppingCart,
     label: "Model's Store",
     path: "/store",
+  },
+  {
+    icon: BookOpen,
+    label: "Research Papers",
+    path: "/research",
   },
   {
     icon: Bot,

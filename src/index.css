@@ -153,3 +153,10 @@
   box-shadow: none;
   border-color: transparent;
 }
+
+/* Style for input that should not show border on focus */
+input.no-focus-border:focus {
+  outline: none;
+  box-shadow: none;
+  border-color: var(--border);
+}

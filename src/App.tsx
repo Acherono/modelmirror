@@ -10,6 +10,7 @@ import Index from "./pages/Index";
 import NotFound from "./pages/NotFound";
 import AIPlayground from "./pages/AIPlayground";
 import ModelsStore from "./pages/ModelsStore";
+import ResearchPapers from "./pages/ResearchPapers";
 import { ThemeProvider } from "@/components/theme/ThemeProvider";
 
 const queryClient = new QueryClient();
@@ -27,6 +28,7 @@ const App = () => {
                 <Route path="/" element={<Layout><Index /></Layout>} />
                 <Route path="/playaround" element={<Layout><AIPlayground /></Layout>} />
                 <Route path="/store" element={<Layout><ModelsStore /></Layout>} />
+                <Route path="/research" element={<Layout><ResearchPapers /></Layout>} />
                 <Route path="/agentic" element={<Layout><NotFound /></Layout>} />
                 <Route path="/blog" element={<Layout><NotFound /></Layout>} />
                 <Route path="/users" element={<Layout><NotFound /></Layout>} />
