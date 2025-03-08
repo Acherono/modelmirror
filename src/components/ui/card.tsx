@@ -8,6 +8,7 @@ interface CardProps {
   title?: string;
   subtitle?: string;
   isLoading?: boolean;
+  variant?: "default" | "outline" | "ghost" | "model";
 }
 
 export function Card({
@@ -16,11 +17,20 @@ export function Card({
   title,
   subtitle,
   isLoading = false,
+  variant = "default",
 }: CardProps) {
+  const variantStyles = {
+    default: "bg-card border border-border shadow-sm",
+    outline: "border border-border bg-transparent",
+    ghost: "border-none bg-transparent shadow-none",
+    model: "overflow-hidden bg-gradient-to-br from-primary/5 to-card border border-border/50 shadow-md hover:shadow-lg transition-all duration-300"
+  };
+
   return (
     <div
       className={cn(
-        "card overflow-hidden animate-scale-in",
+        "card overflow-hidden animate-scale-in rounded-lg",
+        variantStyles[variant],
         isLoading ? "opacity-70" : "",
         className
       )}
