@@ -13,6 +13,7 @@ import ModelsStore from "./pages/ModelsStore";
 import ResearchPapers from "./pages/ResearchPapers";
 import News from "./pages/News";
 import Statistics from "./pages/Statistics";
+import Battleground from "./pages/Battleground";
 import { ThemeProvider } from "@/components/theme/ThemeProvider";
 
 const queryClient = new QueryClient();
@@ -33,7 +34,7 @@ const App = () => {
                 <Route path="/research" element={<Layout><ResearchPapers /></Layout>} />
                 <Route path="/news" element={<Layout><News /></Layout>} />
                 <Route path="/statistics" element={<Layout><Statistics /></Layout>} />
-                <Route path="/battleground" element={<Layout><NotFound /></Layout>} />
+                <Route path="/battleground" element={<Layout><Battleground /></Layout>} />
                 <Route path="*" element={<Layout><NotFound /></Layout>} />
               </Routes>
             </BrowserRouter>
