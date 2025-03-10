@@ -8,12 +8,11 @@ import { StrictMode } from "react";
 import { Layout } from "./components/layout/Layout";
 import Index from "./pages/Index";
 import NotFound from "./pages/NotFound";
-import AIPlayground from "./pages/AIPlayground";
 import ModelsStore from "./pages/ModelsStore";
 import ResearchPapers from "./pages/ResearchPapers";
 import News from "./pages/News";
 import Statistics from "./pages/Statistics";
-import Battleground from "./pages/Battleground";
+import TestCenter from "./pages/TestCenter";
 import { ThemeProvider } from "@/components/theme/ThemeProvider";
 
 const queryClient = new QueryClient();
@@ -29,12 +28,11 @@ const App = () => {
             <BrowserRouter>
               <Routes>
                 <Route path="/" element={<Layout><Index /></Layout>} />
-                <Route path="/playaround" element={<Layout><AIPlayground /></Layout>} />
+                <Route path="/testcenter" element={<Layout><TestCenter /></Layout>} />
                 <Route path="/store" element={<Layout><ModelsStore /></Layout>} />
                 <Route path="/research" element={<Layout><ResearchPapers /></Layout>} />
                 <Route path="/news" element={<Layout><News /></Layout>} />
                 <Route path="/statistics" element={<Layout><Statistics /></Layout>} />
-                <Route path="/battleground" element={<Layout><Battleground /></Layout>} />
                 <Route path="*" element={<Layout><NotFound /></Layout>} />
               </Routes>
             </BrowserRouter>

@@ -35,20 +35,13 @@ export function Sidebar() {
   }, []);
 
   return (
-    <div className="h-screen fixed left-0 top-0 z-40 flex flex-col bg-sidebar border-r border-border w-[250px]">
-      <div className="flex items-center h-14 px-4 border-b border-border justify-between">
+    <div className="h-screen fixed left-0 top-0 z-40 flex flex-col bg-sidebar border-r border-border w-[200px]">
+      <div className="flex items-center h-14 px-3 border-b border-border justify-between">
         <span className="font-semibold text-lg">AI Market</span>
-        <button
-          onClick={toggleTheme}
-          className="p-2 rounded-full hover:bg-secondary transition-colors"
-          aria-label={isDarkMode ? "Switch to light mode" : "Switch to dark mode"}
-        >
-          {isDarkMode ? <Sun size={18} /> : <Moon size={18} />}
-        </button>
       </div>
 
-      {/* Search field */}
-      <div className="px-3 py-4 border-b border-border">
+      {/* Search field - resized to fit sidebar better */}
+      <div className="px-2 py-3 border-b border-border">
         <GlobalSearch />
       </div>
 
@@ -68,15 +61,15 @@ export function Sidebar() {
           </Link>
 
           <Link
-            to="/playaround"
+            to="/testcenter"
             className={cn(
               "flex items-center px-3 py-2 text-sm font-medium rounded-md transition-all duration-200",
-              location.pathname === "/playaround"
+              location.pathname === "/testcenter"
                 ? "bg-primary text-primary-foreground"
                 : "text-sidebar-foreground hover:bg-sidebar-accent hover:text-sidebar-accent-foreground"
             )}
           >
-            <span>Playaround</span>
+            <span>Test Center</span>
           </Link>
 
           <Link
@@ -126,61 +119,60 @@ export function Sidebar() {
           >
             <span>Statistics</span>
           </Link>
-
-          <Link
-            to="/battleground"
-            className={cn(
-              "flex items-center px-3 py-2 text-sm font-medium rounded-md transition-all duration-200",
-              location.pathname === "/battleground"
-                ? "bg-primary text-primary-foreground"
-                : "text-sidebar-foreground hover:bg-sidebar-accent hover:text-sidebar-accent-foreground"
-            )}
-          >
-            <span>Battleground</span>
-          </Link>
         </nav>
         
-        {/* Authentication buttons */}
-        <div className="px-3 space-y-2 mb-6">
-          <Button variant="outline" size="sm" className="w-full gap-1 justify-center">
-            <LogIn className="h-4 w-4" />
+        {/* Authentication buttons - made smaller */}
+        <div className="px-2 space-y-2 mb-6">
+          <Button variant="outline" size="sm" className="w-full gap-1 justify-center text-xs">
+            <LogIn className="h-3 w-3" />
             Sign In
           </Button>
           
-          <Button size="sm" className="w-full gap-1 justify-center">
-            <UserPlus className="h-4 w-4" />
+          <Button size="sm" className="w-full gap-1 justify-center text-xs">
+            <UserPlus className="h-3 w-3" />
             Sign Up
           </Button>
         </div>
       </div>
       
-      {/* Social media icons at the bottom */}
+      {/* Social media icons and theme toggle at the bottom */}
       <div className="border-t border-border px-4 py-3">
-        <div className="flex items-center justify-center space-x-4">
-          <a 
-            href="https://twitter.com" 
-            target="_blank" 
-            rel="noopener noreferrer"
-            className="text-muted-foreground hover:text-foreground transition-colors"
+        <div className="flex items-center justify-between">
+          <div className="flex items-center space-x-3">
+            <a 
+              href="https://twitter.com" 
+              target="_blank" 
+              rel="noopener noreferrer"
+              className="text-muted-foreground hover:text-foreground transition-colors"
+            >
+              <Twitter size={16} />
+            </a>
+            <a 
+              href="https://linkedin.com" 
+              target="_blank" 
+              rel="noopener noreferrer"
+              className="text-muted-foreground hover:text-foreground transition-colors"
+            >
+              <Linkedin size={16} />
+            </a>
+            <a 
+              href="https://github.com" 
+              target="_blank" 
+              rel="noopener noreferrer"
+              className="text-muted-foreground hover:text-foreground transition-colors"
+            >
+              <Github size={16} />
+            </a>
+          </div>
+          
+          {/* Theme toggle moved near social icons */}
+          <button
+            onClick={toggleTheme}
+            className="p-1 rounded-full hover:bg-secondary transition-colors"
+            aria-label={isDarkMode ? "Switch to light mode" : "Switch to dark mode"}
           >
-            <Twitter size={18} />
-          </a>
-          <a 
-            href="https://linkedin.com" 
-            target="_blank" 
-            rel="noopener noreferrer"
-            className="text-muted-foreground hover:text-foreground transition-colors"
-          >
-            <Linkedin size={18} />
-          </a>
-          <a 
-            href="https://github.com" 
-            target="_blank" 
-            rel="noopener noreferrer"
-            className="text-muted-foreground hover:text-foreground transition-colors"
-          >
-            <Github size={18} />
-          </a>
+            {isDarkMode ? <Sun size={16} /> : <Moon size={16} />}
+          </button>
         </div>
       </div>
     </div>

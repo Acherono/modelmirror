@@ -1,11 +1,8 @@
-
 import { useState, useEffect, useRef } from "react";
 import { CommandDialog, CommandEmpty, CommandGroup, CommandInput, CommandItem, CommandList } from "@/components/ui/command";
 import { Search, X, SlidersHorizontal } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
-import { Check, ChevronsUpDown } from "lucide-react";
-import { cn } from "@/lib/utils";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Label } from "@/components/ui/label";
 import debounce from "lodash/debounce";
@@ -121,14 +118,11 @@ export function GlobalSearch({ onSearchResult }: GlobalSearchProps) {
     <>
       <Button
         variant="outline"
-        className="relative w-full md:w-64 justify-start text-sm text-muted-foreground pl-8"
+        className="relative w-full text-xs justify-start pl-7 h-8"
         onClick={() => setOpen(true)}
       >
-        <Search className="h-4 w-4 absolute left-2 top-1/2 -translate-y-1/2" />
-        <span>Search models & metrics...</span>
-        <kbd className="pointer-events-none absolute right-2 top-1/2 -translate-y-1/2 hidden md:inline-flex h-5 select-none items-center gap-1 rounded border bg-muted px-1.5 font-mono text-[10px] font-medium opacity-50">
-          <span className="text-xs">⌘</span>K
-        </kbd>
+        <Search className="h-3 w-3 absolute left-2 top-1/2 -translate-y-1/2" />
+        <span className="text-muted-foreground truncate">Search...</span>
       </Button>
 
       <CommandDialog open={open} onOpenChange={setOpen}>

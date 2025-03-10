@@ -24,8 +24,8 @@ export function DashboardContainer({ visibleWidgets = {} }: DashboardContainerPr
   if (widgets.length === 0) return null;
   
   return (
-    <div className="space-y-4 animate-fade-in">
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+    <div className="space-y-6 animate-fade-in">
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
         {widgets.map((widget) => {
           // Check if widget should be visible
           const isVisible = visibleWidgets[widget.i] !== undefined 
@@ -36,13 +36,18 @@ export function DashboardContainer({ visibleWidgets = {} }: DashboardContainerPr
 
           // Special case for AI Models Table - make it span full width
           const isAIModelsTable = widget.i === "ai-models-table";
+          const isChartWidget = ["market-share", "company-valuation", "accuracy-rankings", "math-excellence", "gpu-clusters", "users-overview"].includes(widget.i);
+          
+          const widgetClasses = cn(
+            "border border-border rounded-lg shadow overflow-hidden",
+            isAIModelsTable ? 'col-span-1 lg:col-span-2' : '',
+            isChartWidget ? 'h-[450px]' : '' // Make chart widgets taller
+          );
           
           return (
             <div 
               key={widget.i}
-              className={`border border-border rounded-lg shadow overflow-hidden ${
-                isAIModelsTable ? 'col-span-1 md:col-span-2 lg:col-span-3' : ''
-              }`}
+              className={widgetClasses}
             >
               {widget.component}
             </div>
@@ -52,3 +57,8 @@ export function DashboardContainer({ visibleWidgets = {} }: DashboardContainerPr
     </div>
   );
 }
+
+// Helper function from utils
+const cn = (...classes: (string | boolean | undefined)[]) => {
+  return classes.filter(Boolean).join(" ");
+};

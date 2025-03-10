@@ -54,8 +54,8 @@ const Index = () => {
 
   return (
     <div className="w-full">
-      <div className="flex justify-between items-center mb-4">
-        <h1 className="text-2xl font-bold">Overview</h1>
+      <div className="flex justify-between items-center mb-6">
+        <h1 className="text-2xl font-bold">Home</h1>
         <Sheet>
           <SheetTrigger asChild>
             <button className="p-2 rounded-full hover:bg-secondary transition-colors">
@@ -113,9 +113,12 @@ const Index = () => {
           </SheetContent>
         </Sheet>
       </div>
+      
+      <h2 className="text-xl font-semibold mb-6 text-center">Top AI Models Charts - Last 7 Days</h2>
+      
       <DashboardContainer visibleWidgets={visibleWidgets} />
     </div>
   );
-};
+}
 
 export default Index;
