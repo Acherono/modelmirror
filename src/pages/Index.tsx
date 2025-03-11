@@ -7,6 +7,10 @@ import { Switch } from "@/components/ui/switch";
 import { DashboardContainerModel } from "@/components/dashboard/DashboardContainerModel";
 import { Button } from "@/components/ui/button";
 import { Eye, EyeOff } from "lucide-react";
+import { AIModelSentiment } from "@/components/dashboard/AIModelSentiment";
+import { ModelRankings } from "@/components/dashboard/ModelRankings";
+import { AIModelDominance } from "@/components/dashboard/AIModelDominance";
+import { AGIIndex } from "@/components/dashboard/AGIIndex";
 
 const Index = () => {
   const [widgets, setWidgets] = useState<any[]>([]);
@@ -112,6 +116,22 @@ const Index = () => {
             </div>
           </SheetContent>
         </Sheet>
+      </div>
+      
+      {/* Key metrics row */}
+      <div className="grid grid-cols-1 md:grid-cols-4 gap-4 mb-6">
+        <div className="col-span-1">
+          <AIModelSentiment />
+        </div>
+        <div className="col-span-1">
+          <ModelRankings />
+        </div>
+        <div className="col-span-1">
+          <AIModelDominance />
+        </div>
+        <div className="col-span-1">
+          <AGIIndex />
+        </div>
       </div>
       
       <h2 className="text-xl font-semibold mb-6 text-center">Top AI Models Charts - Last 7 Days</h2>

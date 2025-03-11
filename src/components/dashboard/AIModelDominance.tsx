@@ -15,13 +15,13 @@ export function AIModelDominance() {
     {
       name: "OpenAI",
       percentage: 60.27,
-      change: 3.45,
+      change: 0.47,
       icon: <div className="w-5 h-5 rounded-full bg-green-500 flex items-center justify-center text-white text-xs font-bold">O</div>
     },
     {
       name: "Anthropic",
       percentage: 9.33,
-      change: -1.21,
+      change: 8.15,
       icon: <div className="w-5 h-5 rounded-full bg-purple-500 flex items-center justify-center text-white text-xs font-bold">A</div>
     }
   ]);
@@ -56,7 +56,7 @@ export function AIModelDominance() {
   return (
     <Card className="w-full h-full bg-sidebar">
       <CardHeader className="border-b border-border p-3">
-        <CardTitle className="text-sm font-medium flex items-center gap-2">
+        <CardTitle className="text-sm font-medium flex items-center gap-2 justify-center">
           <BrainCircuit className="h-4 w-4" />
           Market Dominance
         </CardTitle>
@@ -71,19 +71,13 @@ export function AIModelDominance() {
                   <span className="text-sm font-medium">{item.name}</span>
                 </div>
                 <div className="flex items-center gap-1.5">
-                  {item.change > 0 ? (
-                    <TrendingUp className="h-3.5 w-3.5 text-green-500" />
-                  ) : (
-                    <TrendingDown className="h-3.5 w-3.5 text-red-500" />
-                  )}
-                  <span className={`text-xs font-medium ${
-                    item.change > 0 ? 'text-green-500' : 'text-red-500'
-                  }`}>
-                    {item.change > 0 ? '+' : ''}{item.change}%
+                  <TrendingUp className="h-3.5 w-3.5 text-green-500" />
+                  <span className="text-xs font-medium text-green-500">
+                    +{item.change}%
                   </span>
                 </div>
               </div>
-              <div className="text-2xl font-bold">
+              <div className="text-2xl font-bold text-green-400">
                 {item.percentage}%
               </div>
             </div>

@@ -49,7 +49,20 @@ export function DashboardContainer({ visibleWidgets = {} }: DashboardContainerPr
               key={widget.i}
               className={widgetClasses}
             >
-              {widget.component}
+              {/* For the AI Models Table, we need to ensure the "Last 7 Days" column is properly centered */}
+              {widget.i === "ai-models-table" ? (
+                <div className="w-full h-full">
+                  {widget.component}
+                  <style jsx global>{`
+                    /* Center the sparkline SVGs in the "Last 7 Days" column */
+                    td:last-child svg {
+                      margin: 0 auto;
+                    }
+                  `}</style>
+                </div>
+              ) : (
+                widget.component
+              )}
             </div>
           );
         })}

@@ -16,8 +16,6 @@ const initialData: ModelItem[] = [
   { id: 1, name: "GPT-4o", type: "OpenAI", score: 98.7, change: 10.47, icon: Brain },
   { id: 2, name: "Claude 3", type: "Anthropic", score: 97.2, change: 9.94, icon: BrainCircuit },
   { id: 3, name: "Gemini", type: "Google", score: 95.8, change: 8.15, icon: Bot },
-  { id: 4, name: "Llama 3", type: "Meta", score: 94.2, change: 7.38, icon: ServerCog },
-  { id: 5, name: "Mistral", type: "Mistral AI", score: 92.1, change: 6.26, icon: Network },
 ];
 
 export function ModelRankings() {
@@ -53,7 +51,7 @@ export function ModelRankings() {
   return (
     <Card className="w-full h-full bg-sidebar">
       <CardHeader className="border-b border-border p-3">
-        <CardTitle className="text-sm font-medium flex items-center gap-2">
+        <CardTitle className="text-sm font-medium flex items-center gap-2 justify-center">
           <Brain className="h-4 w-4" />
           Trending AI Models
         </CardTitle>
@@ -85,11 +83,8 @@ export function ModelRankings() {
                   </div>
                 </div>
                 <div className="flex flex-col items-end gap-0.5">
-                  <div className="text-sm font-medium">
-                    {model.score}
-                  </div>
-                  <div className={`text-[10px] font-medium ${isPositive ? 'text-green-500' : 'text-red-500'}`}>
-                    {isPositive ? '+' : ''}{model.change}%
+                  <div className="text-sm font-medium text-green-500">
+                    +{model.change.toFixed(2)}%
                   </div>
                 </div>
               </div>

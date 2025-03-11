@@ -199,7 +199,7 @@ export function AIModelsTable() {
                       </TooltipContent>
                     </Tooltip>
                   </th>
-                  <th className="px-6 py-3 text-right text-xs font-medium text-muted-foreground">Last 7 Days</th>
+                  <th className="px-6 py-3 text-center text-xs font-medium text-muted-foreground">Last 7 Days</th>
                 </tr>
               </thead>
               <tbody className="divide-y divide-border">
@@ -244,20 +244,22 @@ export function AIModelsTable() {
                     <td className="px-6 py-4 whitespace-nowrap text-sm text-right font-medium">
                       {model.parameters}
                     </td>
-                    <td className="px-6 py-4 whitespace-nowrap">
-                      <svg
-                        width="120"
-                        height="40"
-                        viewBox="0 0 24 16"
-                        fill="none"
-                        stroke={model.change7d >= 0 ? "rgb(34, 197, 94)" : "rgb(239, 68, 68)"}
-                        strokeWidth="1.5"
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        className="h-10"
-                      >
-                        <path d={model.sparkline} />
-                      </svg>
+                    <td className="px-6 py-4 whitespace-nowrap text-center">
+                      <div className="flex justify-center">
+                        <svg
+                          width="120"
+                          height="40"
+                          viewBox="0 0 24 16"
+                          fill="none"
+                          stroke={model.change7d >= 0 ? "rgb(34, 197, 94)" : "rgb(239, 68, 68)"}
+                          strokeWidth="1.5"
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          className="h-10"
+                        >
+                          <path d={model.sparkline} />
+                        </svg>
+                      </div>
                     </td>
                   </tr>
                 ))}
