@@ -1,4 +1,3 @@
-
 import { cn } from "@/lib/utils";
 import { useLocation } from "react-router-dom";
 import { Link } from "react-router-dom";
@@ -16,7 +15,7 @@ import {
   Code,
   Calculator,
   Atom,
-  Flask,
+  FlaskConical,
   Leaf,
   Cpu,
   Image,
@@ -38,7 +37,6 @@ export function Sidebar() {
     modelsStore: false
   });
 
-  // Handle theme toggle
   const toggleTheme = () => {
     setIsDarkMode(!isDarkMode);
     if (isDarkMode) {
@@ -50,7 +48,6 @@ export function Sidebar() {
     }
   };
 
-  // Toggle menu expansion
   const toggleMenu = (menu: string) => {
     setExpandedMenus(prev => ({
       ...prev,
@@ -58,7 +55,6 @@ export function Sidebar() {
     }));
   };
 
-  // Check for saved theme preference or system preference
   useEffect(() => {
     const savedTheme = localStorage.getItem('theme');
     const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
@@ -75,14 +71,12 @@ export function Sidebar() {
         <img src="/lovable-uploads/b02446e3-d4e5-4ac9-a0bc-044f151893b6.png" alt="GENRI Logo" className="h-6" />
       </div>
 
-      {/* Search field - resized to fit sidebar better */}
       <div className="px-2 py-3 border-b border-border">
         <GlobalSearch />
       </div>
 
       <div className="flex-1 overflow-y-auto py-4 hide-scrollbar">
         <nav className="space-y-1 px-2 mb-6">
-          {/* Navigation items */}
           <Link
             to="/"
             className={cn(
@@ -95,7 +89,6 @@ export function Sidebar() {
             <span>Home</span>
           </Link>
 
-          {/* Test Center with dropdown */}
           <div>
             <div 
               className={cn(
@@ -140,7 +133,7 @@ export function Sidebar() {
                   to="/testcenter?category=chemistry"
                   className="flex items-center px-3 py-1.5 text-xs font-medium rounded-md transition-all duration-200 text-sidebar-foreground hover:bg-sidebar-accent hover:text-sidebar-accent-foreground"
                 >
-                  <Flask className="h-3 w-3 mr-2" />
+                  <FlaskConical className="h-3 w-3 mr-2" />
                   <span>Chemistry</span>
                 </Link>
                 <Link
@@ -154,7 +147,6 @@ export function Sidebar() {
             )}
           </div>
 
-          {/* Model's Store with dropdown */}
           <div>
             <div 
               className={cn(
@@ -257,7 +249,6 @@ export function Sidebar() {
           </Link>
         </nav>
         
-        {/* Authentication buttons - made smaller */}
         <div className="px-2 space-y-2 mb-6">
           <Button variant="outline" size="sm" className="w-full gap-1 justify-center text-xs">
             <LogIn className="h-3 w-3" />
@@ -271,7 +262,6 @@ export function Sidebar() {
         </div>
       </div>
       
-      {/* Social media icons and theme toggle at the bottom */}
       <div className="border-t border-border px-4 py-3">
         <div className="flex items-center justify-between">
           <div className="flex items-center space-x-3">
@@ -301,7 +291,6 @@ export function Sidebar() {
             </a>
           </div>
           
-          {/* Theme toggle moved near social icons */}
           <button
             onClick={toggleTheme}
             className="p-1 rounded-full hover:bg-secondary transition-colors"
