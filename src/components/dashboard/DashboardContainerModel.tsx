@@ -12,6 +12,10 @@ import { ModelRankings } from "./ModelRankings";
 import { AIModelSentiment } from "./AIModelSentiment";
 import { AIModelDominance } from "./AIModelDominance";
 import { AIModelsTable } from "./AIModelsTable";
+import { GPUClusterBurningIndex } from "./GPUClusterBurningIndex";
+import { AGIIndex } from "./AGIIndex";
+import { AGIDoomsDayClock } from "./AGIDoomsDayClock";
+import { ChatComponent } from "./ChatComponent";
 
 export interface Widget {
   i: string;
@@ -28,10 +32,115 @@ export interface Widget {
 
 export class DashboardContainerModel {
   private widgets: Widget[] = [
+    // New Chat Component
+    {
+      i: "chat-component",
+      x: 0,
+      y: 0,
+      w: 6,
+      h: 1.5,
+      minW: 3,
+      minH: 1.5,
+      visible: true,
+      title: "Chat",
+      component: <ChatComponent />,
+    },
+    // AI Confidence Index (resized)
+    {
+      i: "ai-sentiment",
+      x: 6,
+      y: 0,
+      w: 2,
+      h: 1.5,
+      minW: 2,
+      minH: 1.5,
+      visible: true,
+      title: "AI Confidence",
+      component: <AIModelSentiment />,
+    },
+    // Model Rankings with category buttons
+    {
+      i: "trending-models",
+      x: 8,
+      y: 0,
+      w: 3,
+      h: 1.5,
+      minW: 3,
+      minH: 1.5,
+      visible: true,
+      title: "Trending Models",
+      component: <ModelRankings />,
+    },
+    // GPU Cluster Burning Index
+    {
+      i: "gpu-cluster-burning",
+      x: 0,
+      y: 1.5,
+      w: 3,
+      h: 1.5,
+      minW: 3,
+      minH: 1.5,
+      visible: true,
+      title: "GPU Cluster Burning Index",
+      component: <GPUClusterBurningIndex />,
+    },
+    // AGI Index
+    {
+      i: "agi-index",
+      x: 3,
+      y: 1.5,
+      w: 3,
+      h: 1.5,
+      minW: 3,
+      minH: 1.5,
+      visible: true,
+      title: "AGI Index",
+      component: <AGIIndex />,
+    },
+    // GPT Dominance
+    {
+      i: "gpt-dominance",
+      x: 6,
+      y: 1.5,
+      w: 1.5,
+      h: 1.5,
+      minW: 1.5,
+      minH: 1.5,
+      visible: true,
+      title: "GPT Dominance",
+      component: <AIModelDominance />,
+    },
+    // Claude Dominance 
+    {
+      i: "claude-dominance",
+      x: 7.5,
+      y: 1.5,
+      w: 1.5,
+      h: 1.5,
+      minW: 1.5,
+      minH: 1.5,
+      visible: true,
+      title: "Claude Dominance",
+      component: <AIModelDominance />,
+    },
+    // AGI Dooms Day Clock
+    {
+      i: "agi-doomsday-clock",
+      x: 9,
+      y: 1.5,
+      w: 3,
+      h: 1.5,
+      minW: 3,
+      minH: 1.5,
+      visible: true,
+      title: "AGI Dooms Day Clock",
+      component: <AGIDoomsDayClock />,
+    },
+    // Main AI Models Table
     {
       i: "ai-models-table",
       x: 0,
-      y: 0,
+      y: 3,
       w: 12,
       h: 3,
       minW: 6,
@@ -43,7 +152,7 @@ export class DashboardContainerModel {
     {
       i: "market-share",
       x: 0,
-      y: 5,
+      y: 6,
       w: 6,
       h: 2,
       minW: 3,
@@ -55,7 +164,7 @@ export class DashboardContainerModel {
     {
       i: "company-valuation",
       x: 6,
-      y: 5,
+      y: 6,
       w: 6,
       h: 2,
       minW: 3,
@@ -67,7 +176,7 @@ export class DashboardContainerModel {
     {
       i: "gpu-clusters",
       x: 0,
-      y: 7,
+      y: 8,
       w: 6,
       h: 2,
       minW: 3,
@@ -79,7 +188,7 @@ export class DashboardContainerModel {
     {
       i: "math-excellence",
       x: 6,
-      y: 7,
+      y: 8,
       w: 6,
       h: 2,
       minW: 3,
@@ -91,7 +200,7 @@ export class DashboardContainerModel {
     {
       i: "users-overview",
       x: 0,
-      y: 9,
+      y: 10,
       w: 6,
       h: 2,
       minW: 3,
@@ -103,7 +212,7 @@ export class DashboardContainerModel {
     {
       i: "accuracy-rankings",
       x: 6,
-      y: 9,
+      y: 10,
       w: 6,
       h: 2,
       minW: 3,
@@ -115,7 +224,7 @@ export class DashboardContainerModel {
     {
       i: "industry-citations",
       x: 0,
-      y: 11,
+      y: 12,
       w: 3,
       h: 2,
       minW: 3,
@@ -127,7 +236,7 @@ export class DashboardContainerModel {
     {
       i: "model-scale",
       x: 3,
-      y: 11,
+      y: 12,
       w: 3,
       h: 2,
       minW: 3,
@@ -135,42 +244,6 @@ export class DashboardContainerModel {
       visible: true,
       title: "Model Scale Visualization",
       component: <ModelScaleVisualization />,
-    },
-    {
-      i: "trending-models",
-      x: 6,
-      y: 11,
-      w: 3,
-      h: 2,
-      minW: 3,
-      minH: 2,
-      visible: true,
-      title: "Trending Models",
-      component: <ModelRankings />,
-    },
-    {
-      i: "ai-sentiment",
-      x: 9,
-      y: 11,
-      w: 1.5,
-      h: 2,
-      minW: 1.5,
-      minH: 2,
-      visible: true,
-      title: "AI Confidence",
-      component: <AIModelSentiment />,
-    },
-    {
-      i: "ai-dominance",
-      x: 10.5,
-      y: 11,
-      w: 1.5,
-      h: 2,
-      minW: 1.5,
-      minH: 2,
-      visible: true,
-      title: "Market Dominance",
-      component: <AIModelDominance />,
     },
   ];
 

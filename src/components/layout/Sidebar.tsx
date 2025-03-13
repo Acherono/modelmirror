@@ -2,7 +2,30 @@
 import { cn } from "@/lib/utils";
 import { useLocation } from "react-router-dom";
 import { Link } from "react-router-dom";
-import { Github, Linkedin, Twitter, Moon, Sun, LogIn, UserPlus, Search } from "lucide-react";
+import { 
+  Github, 
+  Linkedin, 
+  Twitter, 
+  Moon, 
+  Sun, 
+  LogIn, 
+  UserPlus, 
+  Search,
+  ChevronDown,
+  ChevronRight,
+  Code,
+  Calculator,
+  Atom,
+  Flask,
+  Leaf,
+  Cpu,
+  Image,
+  Video,
+  Eye,
+  Car,
+  Mic,
+  MoreHorizontal
+} from "lucide-react";
 import { useEffect, useState } from "react";
 import { GlobalSearch } from "../header/GlobalSearch";
 import { Button } from "@/components/ui/button";
@@ -10,6 +33,10 @@ import { Button } from "@/components/ui/button";
 export function Sidebar() {
   const location = useLocation();
   const [isDarkMode, setIsDarkMode] = useState(false);
+  const [expandedMenus, setExpandedMenus] = useState<Record<string, boolean>>({
+    testCenter: false,
+    modelsStore: false
+  });
 
   // Handle theme toggle
   const toggleTheme = () => {
@@ -21,6 +48,14 @@ export function Sidebar() {
       document.documentElement.classList.add('dark');
       localStorage.setItem('theme', 'dark');
     }
+  };
+
+  // Toggle menu expansion
+  const toggleMenu = (menu: string) => {
+    setExpandedMenus(prev => ({
+      ...prev,
+      [menu]: !prev[menu]
+    }));
   };
 
   // Check for saved theme preference or system preference
@@ -37,7 +72,7 @@ export function Sidebar() {
   return (
     <div className="h-screen fixed left-0 top-0 z-40 flex flex-col bg-sidebar border-r border-border w-[200px]">
       <div className="flex items-center h-14 px-3 border-b border-border justify-between">
-        <span className="font-semibold text-lg">AI Market</span>
+        <img src="/lovable-uploads/b02446e3-d4e5-4ac9-a0bc-044f151893b6.png" alt="GENRI Logo" className="h-6" />
       </div>
 
       {/* Search field - resized to fit sidebar better */}
@@ -60,29 +95,130 @@ export function Sidebar() {
             <span>Home</span>
           </Link>
 
-          <Link
-            to="/testcenter"
-            className={cn(
-              "flex items-center px-3 py-2 text-sm font-medium rounded-md transition-all duration-200",
-              location.pathname === "/testcenter"
-                ? "bg-primary text-primary-foreground"
-                : "text-sidebar-foreground hover:bg-sidebar-accent hover:text-sidebar-accent-foreground"
+          {/* Test Center with dropdown */}
+          <div>
+            <div 
+              className={cn(
+                "flex items-center justify-between px-3 py-2 text-sm font-medium rounded-md transition-all duration-200 cursor-pointer",
+                location.pathname === "/testcenter" || expandedMenus.testCenter
+                  ? "bg-primary text-primary-foreground"
+                  : "text-sidebar-foreground hover:bg-sidebar-accent hover:text-sidebar-accent-foreground"
+              )}
+              onClick={() => toggleMenu('testCenter')}
+            >
+              <span>Test Center</span>
+              {expandedMenus.testCenter ? 
+                <ChevronDown className="h-4 w-4" /> : 
+                <ChevronRight className="h-4 w-4" />
+              }
+            </div>
+            
+            {expandedMenus.testCenter && (
+              <div className="ml-4 mt-1 space-y-1">
+                <Link
+                  to="/testcenter?category=coding"
+                  className="flex items-center px-3 py-1.5 text-xs font-medium rounded-md transition-all duration-200 text-sidebar-foreground hover:bg-sidebar-accent hover:text-sidebar-accent-foreground"
+                >
+                  <Code className="h-3 w-3 mr-2" />
+                  <span>Coding</span>
+                </Link>
+                <Link
+                  to="/testcenter?category=math"
+                  className="flex items-center px-3 py-1.5 text-xs font-medium rounded-md transition-all duration-200 text-sidebar-foreground hover:bg-sidebar-accent hover:text-sidebar-accent-foreground"
+                >
+                  <Calculator className="h-3 w-3 mr-2" />
+                  <span>Math</span>
+                </Link>
+                <Link
+                  to="/testcenter?category=physics"
+                  className="flex items-center px-3 py-1.5 text-xs font-medium rounded-md transition-all duration-200 text-sidebar-foreground hover:bg-sidebar-accent hover:text-sidebar-accent-foreground"
+                >
+                  <Atom className="h-3 w-3 mr-2" />
+                  <span>Physics</span>
+                </Link>
+                <Link
+                  to="/testcenter?category=chemistry"
+                  className="flex items-center px-3 py-1.5 text-xs font-medium rounded-md transition-all duration-200 text-sidebar-foreground hover:bg-sidebar-accent hover:text-sidebar-accent-foreground"
+                >
+                  <Flask className="h-3 w-3 mr-2" />
+                  <span>Chemistry</span>
+                </Link>
+                <Link
+                  to="/testcenter?category=biology"
+                  className="flex items-center px-3 py-1.5 text-xs font-medium rounded-md transition-all duration-200 text-sidebar-foreground hover:bg-sidebar-accent hover:text-sidebar-accent-foreground"
+                >
+                  <Leaf className="h-3 w-3 mr-2" />
+                  <span>Biology</span>
+                </Link>
+              </div>
             )}
-          >
-            <span>Test Center</span>
-          </Link>
+          </div>
 
-          <Link
-            to="/store"
-            className={cn(
-              "flex items-center px-3 py-2 text-sm font-medium rounded-md transition-all duration-200",
-              location.pathname === "/store"
-                ? "bg-primary text-primary-foreground"
-                : "text-sidebar-foreground hover:bg-sidebar-accent hover:text-sidebar-accent-foreground"
+          {/* Model's Store with dropdown */}
+          <div>
+            <div 
+              className={cn(
+                "flex items-center justify-between px-3 py-2 text-sm font-medium rounded-md transition-all duration-200 cursor-pointer",
+                location.pathname === "/store" || expandedMenus.modelsStore
+                  ? "bg-primary text-primary-foreground"
+                  : "text-sidebar-foreground hover:bg-sidebar-accent hover:text-sidebar-accent-foreground"
+              )}
+              onClick={() => toggleMenu('modelsStore')}
+            >
+              <span>Model's Store</span>
+              {expandedMenus.modelsStore ? 
+                <ChevronDown className="h-4 w-4" /> : 
+                <ChevronRight className="h-4 w-4" />
+              }
+            </div>
+            
+            {expandedMenus.modelsStore && (
+              <div className="ml-4 mt-1 space-y-1">
+                <Link
+                  to="/store?category=llms"
+                  className="flex items-center px-3 py-1.5 text-xs font-medium rounded-md transition-all duration-200 text-sidebar-foreground hover:bg-sidebar-accent hover:text-sidebar-accent-foreground"
+                >
+                  <Cpu className="h-3 w-3 mr-2" />
+                  <span>LLMs</span>
+                </Link>
+                <Link
+                  to="/store?category=image-video"
+                  className="flex items-center px-3 py-1.5 text-xs font-medium rounded-md transition-all duration-200 text-sidebar-foreground hover:bg-sidebar-accent hover:text-sidebar-accent-foreground"
+                >
+                  <Image className="h-3 w-3 mr-2" />
+                  <span>Image & Video</span>
+                </Link>
+                <Link
+                  to="/store?category=vision"
+                  className="flex items-center px-3 py-1.5 text-xs font-medium rounded-md transition-all duration-200 text-sidebar-foreground hover:bg-sidebar-accent hover:text-sidebar-accent-foreground"
+                >
+                  <Eye className="h-3 w-3 mr-2" />
+                  <span>Vision</span>
+                </Link>
+                <Link
+                  to="/store?category=fsd"
+                  className="flex items-center px-3 py-1.5 text-xs font-medium rounded-md transition-all duration-200 text-sidebar-foreground hover:bg-sidebar-accent hover:text-sidebar-accent-foreground"
+                >
+                  <Car className="h-3 w-3 mr-2" />
+                  <span>FSD</span>
+                </Link>
+                <Link
+                  to="/store?category=voice"
+                  className="flex items-center px-3 py-1.5 text-xs font-medium rounded-md transition-all duration-200 text-sidebar-foreground hover:bg-sidebar-accent hover:text-sidebar-accent-foreground"
+                >
+                  <Mic className="h-3 w-3 mr-2" />
+                  <span>Voice</span>
+                </Link>
+                <Link
+                  to="/store?category=more"
+                  className="flex items-center px-3 py-1.5 text-xs font-medium rounded-md transition-all duration-200 text-sidebar-foreground hover:bg-sidebar-accent hover:text-sidebar-accent-foreground"
+                >
+                  <MoreHorizontal className="h-3 w-3 mr-2" />
+                  <span>more...</span>
+                </Link>
+              </div>
             )}
-          >
-            <span>Model's Store</span>
-          </Link>
+          </div>
 
           <Link
             to="/research"

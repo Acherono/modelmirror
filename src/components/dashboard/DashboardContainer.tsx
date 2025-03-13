@@ -53,12 +53,13 @@ export function DashboardContainer({ visibleWidgets = {} }: DashboardContainerPr
               {widget.i === "ai-models-table" ? (
                 <div className="w-full h-full">
                   {widget.component}
-                  <style jsx global>{`
+                  {/* Using style element with dangerouslySetInnerHTML instead of jsx prop */}
+                  <style dangerouslySetInnerHTML={{ __html: `
                     /* Center the sparkline SVGs in the "Last 7 Days" column */
                     td:last-child svg {
                       margin: 0 auto;
                     }
-                  `}</style>
+                  `}} />
                 </div>
               ) : (
                 widget.component
