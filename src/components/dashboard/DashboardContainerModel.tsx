@@ -112,32 +112,7 @@ export class DashboardContainerModel {
       title: "GPU Cluster Burning Index",
       component: <GPUClusterBurningIndex />,
     },
-    // GPT Dominance
-    {
-      i: "gpt-dominance",
-      x: 4,
-      y: 1.5,
-      w: 4,
-      h: 1.5,
-      minW: 2,
-      minH: 1.5,
-      visible: true,
-      title: "GPT Dominance",
-      component: <AIModelDominance />,
-    },
-    // Claude Dominance 
-    {
-      i: "claude-dominance",
-      x: 8,
-      y: 1.5,
-      w: 4,
-      h: 1.5,
-      minW: 2,
-      minH: 1.5,
-      visible: true,
-      title: "Claude Dominance",
-      component: <AIModelDominance />,
-    },
+    // Remove GPT Dominance and Claude Dominance widgets since they used AIModelDominance
     
     // Main AI Models Table
     {

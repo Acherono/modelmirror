@@ -29,9 +29,9 @@ export function DashboardContainer({ visibleWidgets = {} }: DashboardContainerPr
     ["chat-component", "ai-sentiment", "trending-models", "agi-index", "agi-doomsday-clock"].includes(widget.i)
   );
   
-  // Filter widgets for the second row
+  // Filter widgets for the second row - removing model dominance references
   const secondRowWidgets = widgets.filter(widget => 
-    ["gpu-cluster-burning", "gpt-dominance", "claude-dominance"].includes(widget.i)
+    ["gpu-cluster-burning"].includes(widget.i)
   );
   
   // Filter the AI Models Table
@@ -40,7 +40,7 @@ export function DashboardContainer({ visibleWidgets = {} }: DashboardContainerPr
   // Filter the remaining widgets
   const remainingWidgets = widgets.filter(widget => 
     !["chat-component", "ai-sentiment", "trending-models", "agi-index", "agi-doomsday-clock", 
-      "gpu-cluster-burning", "gpt-dominance", "claude-dominance", "ai-models-table"].includes(widget.i)
+      "gpu-cluster-burning", "ai-models-table"].includes(widget.i)
   );
   
   return (
@@ -65,25 +65,27 @@ export function DashboardContainer({ visibleWidgets = {} }: DashboardContainerPr
         })}
       </div>
       
-      {/* Second Row - 3 widgets */}
-      <div className="grid grid-cols-3 gap-4">
-        {secondRowWidgets.map((widget) => {
-          const isVisible = visibleWidgets[widget.i] !== undefined 
-            ? visibleWidgets[widget.i] 
-            : widget.visible;
+      {/* Second Row - GPU Cluster Burning Index only */}
+      {secondRowWidgets.length > 0 && (
+        <div className="grid grid-cols-1 gap-4">
+          {secondRowWidgets.map((widget) => {
+            const isVisible = visibleWidgets[widget.i] !== undefined 
+              ? visibleWidgets[widget.i] 
+              : widget.visible;
 
-          if (!isVisible) return null;
-          
-          return (
-            <div 
-              key={widget.i}
-              className="border border-border rounded-lg shadow overflow-hidden bg-sidebar h-[200px]"
-            >
-              {widget.component}
-            </div>
-          );
-        })}
-      </div>
+            if (!isVisible) return null;
+            
+            return (
+              <div 
+                key={widget.i}
+                className="border border-border rounded-lg shadow overflow-hidden bg-sidebar h-[200px]"
+              >
+                {widget.component}
+              </div>
+            );
+          })}
+        </div>
+      )}
       
       {/* AI Models Table with Category Section */}
       {aiModelsTable && visibleWidgets[aiModelsTable.i] !== false && (
