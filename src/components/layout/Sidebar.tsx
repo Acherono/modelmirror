@@ -1,3 +1,4 @@
+
 import { cn } from "@/lib/utils";
 import { useLocation } from "react-router-dom";
 import { Link } from "react-router-dom";
@@ -67,8 +68,12 @@ export function Sidebar() {
 
   return (
     <div className="h-screen fixed left-0 top-0 z-40 flex flex-col bg-sidebar border-r border-border w-[200px]">
-      <div className="flex items-center h-14 px-3 border-b border-border justify-between">
-        <img src="/lovable-uploads/b02446e3-d4e5-4ac9-a0bc-044f151893b6.png" alt="GENRI Logo" className="h-6" />
+      <div className="flex items-center justify-center h-14 px-3 border-b border-border">
+        <img 
+          src="/lovable-uploads/38f892de-aa3f-4959-8421-738f4a8422ea.png" 
+          alt="GENRI Logo" 
+          className="h-8 max-w-[160px] object-contain" 
+        />
       </div>
 
       <div className="px-2 py-3 border-b border-border">
