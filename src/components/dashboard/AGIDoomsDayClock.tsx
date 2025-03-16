@@ -5,7 +5,6 @@ import { Clock } from "lucide-react";
 
 export function AGIDoomsDayClock() {
   const [minutes, setMinutes] = useState(50);
-  const [currentTime, setCurrentTime] = useState(new Date());
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
@@ -14,14 +13,8 @@ export function AGIDoomsDayClock() {
       setIsLoading(false);
     }, 1000);
 
-    // Update clock every second
-    const clockTimer = setInterval(() => {
-      setCurrentTime(new Date());
-    }, 1000);
-
     return () => {
       clearTimeout(loadTimer);
-      clearInterval(clockTimer);
     };
   }, []);
 
@@ -75,38 +68,29 @@ export function AGIDoomsDayClock() {
                 );
               })}
               
-              {/* Hour Hand */}
+              {/* Hour Hand - Fixed at 11 */}
               <div
                 className="absolute w-1 h-4 bg-white rounded-full origin-bottom"
                 style={{
                   left: '50%',
                   top: '50%',
-                  transform: `translateX(-50%) rotate(${((currentTime.getHours() % 12) * 30) + (currentTime.getMinutes() * 0.5)}deg)`,
+                  transform: `translateX(-50%) rotate(330deg)`, // 330 degrees for 11 o'clock
                   transformOrigin: 'bottom center'
                 }}
               />
               
-              {/* Minute Hand */}
+              {/* Minute Hand - Fixed at 10 mins (11:10) */}
               <div
                 className="absolute w-0.5 h-6 bg-white rounded-full origin-bottom"
                 style={{
                   left: '50%',
                   top: '50%',
-                  transform: `translateX(-50%) rotate(${currentTime.getMinutes() * 6}deg)`,
+                  transform: `translateX(-50%) rotate(60deg)`, // 60 degrees for 10 minutes
                   transformOrigin: 'bottom center'
                 }}
               />
               
-              {/* Second Hand */}
-              <div
-                className="absolute w-0.5 h-7 bg-red-500 rounded-full origin-bottom"
-                style={{
-                  left: '50%',
-                  top: '50%',
-                  transform: `translateX(-50%) rotate(${currentTime.getSeconds() * 6}deg)`,
-                  transformOrigin: 'bottom center'
-                }}
-              />
+              {/* Second Hand - Removed as it needs to be static */}
               
               {/* Center Dot */}
               <div className="absolute top-1/2 left-1/2 w-1.5 h-1.5 bg-white rounded-full -translate-x-1/2 -translate-y-1/2" />

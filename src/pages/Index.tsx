@@ -7,7 +7,6 @@ import { Switch } from "@/components/ui/switch";
 import { DashboardContainerModel } from "@/components/dashboard/DashboardContainerModel";
 import { Button } from "@/components/ui/button";
 import { Eye, EyeOff } from "lucide-react";
-import { CategorySection } from "@/components/dashboard/CategorySection";
 
 const Index = () => {
   const [widgets, setWidgets] = useState<any[]>([]);
@@ -55,8 +54,7 @@ const Index = () => {
 
   return (
     <div className="w-full">
-      <div className="flex justify-between items-center mb-6">
-        <h1 className="text-2xl font-bold">Home</h1>
+      <div className="flex justify-end items-center mb-4">
         <Sheet>
           <SheetTrigger asChild>
             <button className="p-2 rounded-full hover:bg-secondary transition-colors">
@@ -117,12 +115,6 @@ const Index = () => {
       
       {/* Dashboard Components */}
       <DashboardContainer visibleWidgets={visibleWidgets} />
-      
-      {/* Category Section and Top AI Models */}
-      <div className="mt-6">
-        <CategorySection />
-        <h2 className="text-xl font-semibold mb-4 text-center">Top AI Models Charts - Last 7 Days</h2>
-      </div>
     </div>
   );
 }

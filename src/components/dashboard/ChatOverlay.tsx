@@ -79,7 +79,7 @@ export function ChatOverlay({ isOpen, onClose }: ChatOverlayProps) {
           <div className="flex-1">
             <Select value={selectedLab} onValueChange={setSelectedLab}>
               <SelectTrigger className="bg-sidebar border-border h-9">
-                <SelectValue placeholder="Select AI Lab" />
+                <SelectValue placeholder="Choose AI Lab" />
               </SelectTrigger>
               <SelectContent>
                 <SelectItem value="openai">OpenAI</SelectItem>
@@ -93,7 +93,7 @@ export function ChatOverlay({ isOpen, onClose }: ChatOverlayProps) {
           <div className="flex-1">
             <Select value={selectedModel} onValueChange={setSelectedModel}>
               <SelectTrigger className="bg-sidebar border-border h-9">
-                <SelectValue placeholder="Select Model" />
+                <SelectValue placeholder="Choose Model" />
               </SelectTrigger>
               <SelectContent>
                 <SelectItem value="gpt-4o">GPT-4o</SelectItem>

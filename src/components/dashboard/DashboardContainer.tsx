@@ -1,6 +1,7 @@
 
 import { useState, useEffect } from "react";
 import { Widget } from "./DashboardContainerModel";
+import { CategorySection } from "./CategorySection";
 
 interface DashboardContainerProps {
   visibleWidgets?: Record<string, boolean>;
@@ -23,47 +24,95 @@ export function DashboardContainer({ visibleWidgets = {} }: DashboardContainerPr
 
   if (widgets.length === 0) return null;
   
+  // Filter widgets for the top row
+  const topRowWidgets = widgets.filter(widget => 
+    ["chat-component", "ai-sentiment", "trending-models", "agi-index", "agi-doomsday-clock"].includes(widget.i)
+  );
+  
+  // Filter widgets for the second row
+  const secondRowWidgets = widgets.filter(widget => 
+    ["gpu-cluster-burning", "gpt-dominance", "claude-dominance"].includes(widget.i)
+  );
+  
+  // Filter the AI Models Table
+  const aiModelsTable = widgets.find(widget => widget.i === "ai-models-table");
+  
+  // Filter the remaining widgets
+  const remainingWidgets = widgets.filter(widget => 
+    !["chat-component", "ai-sentiment", "trending-models", "agi-index", "agi-doomsday-clock", 
+      "gpu-cluster-burning", "gpt-dominance", "claude-dominance", "ai-models-table"].includes(widget.i)
+  );
+  
   return (
     <div className="space-y-6 animate-fade-in">
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-        {widgets.map((widget) => {
-          // Check if widget should be visible
+      {/* Top Row - 5 widgets in a row */}
+      <div className="grid grid-cols-5 gap-4">
+        {topRowWidgets.map((widget) => {
           const isVisible = visibleWidgets[widget.i] !== undefined 
             ? visibleWidgets[widget.i] 
             : widget.visible;
 
           if (!isVisible) return null;
-
-          // Special case for AI Models Table - make it span full width
-          const isAIModelsTable = widget.i === "ai-models-table";
-          const isChartWidget = ["market-share", "company-valuation", "accuracy-rankings", "math-excellence", "gpu-clusters", "users-overview"].includes(widget.i);
-          
-          const widgetClasses = cn(
-            "border border-border rounded-lg shadow overflow-hidden",
-            isAIModelsTable ? 'col-span-1 lg:col-span-2' : '',
-            isChartWidget ? 'h-[450px]' : '' // Make chart widgets taller
-          );
           
           return (
             <div 
               key={widget.i}
-              className={widgetClasses}
+              className="border border-border rounded-lg shadow overflow-hidden bg-sidebar h-[200px]"
             >
-              {/* For the AI Models Table, we need to ensure the "Last 7 Days" column is properly centered */}
-              {widget.i === "ai-models-table" ? (
-                <div className="w-full h-full">
-                  {widget.component}
-                  {/* Using style element with dangerouslySetInnerHTML instead of jsx prop */}
-                  <style dangerouslySetInnerHTML={{ __html: `
-                    /* Center the sparkline SVGs in the "Last 7 Days" column */
-                    td:last-child svg {
-                      margin: 0 auto;
-                    }
-                  `}} />
-                </div>
-              ) : (
-                widget.component
-              )}
+              {widget.component}
+            </div>
+          );
+        })}
+      </div>
+      
+      {/* Second Row - 3 widgets */}
+      <div className="grid grid-cols-3 gap-4">
+        {secondRowWidgets.map((widget) => {
+          const isVisible = visibleWidgets[widget.i] !== undefined 
+            ? visibleWidgets[widget.i] 
+            : widget.visible;
+
+          if (!isVisible) return null;
+          
+          return (
+            <div 
+              key={widget.i}
+              className="border border-border rounded-lg shadow overflow-hidden bg-sidebar h-[200px]"
+            >
+              {widget.component}
+            </div>
+          );
+        })}
+      </div>
+      
+      {/* AI Models Table with Category Section */}
+      {aiModelsTable && visibleWidgets[aiModelsTable.i] !== false && (
+        <div className="mt-8">
+          <div className="flex justify-between items-center mb-2">
+            <h2 className="text-xl font-semibold">Top AI Models</h2>
+            <CategorySection />
+          </div>
+          <div className="border border-border rounded-lg shadow overflow-hidden bg-sidebar">
+            {aiModelsTable.component}
+          </div>
+        </div>
+      )}
+      
+      {/* Remaining widgets */}
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mt-8">
+        {remainingWidgets.map((widget) => {
+          const isVisible = visibleWidgets[widget.i] !== undefined 
+            ? visibleWidgets[widget.i] 
+            : widget.visible;
+
+          if (!isVisible) return null;
+          
+          return (
+            <div 
+              key={widget.i}
+              className="border border-border rounded-lg shadow overflow-hidden bg-sidebar h-[400px]"
+            >
+              {widget.component}
             </div>
           );
         })}
