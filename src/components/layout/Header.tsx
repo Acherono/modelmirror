@@ -66,14 +66,21 @@ export function Header({
           {isDarkMode ? <Sun size={18} /> : <Moon size={18} />}
         </button>
         
-        <Button variant="outline" size="sm" className="gap-1">
+        {/* Sign In Button - Updated styling */}
+        <Button 
+          variant="outline" 
+          className="rounded-full flex items-center gap-2 justify-center py-2 border-blue-600 text-blue-600 hover:text-blue-700 hover:border-blue-700"
+        >
           <LogIn className="h-4 w-4" />
-          Sign In
+          <span className="font-medium">Sign In</span>
         </Button>
         
-        <Button size="sm" className="gap-1">
+        {/* Sign Up Button - Updated styling */}
+        <Button 
+          className="rounded-full bg-blue-600 hover:bg-blue-700 flex items-center gap-2 justify-center py-2"
+        >
           <UserPlus className="h-4 w-4" />
-          Sign Up
+          <span className="font-medium">Sign Up</span>
         </Button>
       </div>
     </header>

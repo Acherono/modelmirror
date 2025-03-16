@@ -10,7 +10,6 @@ import {
   Sun, 
   LogIn, 
   UserPlus, 
-  Search,
   ChevronDown,
   ChevronRight,
   Code,
@@ -253,21 +252,22 @@ export function Sidebar() {
             <span>Statistics</span>
           </Link>
         </nav>
-        
-        <div className="px-2 space-y-2 mb-6">
-          <Button variant="outline" size="sm" className="w-full gap-1 justify-center text-xs">
-            <LogIn className="h-3 w-3" />
-            Sign In
-          </Button>
-          
-          <Button size="sm" className="w-full gap-1 justify-center text-xs">
-            <UserPlus className="h-3 w-3" />
-            Sign Up
-          </Button>
-        </div>
       </div>
       
       <div className="border-t border-border px-4 py-3">
+        {/* Update the sign in / sign up buttons to match the design */}
+        <div className="grid grid-cols-2 gap-2 mb-4">
+          <Button variant="outline" className="rounded-full flex items-center gap-2 justify-center py-2">
+            <UserPlus className="h-4 w-4" />
+            <span className="font-medium">Sign Up</span>
+          </Button>
+          
+          <Button className="rounded-full bg-blue-600 hover:bg-blue-700 flex items-center gap-2 justify-center py-2">
+            <LogIn className="h-4 w-4" />
+            <span className="font-medium">Sign In</span>
+          </Button>
+        </div>
+        
         <div className="flex items-center justify-between">
           <div className="flex items-center space-x-3">
             <a 

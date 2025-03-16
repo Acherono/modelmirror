@@ -29,10 +29,8 @@ export function DashboardContainer({ visibleWidgets = {} }: DashboardContainerPr
     ["chat-component", "ai-sentiment", "trending-models", "agi-index", "agi-doomsday-clock"].includes(widget.i)
   );
   
-  // Filter widgets for the second row - removing model dominance references
-  const secondRowWidgets = widgets.filter(widget => 
-    ["gpu-cluster-burning"].includes(widget.i)
-  );
+  // Filter widgets for the second row
+  const gpuClusterWidget = widgets.find(widget => widget.i === "gpu-cluster-burning");
   
   // Filter the AI Models Table
   const aiModelsTable = widgets.find(widget => widget.i === "ai-models-table");
@@ -44,9 +42,9 @@ export function DashboardContainer({ visibleWidgets = {} }: DashboardContainerPr
   );
   
   return (
-    <div className="space-y-6 animate-fade-in">
-      {/* Top Row - 5 widgets in a row */}
-      <div className="grid grid-cols-5 gap-4">
+    <div className="space-y-4 animate-fade-in">
+      {/* Top Row - Reorganized per design with equal width widgets */}
+      <div className="grid grid-cols-4 gap-4">
         {topRowWidgets.map((widget) => {
           const isVisible = visibleWidgets[widget.i] !== undefined 
             ? visibleWidgets[widget.i] 
@@ -57,7 +55,7 @@ export function DashboardContainer({ visibleWidgets = {} }: DashboardContainerPr
           return (
             <div 
               key={widget.i}
-              className="border border-border rounded-lg shadow overflow-hidden bg-sidebar h-[200px]"
+              className="border border-border rounded-lg shadow overflow-hidden bg-sidebar h-[220px] relative"
             >
               {widget.component}
             </div>
@@ -65,31 +63,20 @@ export function DashboardContainer({ visibleWidgets = {} }: DashboardContainerPr
         })}
       </div>
       
-      {/* Second Row - GPU Cluster Burning Index only */}
-      {secondRowWidgets.length > 0 && (
+      {/* GPU Cluster Burning Index below AI Confidence */}
+      {gpuClusterWidget && visibleWidgets[gpuClusterWidget.i] !== false && (
         <div className="grid grid-cols-1 gap-4">
-          {secondRowWidgets.map((widget) => {
-            const isVisible = visibleWidgets[widget.i] !== undefined 
-              ? visibleWidgets[widget.i] 
-              : widget.visible;
-
-            if (!isVisible) return null;
-            
-            return (
-              <div 
-                key={widget.i}
-                className="border border-border rounded-lg shadow overflow-hidden bg-sidebar h-[200px]"
-              >
-                {widget.component}
-              </div>
-            );
-          })}
+          <div 
+            className="border border-border rounded-lg shadow overflow-hidden bg-sidebar h-[80px]"
+          >
+            {gpuClusterWidget.component}
+          </div>
         </div>
       )}
       
       {/* AI Models Table with Category Section */}
       {aiModelsTable && visibleWidgets[aiModelsTable.i] !== false && (
-        <div className="mt-8">
+        <div className="mt-6">
           <div className="flex justify-between items-center mb-2">
             <h2 className="text-xl font-semibold">Top AI Models</h2>
             <CategorySection />
@@ -122,8 +109,3 @@ export function DashboardContainer({ visibleWidgets = {} }: DashboardContainerPr
     </div>
   );
 }
-
-// Helper function from utils
-const cn = (...classes: (string | boolean | undefined)[]) => {
-  return classes.filter(Boolean).join(" ");
-};

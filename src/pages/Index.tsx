@@ -113,7 +113,7 @@ const Index = () => {
         </Sheet>
       </div>
       
-      {/* Dashboard Components */}
+      {/* Dashboard Components - Home header removed */}
       <DashboardContainer visibleWidgets={visibleWidgets} />
     </div>
   );

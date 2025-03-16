@@ -1,4 +1,3 @@
-
 import { ReactNode } from "react";
 import { UsersOverviewChart } from "./UsersOverviewChart";
 import { AccuracyRankings } from "./AccuracyRankings";
@@ -31,26 +30,13 @@ export interface Widget {
 
 export class DashboardContainerModel {
   private widgets: Widget[] = [
-    // First row - 5 components in one row
-    // Chat Component
-    {
-      i: "chat-component",
-      x: 0,
-      y: 0,
-      w: 2.4,
-      h: 1.5,
-      minW: 2,
-      minH: 1.5,
-      visible: true,
-      title: "Chat",
-      component: <ChatComponent />,
-    },
-    // AI Confidence Index
+    // First row - 4 components in one row
+    // AI Confidence
     {
       i: "ai-sentiment",
-      x: 2.4,
+      x: 0,
       y: 0,
-      w: 2.4,
+      w: 3,
       h: 1.5,
       minW: 2,
       minH: 1.5,
@@ -61,9 +47,9 @@ export class DashboardContainerModel {
     // Trending Models
     {
       i: "trending-models",
-      x: 4.8,
+      x: 3,
       y: 0,
-      w: 2.4,
+      w: 3,
       h: 1.5,
       minW: 2,
       minH: 1.5,
@@ -74,9 +60,9 @@ export class DashboardContainerModel {
     // AGI Index
     {
       i: "agi-index",
-      x: 7.2,
+      x: 6,
       y: 0,
-      w: 2.4,
+      w: 3,
       h: 1.5,
       minW: 2,
       minH: 1.5,
@@ -84,12 +70,25 @@ export class DashboardContainerModel {
       title: "AGI Index",
       component: <AGIIndex />,
     },
-    // AGI Dooms Day Clock
+    // Chat Component
+    {
+      i: "chat-component",
+      x: 9,
+      y: 0,
+      w: 3,
+      h: 1.5,
+      minW: 2,
+      minH: 1.5,
+      visible: true,
+      title: "Chat",
+      component: <ChatComponent />,
+    },
+    // AGI Dooms Day Clock (adjusted to show in clock row)
     {
       i: "agi-doomsday-clock",
-      x: 9.6,
+      x: 6,
       y: 0,
-      w: 2.4,
+      w: 3,
       h: 1.5,
       minW: 2,
       minH: 1.5,
@@ -98,21 +97,19 @@ export class DashboardContainerModel {
       component: <AGIDoomsDayClock />,
     },
     
-    // Second row - 3 components
-    // GPU Cluster Burning Index
+    // GPU Cluster Burning Index (moved below AI Confidence)
     {
       i: "gpu-cluster-burning",
       x: 0,
       y: 1.5,
-      w: 4,
-      h: 1.5,
+      w: 12,
+      h: 0.8,
       minW: 3,
-      minH: 1.5,
+      minH: 0.8,
       visible: true,
       title: "GPU Cluster Burning Index",
       component: <GPUClusterBurningIndex />,
     },
-    // Remove GPT Dominance and Claude Dominance widgets since they used AIModelDominance
     
     // Main AI Models Table
     {
