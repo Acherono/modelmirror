@@ -42,10 +42,14 @@ export function ThemeProvider({
     
     // Update CSS variables for customization
     if (isDark) {
-      document.documentElement.style.setProperty("--primary-color", "hsl(var(--primary-dark))");
-      document.documentElement.style.setProperty("--background-color", "hsl(var(--background-dark))");
-      document.documentElement.style.setProperty("--card-color", "hsl(var(--card-dark))");
-      document.documentElement.style.setProperty("--text-color", "hsl(var(--text-dark))");
+      // Updated dark mode colors to use pure black for backgrounds
+      document.documentElement.style.setProperty("--primary-color", "hsl(var(--primary))");
+      document.documentElement.style.setProperty("--background-color", "hsl(0, 0%, 0%)"); // Pure black
+      document.documentElement.style.setProperty("--card-color", "hsl(0, 0%, 0%)"); // Pure black
+      document.documentElement.style.setProperty("--text-color", "hsl(210, 40%, 98%)"); // White text
+      
+      // Add a comment explaining the color changes
+      console.info("Applied dark mode with black backgrounds for improved visual contrast");
     } else {
       document.documentElement.style.setProperty("--primary-color", "hsl(var(--primary-light))");
       document.documentElement.style.setProperty("--background-color", "hsl(var(--background-light))");
@@ -66,6 +70,20 @@ export function ThemeProvider({
         
         root.classList.remove("light", "dark")
         root.classList.add(isDark ? "dark" : "light")
+        
+        // Apply the same color updates when system theme changes
+        if (isDark) {
+          // Updated dark mode colors to use pure black for backgrounds
+          document.documentElement.style.setProperty("--primary-color", "hsl(var(--primary))");
+          document.documentElement.style.setProperty("--background-color", "hsl(0, 0%, 0%)"); // Pure black
+          document.documentElement.style.setProperty("--card-color", "hsl(0, 0%, 0%)"); // Pure black
+          document.documentElement.style.setProperty("--text-color", "hsl(210, 40%, 98%)"); // White text
+        } else {
+          document.documentElement.style.setProperty("--primary-color", "hsl(var(--primary-light))");
+          document.documentElement.style.setProperty("--background-color", "hsl(var(--background-light))");
+          document.documentElement.style.setProperty("--card-color", "hsl(var(--card-light))");
+          document.documentElement.style.setProperty("--text-color", "hsl(var(--text-light))");
+        }
       }
     }
     

@@ -1,4 +1,3 @@
-
 import { useState, useEffect } from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "../ui/card";
 import { Brain, HelpCircle } from "lucide-react";
@@ -26,13 +25,13 @@ export function AGIIndex() {
   }
 
   return (
-    <div className="w-full h-full bg-black p-3 flex flex-col">
-      <div className="flex items-center justify-between mb-3">
-        <div className="text-xs font-semibold text-white">AGI Index</div>
+    <div className="bg-background w-full h-full p-3 flex flex-col">
+      <div className="flex items-center justify-between mb-2">
+        <div className="text-xs font-semibold dark:text-white text-foreground">AGI Index</div>
         <TooltipProvider>
           <Tooltip>
             <TooltipTrigger asChild>
-              <HelpCircle className="h-3 w-3 text-gray-400" />
+              <HelpCircle className="h-3 w-3 dark:text-gray-400 text-gray-600" />
             </TooltipTrigger>
             <TooltipContent>
               <p className="text-xs w-48">
@@ -45,15 +44,15 @@ export function AGIIndex() {
       
       <div className="flex-1 flex flex-col items-center justify-center">
         <div className="w-full px-4 mb-4">
-          <div className="relative h-4 bg-blue-900/30 rounded-full overflow-hidden flex items-center">
+          <div className="relative h-4 dark:bg-blue-900/30 bg-blue-300/50 rounded-full overflow-hidden flex items-center">
             <div 
               className="absolute top-0 left-0 h-full bg-blue-500 rounded-full"
               style={{ width: `${overallIndex}%` }}
             />
             <div className="absolute inset-x-0 flex justify-between px-1 z-10">
-              <span className="text-[9px] text-white">0</span>
-              <span className="text-[9px] text-white">50</span>
-              <span className="text-[9px] text-white">100</span>
+              <span className="text-[9px] dark:text-white text-gray-800">0</span>
+              <span className="text-[9px] dark:text-white text-gray-800">50</span>
+              <span className="text-[9px] dark:text-white text-gray-800">100</span>
             </div>
           </div>
         </div>

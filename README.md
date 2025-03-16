@@ -67,3 +67,30 @@ Simply open [Lovable](https://lovable.dev/projects/42de003e-401d-463b-b02a-1b7c5
 ## I want to use a custom domain - is that possible?
 
 We don't support custom domains (yet). If you want to deploy your project under your own domain then we recommend using Netlify. Visit our docs for more details: [Custom domains](https://docs.lovable.dev/tips-tricks/custom-domain/)
+
+## Dark Mode Color Structure
+
+The application features a comprehensive dark mode with the following design principles:
+
+### Global Dark Mode Adjustments
+
+- All backgrounds in dark mode use pure black (`hsl(0, 0%, 0%)`) for maximum contrast and visual clarity
+- Text colors are optimized for readability against black backgrounds
+- Button components maintain their original styling to preserve visual distinction and usability
+
+### Sidebar Customization
+
+- Active sidebar items use a white background with black text in dark mode for clear visual indication
+- Non-selected sidebar items maintain the black background with appropriate text contrast
+
+### Visual Consistency
+
+- All components maintain consistent styling in dark mode
+- Text and icon colors are adjusted to ensure proper contrast against black backgrounds
+- Border colors are slightly lighter than backgrounds to provide subtle visual separation
+
+### Implementation Details
+
+- Dark mode colors are defined in `src/index.css` using CSS variables
+- The ThemeProvider component in `src/components/theme/ThemeProvider.tsx` handles theme switching
+- Active states in the sidebar are managed through conditional classes in `src/components/layout/Sidebar.tsx`

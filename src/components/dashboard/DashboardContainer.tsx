@@ -1,4 +1,3 @@
-
 import { useState, useEffect } from "react";
 import { Widget } from "./DashboardContainerModel";
 import { CategorySection } from "./CategorySection";
@@ -37,83 +36,117 @@ export function DashboardContainer({ visibleWidgets = {} }: DashboardContainerPr
   // Filter AI Models Table for later
   const aiModelsTable = widgets.find(widget => widget.i === "ai-models-table");
   
+  // Common component styling class for consistent appearance
+  const componentClass = "w-full h-full rounded-lg overflow-hidden transition-colors duration-200 dark:bg-[#343541] bg-[#EEEFFC]"; // Dark: ChatGPT gray, Light: Claude light color
+  
   return (
-    <div className="space-y-4 animate-fade-in">
+    <div className="space-y-2 animate-fade-in"> {/* Reduced from space-y-4 to space-y-2 for consistent 2px margins */}
       {/* Top row layout with fixed positions */}
-      <div className="grid grid-cols-12 gap-3">
+      <div className="grid grid-cols-12 gap-2"> {/* Changed from gap-3 to gap-2 for consistent 2px margins */}
         {/* Position 1: AI Confidence Index */}
         {aiConfidenceWidget && visibleWidgets[aiConfidenceWidget.i] !== false && (
-          <div className="col-span-3 h-[180px] bg-black rounded-lg overflow-hidden">
-            {aiConfidenceWidget.component}
+          <div className="col-span-3 h-[180px]">
+            <div className={componentClass}>
+              {aiConfidenceWidget.component}
+            </div>
           </div>
         )}
         
         {/* Position 3: Trending Models */}
         {trendingModelsWidget && visibleWidgets[trendingModelsWidget.i] !== false && (
-          <div className="col-span-3 h-[180px] bg-black rounded-lg overflow-hidden">
-            {trendingModelsWidget.component}
+          <div className="col-span-3 h-[180px]">
+            <div className={componentClass}>
+              {trendingModelsWidget.component}
+            </div>
           </div>
         )}
         
         {/* Position 4: AGI Index */}
         {agiIndexWidget && visibleWidgets[agiIndexWidget.i] !== false && (
-          <div className="col-span-3 h-[180px] bg-black rounded-lg overflow-hidden">
-            {agiIndexWidget.component}
+          <div className="col-span-3 h-[180px]">
+            <div className={componentClass}>
+              {agiIndexWidget.component}
+            </div>
           </div>
         )}
         
         {/* Position 7: Chat Component */}
         {chatComponentWidget && visibleWidgets[chatComponentWidget.i] !== false && (
-          <div className="col-span-3 h-[180px] bg-black rounded-lg overflow-hidden">
-            {chatComponentWidget.component}
+          <div className="col-span-3 h-[180px]">
+            <div className={componentClass}>
+              {chatComponentWidget.component}
+            </div>
           </div>
         )}
       </div>
       
       {/* Second row with small components */}
-      <div className="grid grid-cols-12 gap-3">
+      <div className="grid grid-cols-12 gap-2"> {/* Changed from gap-3 to gap-2 for consistent 2px margins */}
         {/* Position 2: GPU Cluster Burning Index */}
         {gpuClusterWidget && visibleWidgets[gpuClusterWidget.i] !== false && (
-          <div className="col-span-3 h-[80px] bg-black rounded-lg overflow-hidden border-0">
-            {gpuClusterWidget.component}
+          <div className="col-span-3 h-[80px]">
+            <div className={componentClass}>
+              {gpuClusterWidget.component}
+            </div>
           </div>
         )}
         
         {/* Position 5 & 6: GPT and Claude Dominance */}
-        <div className="col-span-3 grid grid-cols-2 gap-3">
+        <div className="col-span-3 grid grid-cols-2 gap-2"> {/* Changed from gap-3 to gap-2 for consistent 2px margins */}
           {gptDominanceItem && visibleWidgets[gptDominanceItem.i] !== false && (
-            <div className="col-span-1 h-[180px] bg-black rounded-lg overflow-hidden">
-              {gptDominanceItem.component}
+            <div className="col-span-1 h-[180px]">
+              <div className={componentClass}>
+                {gptDominanceItem.component}
+              </div>
             </div>
           )}
           
           {claudeDominanceItem && visibleWidgets[claudeDominanceItem.i] !== false && (
-            <div className="col-span-1 h-[180px] bg-black rounded-lg overflow-hidden">
-              {claudeDominanceItem.component}
+            <div className="col-span-1 h-[180px]">
+              <div className={componentClass}>
+                {claudeDominanceItem.component}
+              </div>
             </div>
           )}
         </div>
         
         {/* Position 8: AGI Doomsday Clock */}
         {doomsdayClockWidget && visibleWidgets[doomsdayClockWidget.i] !== false && (
-          <div className="col-span-3 h-[180px] bg-black rounded-lg overflow-hidden">
-            {doomsdayClockWidget.component}
+          <div className="col-span-3 h-[180px]">
+            <div className={componentClass}>
+              {doomsdayClockWidget.component}
+            </div>
           </div>
         )}
       </div>
       
       {/* AI Models Table */}
       {aiModelsTable && visibleWidgets[aiModelsTable.i] !== false && (
-        <div className="mt-6">
-          <div className="flex justify-between items-center mb-2">
+        <div className="mt-2"> {/* Changed from mt-6 to mt-2 for consistent 2px margins */}
+          <div className="flex justify-between items-center mb-2"> {/* Changed from mb-3 to mb-2 for consistent 2px */}
             <h2 className="text-xl font-semibold">Top AI Models</h2>
             <CategorySection />
           </div>
-          <div className="border border-border rounded-lg shadow overflow-hidden bg-sidebar">
+          <div className={`${componentClass} border border-border shadow`}>
             {aiModelsTable.component}
           </div>
         </div>
       )}
+      
+      {/* Additional widgets */}
+      <div className="grid grid-cols-12 gap-2 mt-2"> {/* Added missing widgets with consistent 2px margins */}
+        {widgets.filter(widget => 
+          ["market-share", "company-valuation", "gpu-clusters", "math-excellence", 
+           "users-overview", "accuracy-rankings", "industry-citations", "model-scale"].includes(widget.i) && 
+          visibleWidgets[widget.i] !== false
+        ).map(widget => (
+          <div key={widget.i} className={`col-span-${widget.w} h-[180px]`}>
+            <div className={componentClass}>
+              {widget.component}
+            </div>
+          </div>
+        ))}
+      </div>
     </div>
   );
 }

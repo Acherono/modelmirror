@@ -1,10 +1,11 @@
-
 import { useState, useEffect } from "react";
 import { Dialog, DialogContent } from "@/components/ui/dialog";
 import { Code, PenTool, Video, BookOpen, FlaskConical, Music } from "lucide-react";
 import { ModelDetailsCard } from "@/components/store/ModelDetailsCard";
 import { AIModel } from "@/types/research";
 import { Card } from "@/components/ui/card";
+import { useLocation } from "react-router-dom";
+import LLMsComponent from "@/components/store/LLMsComponent";
 
 // Define category sections
 interface CategorySection {
@@ -16,6 +17,9 @@ interface CategorySection {
 
 const ModelsStore = () => {
   const [selectedModel, setSelectedModel] = useState<AIModel | null>(null);
+  const location = useLocation();
+  const searchParams = new URLSearchParams(location.search);
+  const category = searchParams.get('category') || '';
   
   const handleModelSelect = (model: AIModel) => {
     setSelectedModel(model);
@@ -24,6 +28,32 @@ const ModelsStore = () => {
   const closeModal = () => {
     setSelectedModel(null);
   };
+  
+  // If category is llms, show the LLMs component
+  if (category === 'llms') {
+    return (
+      <div className="w-full p-4 md:p-8 max-w-7xl mx-auto">
+        <div className="mb-10">
+          <h1 className="text-3xl font-bold">Models Store - LLMs</h1>
+          <p className="text-muted-foreground mt-2">
+            Explore the latest Language Models, their capabilities, and developing organizations.
+          </p>
+        </div>
+        
+        <LLMsComponent onModelSelect={handleModelSelect} />
+        
+        <Dialog open={!!selectedModel} onOpenChange={(open) => !open && closeModal()}>
+          <DialogContent className="p-0 border-0 bg-transparent max-w-4xl">
+            {selectedModel && (
+              <ModelDetailsCard 
+                model={selectedModel}
+              />
+            )}
+          </DialogContent>
+        </Dialog>
+      </div>
+    );
+  }
   
   return (
     <div className="w-full p-4 md:p-8 max-w-7xl mx-auto">

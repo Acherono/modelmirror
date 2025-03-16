@@ -1,4 +1,3 @@
-
 import { useState } from "react";
 import "react-grid-layout/css/styles.css";
 import "react-resizable/css/styles.css";
@@ -32,24 +31,27 @@ export function DashboardWidgetContainer({ widgets, visibleWidgets = {} }: Dashb
         return acc;
       }, {} as Record<string, boolean>);
 
+  // Common component styling class for consistent appearance
+  const componentClass = "w-full h-full rounded-lg overflow-hidden transition-colors duration-200 dark:bg-[#343541] bg-[#EEEFFC]"; // Dark: ChatGPT gray, Light: Claude light color
+
   return (
-    <div className="relative space-y-4 animate-fade-in pb-10">
-      <div className="flex justify-between items-center mb-6">
+    <div className="relative space-y-2 animate-fade-in pb-2">
+      <div className="flex justify-between items-center mb-2">
         <h2 className="text-2xl font-bold">Dashboard</h2>
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-2">
         {widgets.map((widget) => (
           effectiveVisibleWidgets[widget.i] && (
             <div 
               key={widget.i} 
-              className="bg-card rounded-lg shadow border border-border"
+              className="border border-border"
               style={{
                 gridColumn: widget.w > 6 ? "span 2" : "span 1",
                 minHeight: `${widget.h * 150}px`
               }}
             >
-              <div className="p-4 h-full no-scrollbar">
+              <div className={`${componentClass} h-full no-scrollbar p-2`}>
                 {widget.component}
               </div>
             </div>

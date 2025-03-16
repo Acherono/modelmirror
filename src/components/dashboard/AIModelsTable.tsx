@@ -1,8 +1,8 @@
-
 import { useState, useEffect } from "react";
 import { Brain, Star, TrendingUp, TrendingDown, HelpCircle, ArrowUpRight, ArrowDownRight, ArrowUp, ArrowDown } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
+import { useTheme } from "@/components/theme/ThemeProvider";
 
 interface ModelData {
   id: number;
@@ -24,6 +24,9 @@ export function AIModelsTable() {
     key: null,
     direction: null
   });
+  const { theme } = useTheme();
+  
+  const isDarkMode = theme === 'dark' || (theme === 'system' && window.matchMedia('(prefers-color-scheme: dark)').matches);
 
   useEffect(() => {
     // Simulate data loading
@@ -80,6 +83,54 @@ export function AIModelsTable() {
         },
         {
           id: 5,
+          name: "Llama 3",
+          creator: "Meta",
+          icon: <Brain className="h-5 w-5 text-orange-500" />,
+          change24h: 0.00,
+          change7d: 0.12,
+          volume24h: "$99,785,644,971",
+          volumeDetail: "99.78B API calls",
+          parameters: "142.71B",
+          sparkline: "M3,12 L5,12 L7,13 L9,12 L11,12 L13,12 L15,1 L17,10 L19,12 L21,10"
+        },
+        {
+          id: 6,
+          name: "Llama 3",
+          creator: "Meta",
+          icon: <Brain className="h-5 w-5 text-orange-500" />,
+          change24h: 0.00,
+          change7d: 0.12,
+          volume24h: "$99,785,644,971",
+          volumeDetail: "99.78B API calls",
+          parameters: "142.71B",
+          sparkline: "M3,12 L5,12 L7,13 L9,12 L11,12 L13,12 L15,11 L17,12 L19,12 L21,10"
+        },
+        {
+          id: 7,
+          name: "Llama 3",
+          creator: "Meta",
+          icon: <Brain className="h-5 w-5 text-orange-500" />,
+          change24h: 0.00,
+          change7d: 0.12,
+          volume24h: "$99,785,644,971",
+          volumeDetail: "99.78B API calls",
+          parameters: "142.71B",
+          sparkline: "M3,12 L5,12 L7,13 L9,12 L11,12 L13,12 L15,11 L17,12 L19,12 L21,10"
+        },
+        {
+          id: 8,
+          name: "Llama 3",
+          creator: "Meta",
+          icon: <Brain className="h-5 w-5 text-orange-500" />,
+          change24h: 0.00,
+          change7d: 0.12,
+          volume24h: "$99,785,644,971",
+          volumeDetail: "99.78B API calls",
+          parameters: "142.71B",
+          sparkline: "M3,12 L5,12 L7,13 L9,12 L11,12 L13,12 L15,11 L17,12 L19,12 L21,10"
+        },
+        {
+          id: 9,
           name: "Mistral Large",
           creator: "Mistral AI",
           icon: <Brain className="h-5 w-5 text-amber-500" />,
@@ -88,7 +139,7 @@ export function AIModelsTable() {
           volume24h: "$1,666,444,535",
           volumeDetail: "2.77M API calls",
           parameters: "142.47B",
-          sparkline: "M3,10 L5,12 L7,11 L9,13 L11,9 L13,14 L15,10 L17,13 L19,11 L21,13"
+          sparkline: "M1,12 L13,14 L15,10 L17,13 L19,11 L21,13"
         },
       ]);
     }, 1500);
@@ -108,7 +159,7 @@ export function AIModelsTable() {
   // Get sorted data
   const getSortedData = () => {
     if (!sortConfig.key) return data;
-    
+
     return [...data].sort((a, b) => {
       if (a[sortConfig.key!] < b[sortConfig.key!]) {
         return sortConfig.direction === 'ascending' ? -1 : 1;
@@ -138,41 +189,40 @@ export function AIModelsTable() {
 
   return (
     <TooltipProvider>
-      <div className="w-full shadow-sm overflow-hidden">
+      <div className="w-full shadow-sm overflow-hidden dark:bg-[#343541] bg-[#EEEFFC]">
         <div className="px-6 py-4 border-b border-border">
-          <div className="text-lg font-semibold">Top AI Models</div>
         </div>
         <div className="p-0">
           <div className="overflow-x-auto">
             <table className="w-full border-collapse">
               <thead>
-                <tr className="border-b border-border bg-muted/30">
-                  <th 
+                <tr className="border-b border-border dark:bg-muted/30 bg-white/50">
+                  <th
                     className="px-6 py-3 text-left text-xs font-medium text-muted-foreground w-[40px] cursor-pointer"
                     onClick={() => requestSort('id')}
                   >
                     # {renderSortIcon('id')}
                   </th>
-                  <th 
+                  <th
                     className="px-6 py-3 text-left text-xs font-medium text-muted-foreground cursor-pointer"
                     onClick={() => requestSort('name')}
                   >
                     Name {renderSortIcon('name')}
                   </th>
-                  <th 
+                  <th
                     className="px-6 py-3 text-right text-xs font-medium text-muted-foreground cursor-pointer"
                     onClick={() => requestSort('change24h')}
                   >
                     24h % {renderSortIcon('change24h')}
                   </th>
-                  <th 
+                  <th
                     className="px-6 py-3 text-right text-xs font-medium text-muted-foreground cursor-pointer"
                     onClick={() => requestSort('change7d')}
                   >
                     7d % {renderSortIcon('change7d')}
                   </th>
                   <th className="px-6 py-3 text-right text-xs font-medium text-muted-foreground">
-                    Volume(24h) 
+                    Volume(24h)
                     <Tooltip>
                       <TooltipTrigger>
                         <HelpCircle className="inline h-3 w-3 ml-1" />
@@ -186,14 +236,14 @@ export function AIModelsTable() {
                     </Tooltip>
                   </th>
                   <th className="px-6 py-3 text-right text-xs font-medium text-muted-foreground">
-                    Parameters 
+                    Parameters
                     <Tooltip>
                       <TooltipTrigger>
                         <HelpCircle className="inline h-3 w-3 ml-1" />
                       </TooltipTrigger>
                       <TooltipContent>
                         <p className="w-64 text-xs">
-                          The total number of parameters in the AI model. More parameters generally 
+                          The total number of parameters in the AI model. More parameters generally
                           indicate a more complex model with potentially higher capabilities.
                         </p>
                       </TooltipContent>
@@ -204,11 +254,11 @@ export function AIModelsTable() {
               </thead>
               <tbody className="divide-y divide-border">
                 {getSortedData().map((model) => (
-                  <tr key={model.id} className="hover:bg-muted/50 transition-colors">
+                  <tr key={model.id} className="hover:bg-muted/50 transition-colors dark:hover:bg-black/20 hover:bg-black/5">
                     <td className="px-6 py-4 whitespace-nowrap text-sm font-medium">{model.id}</td>
                     <td className="px-6 py-4 whitespace-nowrap">
                       <div className="flex items-center gap-3">
-                        <div className="h-8 w-8 rounded-full bg-primary/10 flex items-center justify-center overflow-hidden">
+                        <div className="h-8 w-8 rounded-full dark:bg-primary/10 bg-primary/5 flex items-center justify-center overflow-hidden">
                           {model.icon}
                         </div>
                         <div>
@@ -222,7 +272,7 @@ export function AIModelsTable() {
                     <td className="px-6 py-4 whitespace-nowrap text-sm text-right">
                       <span className={cn(
                         "flex items-center justify-end gap-1 font-medium",
-                        model.change24h >= 0 ? "text-green-500" : "text-red-500"
+                        model.change24h >= 0 ? "text-green-500 dark:text-green-400" : "text-red-500 dark:text-red-400"
                       )}>
                         {model.change24h >= 0 ? <ArrowUpRight className="h-3 w-3" /> : <ArrowDownRight className="h-3 w-3" />}
                         {Math.abs(model.change24h).toFixed(2)}%
@@ -231,7 +281,7 @@ export function AIModelsTable() {
                     <td className="px-6 py-4 whitespace-nowrap text-sm text-right">
                       <span className={cn(
                         "flex items-center justify-end gap-1 font-medium",
-                        model.change7d >= 0 ? "text-green-500" : "text-red-500"
+                        model.change7d >= 0 ? "text-green-500 dark:text-green-400" : "text-red-500 dark:text-red-400"
                       )}>
                         {model.change7d >= 0 ? <ArrowUpRight className="h-3 w-3" /> : <ArrowDownRight className="h-3 w-3" />}
                         {Math.abs(model.change7d).toFixed(2)}%
@@ -251,7 +301,9 @@ export function AIModelsTable() {
                           height="40"
                           viewBox="0 0 24 16"
                           fill="none"
-                          stroke={model.change7d >= 0 ? "rgb(34, 197, 94)" : "rgb(239, 68, 68)"}
+                          stroke={model.change7d >= 0 ? 
+                            (isDarkMode ? "rgb(74, 222, 128)" : "rgb(34, 197, 94)") : 
+                            (isDarkMode ? "rgb(248, 113, 113)" : "rgb(239, 68, 68)")}
                           strokeWidth="1.5"
                           strokeLinecap="round"
                           strokeLinejoin="round"

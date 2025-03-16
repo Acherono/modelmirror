@@ -89,7 +89,7 @@ export function AccuracyRankings() {
                 axisLine={{ stroke: "hsl(var(--border))" }}
                 label={{ 
                   value: "Accuracy (%)", 
-                  angle: -90, 
+                  angle: -100, 
                   position: "insideLeft",
                   style: { textAnchor: 'middle', fontSize: 12 } 
                 }}

@@ -54,7 +54,7 @@ export function AGIDoomsDayClock() {
         
         <div className="relative w-20 h-20">
           <img 
-            src="/public/lovable-uploads/aab22d26-ea46-4995-a153-b90f6dc08abd.png" 
+            src="/public/lovable-uploads/agidoomsdayclock.png" 
             alt="Clock" 
             className="w-full h-full object-contain"
           />
