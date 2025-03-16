@@ -1,22 +1,21 @@
 
 import { useState, useEffect } from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "../ui/card";
-import { Clock, HelpCircle } from "lucide-react";
+import { Brain, HelpCircle } from "lucide-react";
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
 
-export function AGIDoomsDayClock() {
-  const [minutes, setMinutes] = useState(50);
+export function ClaudeDominance() {
+  const [dominanceValue, setDominanceValue] = useState(11);
+  const [maxValue, setMaxValue] = useState(100);
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
     // Simulate data loading
-    const loadTimer = setTimeout(() => {
+    const timer = setTimeout(() => {
       setIsLoading(false);
     }, 1000);
 
-    return () => {
-      clearTimeout(loadTimer);
-    };
+    return () => clearTimeout(timer);
   }, []);
 
   if (isLoading) {
@@ -29,8 +28,8 @@ export function AGIDoomsDayClock() {
 
   return (
     <div className="w-full h-full bg-black p-3 flex flex-col">
-      <div className="flex items-center justify-between mb-1">
-        <div className="text-xs font-semibold text-white">AGI Dooms Day Clock</div>
+      <div className="flex items-center justify-between mb-2">
+        <div className="text-xs font-semibold text-white">Claude Dominance</div>
         <TooltipProvider>
           <Tooltip>
             <TooltipTrigger asChild>
@@ -38,26 +37,25 @@ export function AGIDoomsDayClock() {
             </TooltipTrigger>
             <TooltipContent>
               <p className="text-xs w-48">
-                This clock represents how close humanity is to potential AGI risks
+                Claude Dominance measures Anthropic's model influence in the AI market
               </p>
             </TooltipContent>
           </Tooltip>
         </TooltipProvider>
       </div>
       
-      <div className="flex-1 flex justify-between items-center">
-        <div className="text-center">
-          <div className="text-xs text-blue-400">It's</div>
-          <div className="text-sm font-bold text-red-400">{minutes} Minutes</div>
-          <div className="text-[10px] text-blue-400">to Midnight...</div>
+      <div className="flex-1 flex flex-col items-center justify-center text-center">
+        <div className="text-2xl font-bold text-white">
+          {dominanceValue} <span className="text-xs text-gray-400">/ {maxValue}</span>
         </div>
         
-        <div className="relative w-20 h-20">
-          <img 
-            src="/public/lovable-uploads/aab22d26-ea46-4995-a153-b90f6dc08abd.png" 
-            alt="Clock" 
-            className="w-full h-full object-contain"
-          />
+        <div className="w-full mt-2">
+          <div className="relative w-full h-2 bg-gray-800 rounded-full overflow-hidden">
+            <div 
+              className="absolute top-0 left-0 h-full bg-orange-500 rounded-full"
+              style={{ width: `${(dominanceValue / maxValue) * 100}%` }} 
+            />
+          </div>
         </div>
       </div>
     </div>

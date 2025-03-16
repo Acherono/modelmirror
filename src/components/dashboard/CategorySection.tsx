@@ -5,8 +5,6 @@ export function CategorySection() {
   const categories = [
     { id: "llms", label: "LLMs" },
     { id: "image", label: "Image" },
-    { id: "vision", label: "Vision" },
-    { id: "audio", label: "Audio" },
     { id: "video", label: "Video" }
   ];
   
@@ -17,7 +15,7 @@ export function CategorySection() {
           key={category.id}
           variant="outline"
           size="sm"
-          className="text-xs border-white/20 bg-sidebar rounded-full"
+          className="text-xs border-white/20 bg-black text-white rounded-full px-4 py-1 h-7"
         >
           {category.label}
         </Button>

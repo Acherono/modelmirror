@@ -1,7 +1,7 @@
 
 import { useState, useEffect } from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "../ui/card";
-import { Brain, BrainCircuit, Bot, ServerCog, Network } from "lucide-react";
+import { Brain, BrainCircuit, Bot } from "lucide-react";
 
 interface ModelItem {
   id: number;
@@ -33,65 +33,59 @@ export function ModelRankings() {
 
   if (isLoading) {
     return (
-      <Card className="w-full h-full">
-        <CardHeader>
-          <CardTitle className="bg-gray-200 h-6 w-48 rounded animate-pulse">
-            Loading...
-          </CardTitle>
-        </CardHeader>
-        <CardContent>
-          <div className="flex items-center justify-center h-80">
-            <div className="w-12 h-12 border-4 border-primary border-t-transparent rounded-full animate-spin" />
-          </div>
-        </CardContent>
-      </Card>
+      <div className="flex items-center justify-center h-full">
+        <div className="w-10 h-10 border-4 border-primary border-t-transparent rounded-full animate-spin" />
+      </div>
     );
   }
 
   return (
-    <Card className="w-full h-full bg-sidebar">
-      <CardHeader className="border-b border-border p-3">
-        <CardTitle className="text-sm font-medium flex items-center gap-2 justify-center">
-          <Brain className="h-4 w-4" />
-          Trending AI Models
-        </CardTitle>
-      </CardHeader>
-      <CardContent className="p-0">
-        <div className="divide-y divide-border">
-          {data.map((model) => {
-            const Icon = model.icon;
-            const isPositive = model.change > 0;
-            
-            return (
-              <div key={model.id} className="flex items-center justify-between py-3 px-4">
-                <div className="flex items-center gap-3">
-                  <div className="w-5 text-sm font-medium text-muted-foreground">
-                    {model.id}
-                  </div>
-                  <div className="flex items-center gap-2">
-                    <div className="w-6 h-6 rounded-full bg-primary/10 flex items-center justify-center">
-                      <Icon className="h-4 w-4 text-primary" />
-                    </div>
-                    <div>
-                      <div className="font-medium text-sm flex items-center gap-1">
-                        {model.name} 
-                        <span className="text-[10px] text-muted-foreground font-normal">
-                          {model.type}
-                        </span>
-                      </div>
-                    </div>
-                  </div>
+    <div className="w-full h-full bg-black p-2">
+      <div className="mb-2 text-center">
+        <div className="text-xs font-semibold text-white">Trending AI Models</div>
+      </div>
+      
+      <div className="space-y-3">
+        {data.map((model) => {
+          const Icon = model.icon;
+          
+          return (
+            <div key={model.id} className="flex items-center justify-between py-0.5">
+              <div className="flex items-center gap-2">
+                <div className="w-4 text-xs font-medium text-gray-400">
+                  {model.id}
                 </div>
-                <div className="flex flex-col items-end gap-0.5">
-                  <div className="text-sm font-medium text-green-500">
-                    +{model.change.toFixed(2)}%
+                <div className="w-5 h-5 rounded-full bg-gray-800 flex items-center justify-center">
+                  <Icon className="h-3 w-3 text-white" />
+                </div>
+                <div>
+                  <div className="text-xs font-medium text-white">
+                    {model.name}
+                  </div>
+                  <div className="text-[10px] text-gray-400">
+                    {model.type}
                   </div>
                 </div>
               </div>
-            );
-          })}
-        </div>
-      </CardContent>
-    </Card>
+              <div className="text-xs font-medium text-green-500">
+                +{model.change.toFixed(2)}%
+              </div>
+            </div>
+          );
+        })}
+      </div>
+      
+      <div className="mt-3 flex items-center justify-center gap-2">
+        <button className="bg-black border border-white/20 text-white text-[10px] rounded-full px-3 py-0.5">
+          LLMs
+        </button>
+        <button className="bg-black border border-white/20 text-white text-[10px] rounded-full px-3 py-0.5">
+          Image
+        </button>
+        <button className="bg-black border border-white/20 text-white text-[10px] rounded-full px-3 py-0.5">
+          Video
+        </button>
+      </div>
+    </div>
   );
 }

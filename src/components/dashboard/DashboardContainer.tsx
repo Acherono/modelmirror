@@ -24,57 +24,85 @@ export function DashboardContainer({ visibleWidgets = {} }: DashboardContainerPr
 
   if (widgets.length === 0) return null;
   
-  // Filter widgets for the top row
-  const topRowWidgets = widgets.filter(widget => 
-    ["chat-component", "ai-sentiment", "trending-models", "agi-index", "agi-doomsday-clock"].includes(widget.i)
-  );
+  // Get specific widgets based on the fixed positions
+  const aiConfidenceWidget = widgets.find(widget => widget.i === "ai-sentiment"); // Position 1
+  const gpuClusterWidget = widgets.find(widget => widget.i === "gpu-cluster-burning"); // Position 2
+  const trendingModelsWidget = widgets.find(widget => widget.i === "trending-models"); // Position 3
+  const agiIndexWidget = widgets.find(widget => widget.i === "agi-index"); // Position 4
+  const gptDominanceItem = widgets.find(widget => widget.i === "gpt-dominance"); // Position 5
+  const claudeDominanceItem = widgets.find(widget => widget.i === "claude-dominance"); // Position 6
+  const chatComponentWidget = widgets.find(widget => widget.i === "chat-component"); // Position 7
+  const doomsdayClockWidget = widgets.find(widget => widget.i === "agi-doomsday-clock"); // Position 8
   
-  // Filter widgets for the second row
-  const gpuClusterWidget = widgets.find(widget => widget.i === "gpu-cluster-burning");
-  
-  // Filter the AI Models Table
+  // Filter AI Models Table for later
   const aiModelsTable = widgets.find(widget => widget.i === "ai-models-table");
-  
-  // Filter the remaining widgets
-  const remainingWidgets = widgets.filter(widget => 
-    !["chat-component", "ai-sentiment", "trending-models", "agi-index", "agi-doomsday-clock", 
-      "gpu-cluster-burning", "ai-models-table"].includes(widget.i)
-  );
   
   return (
     <div className="space-y-4 animate-fade-in">
-      {/* Top Row - Reorganized per design with equal width widgets */}
-      <div className="grid grid-cols-4 gap-4">
-        {topRowWidgets.map((widget) => {
-          const isVisible = visibleWidgets[widget.i] !== undefined 
-            ? visibleWidgets[widget.i] 
-            : widget.visible;
-
-          if (!isVisible) return null;
-          
-          return (
-            <div 
-              key={widget.i}
-              className="border border-border rounded-lg shadow overflow-hidden bg-sidebar h-[220px] relative"
-            >
-              {widget.component}
-            </div>
-          );
-        })}
+      {/* Top row layout with fixed positions */}
+      <div className="grid grid-cols-12 gap-3">
+        {/* Position 1: AI Confidence Index */}
+        {aiConfidenceWidget && visibleWidgets[aiConfidenceWidget.i] !== false && (
+          <div className="col-span-3 h-[180px] bg-black rounded-lg overflow-hidden">
+            {aiConfidenceWidget.component}
+          </div>
+        )}
+        
+        {/* Position 3: Trending Models */}
+        {trendingModelsWidget && visibleWidgets[trendingModelsWidget.i] !== false && (
+          <div className="col-span-3 h-[180px] bg-black rounded-lg overflow-hidden">
+            {trendingModelsWidget.component}
+          </div>
+        )}
+        
+        {/* Position 4: AGI Index */}
+        {agiIndexWidget && visibleWidgets[agiIndexWidget.i] !== false && (
+          <div className="col-span-3 h-[180px] bg-black rounded-lg overflow-hidden">
+            {agiIndexWidget.component}
+          </div>
+        )}
+        
+        {/* Position 7: Chat Component */}
+        {chatComponentWidget && visibleWidgets[chatComponentWidget.i] !== false && (
+          <div className="col-span-3 h-[180px] bg-black rounded-lg overflow-hidden">
+            {chatComponentWidget.component}
+          </div>
+        )}
       </div>
       
-      {/* GPU Cluster Burning Index below AI Confidence */}
-      {gpuClusterWidget && visibleWidgets[gpuClusterWidget.i] !== false && (
-        <div className="grid grid-cols-1 gap-4">
-          <div 
-            className="border border-border rounded-lg shadow overflow-hidden bg-sidebar h-[80px]"
-          >
+      {/* Second row with small components */}
+      <div className="grid grid-cols-12 gap-3">
+        {/* Position 2: GPU Cluster Burning Index */}
+        {gpuClusterWidget && visibleWidgets[gpuClusterWidget.i] !== false && (
+          <div className="col-span-3 h-[80px] bg-black rounded-lg overflow-hidden border-0">
             {gpuClusterWidget.component}
           </div>
+        )}
+        
+        {/* Position 5 & 6: GPT and Claude Dominance */}
+        <div className="col-span-3 grid grid-cols-2 gap-3">
+          {gptDominanceItem && visibleWidgets[gptDominanceItem.i] !== false && (
+            <div className="col-span-1 h-[180px] bg-black rounded-lg overflow-hidden">
+              {gptDominanceItem.component}
+            </div>
+          )}
+          
+          {claudeDominanceItem && visibleWidgets[claudeDominanceItem.i] !== false && (
+            <div className="col-span-1 h-[180px] bg-black rounded-lg overflow-hidden">
+              {claudeDominanceItem.component}
+            </div>
+          )}
         </div>
-      )}
+        
+        {/* Position 8: AGI Doomsday Clock */}
+        {doomsdayClockWidget && visibleWidgets[doomsdayClockWidget.i] !== false && (
+          <div className="col-span-3 h-[180px] bg-black rounded-lg overflow-hidden">
+            {doomsdayClockWidget.component}
+          </div>
+        )}
+      </div>
       
-      {/* AI Models Table with Category Section */}
+      {/* AI Models Table */}
       {aiModelsTable && visibleWidgets[aiModelsTable.i] !== false && (
         <div className="mt-6">
           <div className="flex justify-between items-center mb-2">
@@ -86,26 +114,6 @@ export function DashboardContainer({ visibleWidgets = {} }: DashboardContainerPr
           </div>
         </div>
       )}
-      
-      {/* Remaining widgets */}
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mt-8">
-        {remainingWidgets.map((widget) => {
-          const isVisible = visibleWidgets[widget.i] !== undefined 
-            ? visibleWidgets[widget.i] 
-            : widget.visible;
-
-          if (!isVisible) return null;
-          
-          return (
-            <div 
-              key={widget.i}
-              className="border border-border rounded-lg shadow overflow-hidden bg-sidebar h-[400px]"
-            >
-              {widget.component}
-            </div>
-          );
-        })}
-      </div>
     </div>
   );
 }

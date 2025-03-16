@@ -14,6 +14,8 @@ import { GPUClusterBurningIndex } from "./GPUClusterBurningIndex";
 import { AGIIndex } from "./AGIIndex";
 import { AGIDoomsDayClock } from "./AGIDoomsDayClock";
 import { ChatComponent } from "./ChatComponent";
+import { GPTDominance } from "./GPTDominance";
+import { ClaudeDominance } from "./ClaudeDominance";
 
 export interface Widget {
   i: string;
@@ -30,8 +32,7 @@ export interface Widget {
 
 export class DashboardContainerModel {
   private widgets: Widget[] = [
-    // First row - 4 components in one row
-    // AI Confidence
+    // Position 1: AI Confidence
     {
       i: "ai-sentiment",
       x: 0,
@@ -44,7 +45,20 @@ export class DashboardContainerModel {
       title: "AI Confidence",
       component: <AIModelSentiment />,
     },
-    // Trending Models
+    // Position 2: GPU Cluster Burning Index
+    {
+      i: "gpu-cluster-burning",
+      x: 0,
+      y: 1.5,
+      w: 3,
+      h: 0.8,
+      minW: 3,
+      minH: 0.8,
+      visible: true,
+      title: "GPU Cluster Burning Index",
+      component: <GPUClusterBurningIndex />,
+    },
+    // Position 3: Trending Models
     {
       i: "trending-models",
       x: 3,
@@ -57,7 +71,7 @@ export class DashboardContainerModel {
       title: "Trending Models",
       component: <ModelRankings />,
     },
-    // AGI Index
+    // Position 4: AGI Index
     {
       i: "agi-index",
       x: 6,
@@ -70,7 +84,33 @@ export class DashboardContainerModel {
       title: "AGI Index",
       component: <AGIIndex />,
     },
-    // Chat Component
+    // Position 5: GPT Dominance
+    {
+      i: "gpt-dominance",
+      x: 3,
+      y: 1.5,
+      w: 1.5,
+      h: 1.5,
+      minW: 1.5,
+      minH: 1.5,
+      visible: true,
+      title: "GPT Dominance",
+      component: <GPTDominance />,
+    },
+    // Position 6: Claude Dominance
+    {
+      i: "claude-dominance",
+      x: 4.5,
+      y: 1.5,
+      w: 1.5,
+      h: 1.5,
+      minW: 1.5,
+      minH: 1.5,
+      visible: true,
+      title: "Claude Dominance",
+      component: <ClaudeDominance />,
+    },
+    // Position 7: Chat Component
     {
       i: "chat-component",
       x: 9,
@@ -83,11 +123,11 @@ export class DashboardContainerModel {
       title: "Chat",
       component: <ChatComponent />,
     },
-    // AGI Dooms Day Clock (adjusted to show in clock row)
+    // Position 8: AGI Dooms Day Clock
     {
       i: "agi-doomsday-clock",
-      x: 6,
-      y: 0,
+      x: 9,
+      y: 1.5,
       w: 3,
       h: 1.5,
       minW: 2,
@@ -95,20 +135,6 @@ export class DashboardContainerModel {
       visible: true,
       title: "AGI Dooms Day Clock",
       component: <AGIDoomsDayClock />,
-    },
-    
-    // GPU Cluster Burning Index (moved below AI Confidence)
-    {
-      i: "gpu-cluster-burning",
-      x: 0,
-      y: 1.5,
-      w: 12,
-      h: 0.8,
-      minW: 3,
-      minH: 0.8,
-      visible: true,
-      title: "GPU Cluster Burning Index",
-      component: <GPUClusterBurningIndex />,
     },
     
     // Main AI Models Table

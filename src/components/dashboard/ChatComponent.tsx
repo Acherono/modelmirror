@@ -27,32 +27,21 @@ export function ChatComponent() {
   
   return (
     <>
-      <Card className="w-full h-full bg-sidebar border-border overflow-hidden">
-        <CardContent className="p-3 space-y-3 relative">
-          {/* Arrow Button centered at top */}
-          <Button
-            variant="ghost"
-            size="icon"
-            className="absolute -top-1 left-1/2 transform -translate-x-1/2 h-6 w-6 rounded-b-md rounded-t-none bg-primary/10 hover:bg-primary/20 z-10"
-            onClick={() => setIsOverlayOpen(true)}
-          >
-            <ChevronUp className="h-3 w-3" />
-          </Button>
-          
-          <div className="flex justify-between items-center">
-            <Button
-              variant="ghost" 
-              size="sm"
-              className="text-xs"
-              onClick={() => setIsOverlayOpen(true)}
-            >
-              Chat Assistant
-            </Button>
-          </div>
-          
-          <div className="flex items-center gap-2">
+      <div className="w-full h-full bg-black p-3 flex flex-col relative">
+        {/* Arrow Button centered at top */}
+        <Button
+          variant="ghost"
+          size="icon"
+          className="absolute -top-1 left-1/2 transform -translate-x-1/2 h-5 w-5 rounded-b-md rounded-t-none bg-primary/10 hover:bg-primary/20 z-10"
+          onClick={() => setIsOverlayOpen(true)}
+        >
+          <ChevronUp className="h-3 w-3" />
+        </Button>
+        
+        <div className="flex flex-col gap-2 mt-1">
+          <div className="flex flex-row gap-2">
             <Select value={selectedLab} onValueChange={setSelectedLab}>
-              <SelectTrigger className="bg-sidebar border-border h-8">
+              <SelectTrigger className="bg-black border-gray-700 text-white h-7 text-xs">
                 <SelectValue placeholder="Choose AI Lab" />
               </SelectTrigger>
               <SelectContent>
@@ -64,7 +53,7 @@ export function ChatComponent() {
             </Select>
             
             <Select value={selectedModel} onValueChange={setSelectedModel}>
-              <SelectTrigger className="bg-sidebar border-border h-8">
+              <SelectTrigger className="bg-black border-gray-700 text-white h-7 text-xs">
                 <SelectValue placeholder="Choose Model" />
               </SelectTrigger>
               <SelectContent>
@@ -76,47 +65,45 @@ export function ChatComponent() {
             </Select>
           </div>
           
-          <div className="flex items-center gap-2">
-            <div className="relative flex-1">
-              <Input
-                value={prompt}
-                onChange={(e) => setPrompt(e.target.value)}
-                placeholder="Type your prompt here..."
-                className="pr-24 bg-sidebar border-border h-8"
-              />
-              <div className="absolute right-2 top-1/2 -translate-y-1/2 flex items-center gap-1">
-                <Button 
-                  variant="ghost" 
-                  size="icon"
-                  className="h-6 w-6 text-muted-foreground hover:text-foreground"
-                >
-                  <Search className="h-3 w-3" />
-                </Button>
-                <Button 
-                  variant="ghost" 
-                  size="icon"
-                  className="h-6 w-6 text-muted-foreground hover:text-foreground"
-                >
-                  <BrainCircuit className="h-3 w-3" />
-                </Button>
-                <Button 
-                  variant="ghost" 
-                  size="icon"
-                  className="h-6 w-6 text-muted-foreground hover:text-foreground"
-                >
-                  <Mic className="h-3 w-3" />
-                </Button>
-              </div>
+          <div className="relative flex-1 mt-2">
+            <Input
+              value={prompt}
+              onChange={(e) => setPrompt(e.target.value)}
+              placeholder="Type your prompt here..."
+              className="pr-24 bg-black border-gray-700 text-white h-7 text-xs"
+            />
+            <div className="absolute right-2 top-1/2 -translate-y-1/2 flex items-center gap-1">
+              <Button 
+                variant="ghost" 
+                size="icon"
+                className="h-5 w-5 text-gray-400 hover:text-white"
+              >
+                <Search className="h-3 w-3" />
+              </Button>
+              <Button 
+                variant="ghost" 
+                size="icon"
+                className="h-5 w-5 text-gray-400 hover:text-white"
+              >
+                <BrainCircuit className="h-3 w-3" />
+              </Button>
+              <Button 
+                variant="ghost" 
+                size="icon"
+                className="h-5 w-5 text-gray-400 hover:text-white"
+              >
+                <Mic className="h-3 w-3" />
+              </Button>
+              <Button
+                size="icon"
+                className="h-5 w-5 rounded-full bg-primary"
+              >
+                <Send className="h-2.5 w-2.5" />
+              </Button>
             </div>
-            <Button
-              size="icon"
-              className="h-8 w-8"
-            >
-              <Send className="h-3 w-3" />
-            </Button>
           </div>
-        </CardContent>
-      </Card>
+        </div>
+      </div>
       
       {/* Chat Overlay */}
       <ChatOverlay 
