@@ -14,7 +14,8 @@ import {
   Search, 
   BrainCircuit, 
   Mic, 
-  Send
+  Send,
+  ChevronUp
 } from "lucide-react";
 import { ChatOverlay } from "./ChatOverlay";
 
@@ -27,7 +28,17 @@ export function ChatComponent() {
   return (
     <>
       <Card className="w-full h-full bg-sidebar border-border overflow-hidden">
-        <CardContent className="p-3 space-y-3">
+        <CardContent className="p-3 space-y-3 relative">
+          {/* Arrow Button centered at top */}
+          <Button
+            variant="ghost"
+            size="icon"
+            className="absolute -top-1 left-1/2 transform -translate-x-1/2 h-6 w-6 rounded-b-md rounded-t-none bg-primary/10 hover:bg-primary/20 z-10"
+            onClick={() => setIsOverlayOpen(true)}
+          >
+            <ChevronUp className="h-3 w-3" />
+          </Button>
+          
           <div className="flex justify-between items-center">
             <Button
               variant="ghost" 
